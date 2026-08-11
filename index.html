@@ -5,10 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Soumyadeep Das — CS Student &amp; Developer</title>
 <meta name="description" content="Portfolio of Soumyadeep Das, a Computer Science (AI &amp; ML) student at Parul University building web projects and solving algorithms." />
+<link rel="canonical" href="https://soumyadeep.space/" />
 <link rel="stylesheet" href="css/styles.css" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>" />
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#090c12" media="(prefers-color-scheme: dark)" />
+<meta name="author" content="Soumyadeep Das" />
+
+<!-- Social preview: what shows when the link is shared on WhatsApp,
+     LinkedIn, X, Slack, etc. og-image.png is 1200x630. -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://soumyadeep.space/" />
+<meta property="og:title" content="Soumyadeep Das — CS Student &amp; Developer" />
+<meta property="og:description" content="Computer Science (AI &amp; ML) student at Parul University. 300+ DSA problems solved, building BookyUniverse and Tellsgroup." />
+<meta property="og:image" content="https://soumyadeep.space/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="Soumyadeep Das" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Soumyadeep Das — CS Student &amp; Developer" />
+<meta name="twitter:description" content="Computer Science (AI &amp; ML) student at Parul University. 300+ DSA problems solved, building BookyUniverse and Tellsgroup." />
+<meta name="twitter:image" content="https://soumyadeep.space/assets/og-image.png" />
+
+<!-- Structured data: helps Google show you as a person, not just a page. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Soumyadeep Das",
+  "url": "https://soumyadeep.space/",
+  "email": "mailto:soumyadeepdas044@gmail.com",
+  "jobTitle": "Computer Science Student",
+  "address": { "@type": "PostalAddress", "addressLocality": "Vadodara", "addressRegion": "Gujarat", "addressCountry": "IN" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Parul University" },
+  "knowsAbout": ["Java", "C++", "Python", "JavaScript", "Data Structures", "Algorithms", "Machine Learning"],
+  "sameAs": [
+    "https://github.com/Soumyadeepdas2",
+    "https://www.linkedin.com/in/soumyadeep-das-6a5a8331b",
+    "https://leetcode.com/u/soumyadeepdas__",
+    "https://codeforces.com/profile/Soumyadeepdas_",
+    "https://codolio.com/profile/soumyadeepdas"
+  ]
+}
+</script>
 <!-- Anti-FOUC: set the theme BEFORE first paint, or dark-mode users see a white flash. -->
 <script>
   (function () {
@@ -445,7 +484,15 @@
       </div>
     </div>
 
-    <form class="form reveal" data-delay="2" id="contactForm" novalidate>
+    <!-- HOW THIS SENDS:
+         Right now `data-endpoint` is empty, so submitting opens the visitor's
+         email app with everything pre-filled (works with zero setup).
+         To receive messages straight to your inbox instead, create a free
+         form at https://formspree.io, then paste your endpoint URL below,
+         e.g. data-endpoint="https://formspree.io/f/abcdwxyz"            -->
+    <form class="form reveal" data-delay="2" id="contactForm" novalidate
+          data-endpoint=""
+          data-fallback-email="soumyadeepdas044@gmail.com">
       <div class="field">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" placeholder="Jane Smith" required />

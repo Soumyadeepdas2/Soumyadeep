@@ -162,42 +162,121 @@
     }
   }
 
-  /* ---------- 9. Contact form validation (front-end demo) ---------- */
+  /* ---------- 9. Contact form ----------
+     Two delivery modes, chosen by the form's data-endpoint attribute:
+       - endpoint set   -> POSTs JSON to it (Formspree, Getform, your API)
+       - endpoint empty -> opens the visitor's mail client, pre-filled
+     Either way the visitor gets real feedback, never a fake "sent". */
   const form = $('#contactForm');
   const note = $('#formNote');
 
   const setError = (input, msg) => {
     const field = input.closest('.field');
     field.classList.toggle('has-error', !!msg);
+    input.setAttribute('aria-invalid', msg ? 'true' : 'false');
     const slot = $(`.error[data-for="${input.id}"]`);
     if (slot) slot.textContent = msg || '';
   };
 
-  form?.addEventListener('submit', e => {
-    e.preventDefault();
+  // Each submit gets a token; late timers from an older submit are ignored
+  // so a stale message can never overwrite a newer one.
+  let submitToken = 0;
+
+  const say = (msg, kind) => {
+    note.textContent = msg;
+    note.className = 'form__note' + (kind ? ' ' + kind : '');
+  };
+
+  function validate() {
     const name = $('#name'), email = $('#email'), message = $('#message');
-    let ok = true;
+    let ok = true, first = null;
 
-    if (!name.value.trim())       { setError(name, 'Please tell me your name.'); ok = false; }  else setError(name);
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()))
-                                  { setError(email, 'That email looks off.'); ok = false; }     else setError(email);
-    if (message.value.trim().length < 10)
-                                  { setError(message, 'A little more detail, please (10+ characters).'); ok = false; }
-                                  else setError(message);
+    if (!name.value.trim()) {
+      setError(name, 'Please tell me your name.'); ok = false; first = first || name;
+    } else setError(name);
 
-    if (!ok) { note.textContent = ''; note.className = 'form__note'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) {
+      setError(email, 'That email looks off.'); ok = false; first = first || email;
+    } else setError(email);
 
-    // Demo only — wire this to Formspree / your own API endpoint.
+    if (message.value.trim().length < 10) {
+      setError(message, 'A little more detail, please (10+ characters).');
+      ok = false; first = first || message;
+    } else setError(message);
+
+    return { ok, first };
+  }
+
+  form?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const token = ++submitToken;
+
+    const { ok, first } = validate();
+    if (!ok) {
+      say('Please fix the highlighted fields.', 'err');
+      first?.focus();
+      return;
+    }
+
     const btn = form.querySelector('button[type="submit"]');
+    const data = {
+      name:    $('#name').value.trim(),
+      email:   $('#email').value.trim(),
+      subject: $('#subject').value,
+      message: $('#message').value.trim()
+    };
+
+    const endpoint = form.dataset.endpoint?.trim();
+
+    // --- Mode A: no backend configured -> hand off to the mail client ---
+    if (!endpoint) {
+      const to = form.dataset.fallbackEmail || '';
+      const body =
+        `${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
+      const href =
+        `mailto:${to}?subject=${encodeURIComponent('[Portfolio] ' + data.subject)}` +
+        `&body=${encodeURIComponent(body)}`;
+
+      say('Opening your email app…', 'ok');
+      window.location.href = href;
+
+      // If no mail client handles it, offer a copy-paste path instead —
+      // but only if this is still the most recent submission.
+      setTimeout(() => {
+        if (token === submitToken) {
+          say('If nothing opened, email me directly at ' + to, '');
+        }
+      }, 2500);
+      return;
+    }
+
+    // --- Mode B: POST to a real form endpoint ---
     btn.disabled = true;
+    const label = btn.textContent;
     btn.textContent = 'Sending…';
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.textContent = 'Send message';
+    say('');
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+
       form.reset();
-      note.textContent = '✓ Thanks! This demo form doesn\'t send yet — connect it in js/main.js.';
-      note.className = 'form__note ok';
-    }, 900);
+      say('✓ Thanks — your message is on its way. I\'ll reply soon.', 'ok');
+    } catch (err) {
+      say(
+        'Something went wrong sending that. Please email me directly at ' +
+        (form.dataset.fallbackEmail || ''),
+        'err'
+      );
+    } finally {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
   });
 
   ['#name', '#email', '#message'].forEach(sel => {

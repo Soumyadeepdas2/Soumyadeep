@@ -77,14 +77,15 @@ mark. Both are stored locally, so nothing breaks if the source site is down.
 
 **5. Hero typewriter** — edit the `WORDS` array in `js/main.js`.
 
-**6. Contact form** — it validates but doesn't send. Easiest fix, no backend:
-
-```html
-<form action="https://formspree.io/f/YOUR_ID" method="POST" id="contactForm">
-```
-then delete the `e.preventDefault()` line in section 11 of `main.js`.
+**6. Contact form** — works out of the box by opening the visitor's email
+app pre-filled. To receive messages in your inbox instead, add a Formspree
+endpoint to the form's `data-endpoint` attribute in `index.html`. See
+DEPLOY.md for the walkthrough. No JavaScript changes needed.
 
 ## Deploying
+
+See **DEPLOY.md** for step-by-step instructions for soumyadeep.space.
+
 Any static host works. Drag the folder onto Netlify, or:
 
 ```bash
