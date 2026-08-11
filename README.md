@@ -1,99 +1,76 @@
-# Portfolio — HTML / CSS / JS
+# soumyadeep.space
 
-A light, minimal developer portfolio. No frameworks, no build step. Open
-`index.html` in a browser and it works.
+Personal site. Static HTML, CSS and JavaScript — no build step, no framework.
+Open `index.html` in a browser and it runs.
 
 ```
-portfolio/
-├── index.html        all markup + content
-├── css/styles.css    design tokens, layout, components, responsive
-├── js/main.js        theme, nav, reveals, filters, carousel, form
-└── assets/resume.txt placeholder résumé (swap for your PDF)
+├── index.html
+├── 404.html
+├── css/styles.css
+├── js/main.js
+├── assets/          logos, résumé, social preview
+├── robots.txt  sitemap.xml  vercel.json
+└── DEPLOY.md   PUSH.md
 ```
 
-## What's in it
-Hero with typewriter + counters · About · Skills with animated bars ·
-Projects (BookyUniverse, Tellsgroup, DSA practice) · Education timeline +
-résumé download · Achievements & verifiable certificates · Contact · Footer.
+## Design notes
 
-Extras: dark mode (saved to localStorage), sticky nav with scrollspy,
-scroll progress bar, back-to-top, mobile menu, reduced-motion and print styles.
+Deliberately not a card-grid template.
 
-## Making it yours
+- **Type** — three faces, each with a job. Cormorant Garamond Light (300) for
+  display, Newsreader Light for article prose (about, hero bio), Inter for UI
+  text and JetBrains Mono for labels. The display serif is high-contrast with
+  fine hairlines; Newsreader is a text serif built for reading at body size.
+- **Colour** — warm near-black `#0e0d0c` and paper `#f2efe9`, with a single
+  terracotta accent `#c8553d`. No blue, no gradients, no glow.
+- **Structure** — hairline rules and a ledger layout instead of floating cards
+  with shadows. Work is an index of rows, not a grid of tiles.
+- **Motion** — a line under the name that types what he does and cycles
+  (edit the `DOES` array in `main.js`), quiet fades, a slide-in on work rows,
+  and one set piece: the
+  `Soumyadeep.java` class in About types itself out when it scrolls into view,
+  then the caret stops. It runs once and respects `prefers-reduced-motion`.
+- **Masthead** — transparent, using `mix-blend-mode: difference` so it inverts
+  against whatever it sits over, and fades in a backdrop once you scroll.
 
-**1. Name & details** — search `index.html` for `Soumyadeep Das`, `soumyadeep.das`,
-`hello@soumyadeepdas.dev`, and the phone number; replace throughout. Also update
-`<title>` and the `<meta name="description">`.
+Dark is the default; the toggle in the masthead switches to light and remembers.
 
-**2. Colors** — everything comes from the tokens at the top of `styles.css`:
+**The signature** in the footer is a real one: photographed, isolated by ink
+colour (red pen on neutral paper), vectorised with potrace, then animated. Its
+centreline was extracted by skeletonising the ink and ordering the pixels into
+stroke paths; those paths are drawn inside an SVG `<mask>` and revealed with
+`stroke-dashoffset`, so it writes itself along the route the pen actually took.
+Two strokes: "Soumyadeep", a pen lift, then "Das". Runs once when the footer
+scrolls in. `assets/signature.svg` is the static version.
 
-```css
-:root{
-  --accent: #2f6df6;   /* change this one line to rebrand */
-  --ink:    #101418;
-  --bg:     #ffffff;
-}
-```
+**The cat** in the bottom-right fades in once you've scrolled past ~55% of the
+first screen, and sits above the colophon so it never covers the footer. It's
+scripted, not AI — a fixed list of
+questions and answers in the `ASKS` array in `main.js`. Every answer restates
+a fact that's already on the page, so it can't invent anything, needs no API
+key, and can't break. Edit or extend `ASKS` to change what it says.
 
-**Dark mode** uses an *elevation scale* rather than simply inverting the
-light palette — surfaces get lighter as they rise off the page:
+## Editing
 
-| Token         | Value     | Role                  |
-|---------------|-----------|-----------------------|
-| `--bg`        | `#090c12` | page floor            |
-| `--bg-2`      | `#10151e` | tinted section bands  |
-| `--surface`   | `#161d28` | raised cards          |
-| `--surface-2` | `#1f2835` | card hover / popovers |
-| `--bg-3`      | `#1c2430` | inset wells, chips    |
+**Content** lives in `index.html` and reads top to bottom — opening, skills,
+projects, education, achievements, contact. Adding a project means copying one `<li class="row">` and renumbering it.
 
-Each step is a *visible* jump (≥1.07:1) — an earlier pass had
-`bg → bg-2` at 1.04:1, which the eye simply couldn't see.
+**Colour** is six variables at the top of `css/styles.css`. Changing `--accent`
+rebrands the whole site.
 
-Project thumbnails get their own per-card gradients at ~24% lightness and
-~44% saturation, so each keeps a colour identity instead of going grey.
+**The contact form** posts to [FormSubmit](https://formsubmit.co) and lands in
+your inbox. No backend, no API key, no account.
 
-Cards also get `inset 0 1px 0 rgba(255,255,255,.055)` — a hairline top
-highlight that makes them feel lit from above instead of pasted on. Inputs
-go *darker* than their card (inset), the inverse of light mode. Every
-text/background pair was checked and passes WCAG AA; most hit AAA.
+> **One-time step:** the first time someone submits, FormSubmit emails you an
+> "Activate Form" link. Click it once. Until you do, submissions are rejected
+> and the visitor is shown your email address instead — nothing is lost, but
+> nothing arrives either. Send yourself a test message and activate it.
 
-The theme is set by a tiny inline script in `<head>` **before first paint**,
-so dark-mode visitors never see a white flash. It follows the OS setting
-until the visitor clicks the toggle, after which their choice is remembered.
-
-**3. Your photo** — replace the `<svg>` inside `.portrait` with
-`<img src="assets/me.jpg" alt="Soumyadeep Das">`.
-
-**4. Projects** — copy any `<article class="project">` block. Add
-`project--wide` to make a card span two columns (used for BookyUniverse).
-The `project--ghost` card is the dashed "next project" placeholder — delete
-it once you have a third real project. Swap the placeholder `<svg>`
-thumbnails for `<img>` screenshots when you have them.
-
-Two cards already use real logos: `.thumb--booky` renders the 128px
-BookyUniverse PNG as a rounded app badge (capped at 112px so it never
-upscales into blur), and `.thumb--tells` floats the transparent Tellsgroup
-mark. Both are stored locally, so nothing breaks if the source site is down.
-
-**5. Hero typewriter** — edit the `WORDS` array in `js/main.js`.
-
-**6. Contact form** — works out of the box by opening the visitor's email
-app pre-filled. To receive messages in your inbox instead, add a Formspree
-endpoint to the form's `data-endpoint` attribute in `index.html`. See
-DEPLOY.md for the walkthrough. No JavaScript changes needed.
+To change where mail goes, edit the address at the end of `data-endpoint` on
+the `<form>` in `index.html`. Replies go straight to the sender because their
+address is set as `_replyto`.
 
 ## Deploying
 
-See **DEPLOY.md** for step-by-step instructions for soumyadeep.space.
-
-Any static host works. Drag the folder onto Netlify, or:
-
-```bash
-npx vercel        # or: gh-pages -d .
-```
-GitHub Pages: push the folder and enable Pages on the branch root.
-
-## Notes
-- Accessible: skip link, focus rings, ARIA on menu/filters/carousel, semantic landmarks.
-- Respects `prefers-reduced-motion` and `prefers-color-scheme`.
-- Prints cleanly (nav, form and decoration hidden).
+See **DEPLOY.md** for Vercel plus DNS, and **PUSH.md** for the VS Code → GitHub
+steps.

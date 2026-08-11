@@ -54,32 +54,65 @@ issues the HTTPS certificate automatically once it resolves.
 
 ---
 
-## Making the contact form deliver to your inbox
+## ⚠️ Activation is PER DOMAIN — read this
 
-The form works right now with **no setup**: submitting opens the visitor's
-email app with the message pre-filled and addressed to you. That's reliable,
-but it needs them to have a mail client, and you can't see who bounced.
+FormSubmit activates **one domain at a time**. Activating `soumyadeep.space`
+does **not** activate `www.soumyadeep.space`, and neither activates `localhost`.
 
-For messages to arrive in your inbox directly:
+Right now your apex **308-redirects to `www`**, so every real visitor is on
+`www.soumyadeep.space` — the domain that is *not* activated. Two options:
 
-1. Sign up free at [formspree.io](https://formspree.io) (50 submissions/month).
-2. Create a form; it gives you an endpoint like `https://formspree.io/f/abcdwxyz`.
-3. In `index.html`, find the `<form id="contactForm">` tag and paste it in:
+**A. Make the apex canonical (recommended).** Vercel → Settings → Domains →
+set `soumyadeep.space` as primary so `www` redirects to it. That matches the
+`<link rel="canonical">` already in `index.html`, and the apex is already
+activated, so the form starts working immediately.
+
+**B. Activate `www` too.** Visit `https://www.soumyadeep.space`, submit the
+form once, then click the new "Activate Form" link FormSubmit emails you.
+
+Doing both is safest.
+
+---
+
+## ⚠️ The contact form needs ONE click before it works
+
+If you submit the form and see *"That didn't send. Email me directly at…"*,
+nothing is broken — **the form has not been activated yet.**
+
+1. Open **soumyadeepdas044@gmail.com**
+2. Find the email from **FormSubmit** ("Activate your form" / "Confirm your
+   email"). **Look in Spam and Promotions** — it usually lands there.
+3. Click **Activate Form**.
+4. Submit the form once more. It will now say *"Thanks — that reached me."*
+
+Until you do this, every message is refused by FormSubmit and the visitor is
+shown your email address instead. The activation email is triggered by the
+first submission, so it has already been sent.
+
+---
+
+## The contact form
+
+It already works — it posts to [FormSubmit](https://formsubmit.co), which
+needs no account, no API key and no backend.
+
+**Do this once:** submit a test message from the live site. FormSubmit will
+email you an *"Activate Form"* link. Click it. From then on every message
+arrives in your inbox, and hitting reply answers the sender directly.
+
+Until you activate, the form politely shows your email address instead of
+pretending to send — so no one is left thinking they reached you when they
+didn't.
+
+To change the destination, edit the address at the end of `data-endpoint`
+on the `<form>` in `index.html`:
 
 ```html
-<form class="form reveal" data-delay="2" id="contactForm" novalidate
-      data-endpoint="https://formspree.io/f/abcdwxyz"
-      data-fallback-email="soumyadeepdas044@gmail.com">
+data-endpoint="https://formsubmit.co/ajax/YOUR@EMAIL.com"
 ```
 
-4. Redeploy. That's the only change — the JavaScript already handles both modes.
-
-Confirm the first submission via the email Formspree sends you, or messages
-stay pending. If the endpoint ever fails, the form automatically tells the
-visitor to email you directly instead of silently losing the message.
-
-Getform, Web3Forms and Basin all work the same way — any service that accepts
-a JSON POST.
+Prefer a different service? Formspree, Getform and Web3Forms all accept the
+same JSON POST — just swap the URL.
 
 ---
 

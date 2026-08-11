@@ -1,546 +1,444 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Soumyadeep Das — CS Student &amp; Developer</title>
-<meta name="description" content="Portfolio of Soumyadeep Das, a Computer Science (AI &amp; ML) student at Parul University building web projects and solving algorithms." />
+<title>Soumyadeep Das — Developer, Vadodara</title>
+<meta name="description" content="Soumyadeep Das is a computer science student in Vadodara building web products — BookyUniverse, Tellsgroup — and solving algorithms." />
 <link rel="canonical" href="https://soumyadeep.space/" />
-<link rel="stylesheet" href="css/styles.css" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>" />
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#090c12" media="(prefers-color-scheme: dark)" />
 <meta name="author" content="Soumyadeep Das" />
+<meta name="theme-color" content="#f2efe9" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0d0c" media="(prefers-color-scheme: dark)" />
 
-<!-- Social preview: what shows when the link is shared on WhatsApp,
-     LinkedIn, X, Slack, etc. og-image.png is 1200x630. -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://soumyadeep.space/" />
-<meta property="og:title" content="Soumyadeep Das — CS Student &amp; Developer" />
-<meta property="og:description" content="Computer Science (AI &amp; ML) student at Parul University. 300+ DSA problems solved, building BookyUniverse and Tellsgroup." />
+<meta property="og:title" content="Soumyadeep Das — Developer, Vadodara" />
+<meta property="og:description" content="Computer science student building web products. BookyUniverse, Tellsgroup, and 300+ algorithm problems." />
 <meta property="og:image" content="https://soumyadeep.space/assets/og-image.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:site_name" content="Soumyadeep Das" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Soumyadeep Das — CS Student &amp; Developer" />
-<meta name="twitter:description" content="Computer Science (AI &amp; ML) student at Parul University. 300+ DSA problems solved, building BookyUniverse and Tellsgroup." />
+<meta name="twitter:title" content="Soumyadeep Das — Developer, Vadodara" />
+<meta name="twitter:description" content="Computer science student building web products. BookyUniverse, Tellsgroup, and 300+ algorithm problems." />
 <meta name="twitter:image" content="https://soumyadeep.space/assets/og-image.png" />
 
-<!-- Structured data: helps Google show you as a person, not just a page. -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Soumyadeep Das",
-  "url": "https://soumyadeep.space/",
-  "email": "mailto:soumyadeepdas044@gmail.com",
-  "jobTitle": "Computer Science Student",
-  "address": { "@type": "PostalAddress", "addressLocality": "Vadodara", "addressRegion": "Gujarat", "addressCountry": "IN" },
-  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Parul University" },
-  "knowsAbout": ["Java", "C++", "Python", "JavaScript", "Data Structures", "Algorithms", "Machine Learning"],
-  "sameAs": [
-    "https://github.com/Soumyadeepdas2",
-    "https://www.linkedin.com/in/soumyadeep-das-6a5a8331b",
-    "https://leetcode.com/u/soumyadeepdas__",
-    "https://codeforces.com/profile/Soumyadeepdas_",
-    "https://codolio.com/profile/soumyadeepdas"
-  ]
-}
-</script>
-<!-- Anti-FOUC: set the theme BEFORE first paint, or dark-mode users see a white flash. -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230e0d0c'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23e8e4dc' text-anchor='middle'>S</text></svg>" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css" />
+
 <script>
   (function () {
     try {
       var s = localStorage.getItem('theme');
-      var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.setAttribute('data-theme', s || (d ? 'dark' : 'light'));
+      document.documentElement.setAttribute('data-theme', s || 'dark');
     } catch (e) {}
   })();
 </script>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"Person","name":"Soumyadeep Das",
+  "url":"https://soumyadeep.space/","email":"mailto:soumyadeepdas044@gmail.com",
+  "jobTitle":"Computer Science Student",
+  "address":{"@type":"PostalAddress","addressLocality":"Vadodara","addressRegion":"Gujarat","addressCountry":"IN"},
+  "alumniOf":{"@type":"CollegeOrUniversity","name":"Parul University"},
+  "sameAs":["https://github.com/Soumyadeepdas2","https://www.linkedin.com/in/soumyadeep-das-6a5a8331b","https://leetcode.com/u/soumyadeepdas__","https://codeforces.com/profile/Soumyadeepdas_","https://codolio.com/profile/soumyadeepdas"]
+}
+</script>
 </head>
+
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<a class="skip-link" href="#main">Skip to content</a>
-
-<!-- ============ NAV ============ -->
-<header class="nav" id="nav">
-  <div class="container nav__inner">
-    <a href="#home" class="brand">
-      <span class="brand__mark">◆</span>
-      <span class="brand__text">Soumyadeep<span class="dot">.</span>Das</span>
-    </a>
-
-    <nav class="nav__links" id="navLinks" aria-label="Main">
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#work">Projects</a>
-      <a href="#education">Education</a>
-      <a href="#achievements">Achievements</a>
-      <a href="#contact" class="nav__cta">Contact</a>
-    </nav>
-
-    <div class="nav__actions">
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle theme">
-        <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g class="rays"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>
-        <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
-      </button>
-      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-  <div class="scroll-progress" id="scrollProgress"></div>
+<header class="masthead">
+  <a class="masthead__name" href="#top">Soumyadeep&nbsp;Das</a>
+  <nav class="masthead__nav" id="nav" aria-label="Sections">
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#achievements">Awards</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="toggle" id="themeToggle" aria-label="Switch theme" aria-pressed="false" title="Switch theme">
+    <svg class="toggle__svg" viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <mask id="moonCut">
+          <rect width="24" height="24" fill="#fff"/>
+          <circle class="toggle__cut" cx="12" cy="12" r="5.6" fill="#000"/>
+        </mask>
+      </defs>
+      <circle class="toggle__disc" cx="12" cy="12" r="5.6" mask="url(#moonCut)"/>
+      <g class="toggle__rays">
+        <line x1="12"    y1="3.8"   x2="12"    y2="1.4"/>
+        <line x1="17.80" y1="6.20"  x2="19.50" y2="4.51"/>
+        <line x1="20.20" y1="12"    x2="22.60" y2="12"/>
+        <line x1="17.80" y1="17.80" x2="19.50" y2="19.50"/>
+        <line x1="12"    y1="20.20" x2="12"    y2="22.60"/>
+        <line x1="6.20"  y1="17.80" x2="4.51"  y2="19.50"/>
+        <line x1="3.80"  y1="12"    x2="1.40"  y2="12"/>
+        <line x1="6.20"  y1="6.20"  x2="4.51"  y2="4.51"/>
+      </g>
+    </svg>
+  </button>
+  <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">Menu</button>
 </header>
 
 <main id="main">
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="home">
-  <div class="hero__bg" aria-hidden="true">
-    <div class="blob blob--1"></div>
-    <div class="blob blob--2"></div>
-    <div class="grid-lines"></div>
-  </div>
+<!-- ─────────────  OPENING  ───────────── -->
+<section class="lede" id="top">
+  <h1 class="display">
+    Soumyadeep<br />
+    <em>Das</em>
+  </h1>
 
-  <div class="container hero__inner">
-    <div class="hero__copy">
-      <p class="eyebrow reveal">
-        <span class="pulse"></span> Open to internships &amp; collaborations
-      </p>
-      <h1 class="hero__title reveal" data-delay="1">
-        I build things<br />
-        and <span class="ink">solve&nbsp;problems.</span>
-      </h1>
-      <p class="hero__sub reveal" data-delay="2">
-        I'm <strong>Soumyadeep Das</strong>, a Computer Science (AI &amp; ML) undergrad
-        at Parul University, Vadodara. I write code that
-        <span class="typed-wrap"><span id="typed" class="typed"></span><span class="caret"></span></span>
-      </p>
-      <div class="hero__actions reveal" data-delay="3">
-        <a href="#work" class="btn btn--primary">See my work</a>
-        <a href="assets/Soumyadeep_Das_Resume.pdf" class="btn btn--ghost" download>Download résumé ⬇</a>
-      </div>
+  <p class="doing">
+    I <span class="doing__type" id="doing"></span><span class="doing__caret" id="doingCaret" aria-hidden="true"></span>
+    <span class="sr">build web products, solve algorithms, and ship projects that work.</span>
+  </p>
 
-      <ul class="hero__stats reveal" data-delay="4">
-        <li><b class="count" data-target="300">0</b><span>DSA problems solved</span></li>
-        <li><b class="count" data-target="4" data-exact>0</b><span>Certifications</span></li>
-        <li><b class="count" data-target="18" data-exact>0</b><span>Brands in the Tells network</span></li>
-      </ul>
-    </div>
-
-    <div class="hero__visual reveal" data-delay="2">
-      <div class="code-card" role="img" aria-label="Illustrative code snippet">
-        <div class="code-card__bar">
-          <i></i><i></i><i></i>
-          <span>soumyadeep.java</span>
-        </div>
-<pre class="code"><code><span class="c-k">class</span> <span class="c-v">Soumyadeep</span> {
-  <span class="c-p">String</span> role = <span class="c-s">"CS (AI &amp; ML) Student"</span>;
-  <span class="c-p">String</span> campus = <span class="c-s">"Parul University"</span>;
-  <span class="c-p">String</span>[] stack = { <span class="c-s">"Java"</span>, <span class="c-s">"C++"</span>,
-                     <span class="c-s">"Python"</span>, <span class="c-s">"JS"</span> };
-  <span class="c-n">int</span> problemsSolved = <span class="c-n">301</span>;
-
-  <span class="c-n">void</span> <span class="c-f">build</span>(Idea idea) {
-    <span class="c-k">while</span> (!idea.<span class="c-f">works</span>()) {
-      idea.<span class="c-f">debug</span>();
-    }
-  }
-}</code></pre>
-      </div>
-      <div class="float-chip chip--1">300+ DSA</div>
-      <div class="float-chip chip--2">CGPA 7.17</div>
-    </div>
-  </div>
-
-  <a href="#about" class="scroll-hint" aria-label="Scroll down"><span></span></a>
-</section>
-
-<!-- ============ MARQUEE ============ -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee__track">
-    <span>Java</span><span>◆</span><span>C++</span><span>◆</span><span>Python</span><span>◆</span><span>JavaScript</span><span>◆</span><span>MySQL</span><span>◆</span><span>MongoDB</span><span>◆</span><span>AWS</span><span>◆</span><span>Git</span><span>◆</span><span>Supabase</span><span>◆</span><span>Vercel</span><span>◆</span>
-    <span>Java</span><span>◆</span><span>C++</span><span>◆</span><span>Python</span><span>◆</span><span>JavaScript</span><span>◆</span><span>MySQL</span><span>◆</span><span>MongoDB</span><span>◆</span><span>AWS</span><span>◆</span><span>Git</span><span>◆</span><span>Supabase</span><span>◆</span><span>Vercel</span><span>◆</span>
-  </div>
-</div>
-
-<!-- ============ ABOUT ============ -->
-<section class="section" id="about">
-  <div class="container about">
-    <div class="about__media reveal">
-      <div class="portrait">
-        <svg viewBox="0 0 400 480" aria-label="Portrait placeholder" role="img">
-          <defs>
-            <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" class="pg-a"/><stop offset="100%" class="pg-b"/>
-            </linearGradient>
-          </defs>
-          <rect width="400" height="480" fill="url(#pg)"/>
-          <circle cx="200" cy="180" r="72" class="pg-fig"/>
-          <path d="M60 480c0-82 63-148 140-148s140 66 140 148z" class="pg-fig"/>
-          <text x="200" y="455" text-anchor="middle" font-size="15" class="pg-txt" font-family="system-ui">Soumyadeep Das</text>
-        </svg>
-        <div class="portrait__badge">
-          <b>Hi, I'm Soumyadeep 👋</b>
-          <span>CS Student · Vadodara, IN</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="about__text">
-      <p class="section__kicker reveal">01 — About</p>
-      <h2 class="section__title reveal" data-delay="1">Learning by building,<br />one problem at a time.</h2>
-      <p class="lead reveal" data-delay="2">
-        I'm a Computer Science undergraduate specialising in AI &amp; Machine Learning,
-        currently in my second year at Parul University.
-      </p>
-      <p class="reveal" data-delay="3">
-        Most of what I know came from building things and getting stuck. I've solved
-        over 300 data-structures and algorithms problems across LeetCode,
-        GeeksforGeeks, CodeChef and Codeforces, and I put that practice to work on real
-        projects — <strong>BookyUniverse</strong>, a web-based digital library, and
-        <strong>Tellsgroup</strong>, the parent site for a network of 18 media brands.
-      </p>
-      <p class="reveal" data-delay="3">
-        I'm strongest in Java and C++, comfortable across the web stack, and
-        currently going deeper into machine learning with Python and the AWS
-        data-engineering toolchain. Looking for an internship where I can learn
-        from people who've shipped more than I have.
-      </p>
-
-      <ul class="facts reveal" data-delay="4">
-        <li><b>Based in</b><span>Vadodara, Gujarat (IST)</span></li>
-        <li><b>Studying</b><span>B.Tech CSE — AI &amp; ML</span></li>
-        <li><b>Graduating</b><span>April 2028</span></li>
-        <li><b>Looking for</b><span>Internships &amp; open source</span></li>
-      </ul>
-    </div>
+  <div class="lede__foot">
+    <p class="lede__bio">
+      I'm a computer science undergraduate in Vadodara who learns by shipping.
+      I built a digital library, a media network of eighteen publications, and
+      spent three hundred nights arguing with algorithms. Everything here is
+      live and clickable.
+    </p>
+    <dl class="meta">
+      <div><dt>Role</dt><dd>Student, developer</dd></div>
+      <div><dt>Place</dt><dd>Vadodara, IN</dd></div>
+      <div><dt>Focus</dt><dd>Web, AI &amp; ML</dd></div>
+      <div><dt>Since</dt><dd>2024</dd></div>
+    </dl>
   </div>
 </section>
 
-<!-- ============ SKILLS ============ -->
-<section class="section section--tint" id="skills">
-  <div class="container">
-    <div class="section__head">
-      <p class="section__kicker reveal">02 — Skills</p>
-      <h2 class="section__title reveal" data-delay="1">What I work with</h2>
-      <p class="section__intro reveal" data-delay="2">
-        Languages I reach for first, plus the tools I've used in coursework
-        and personal projects.
-      </p>
+<!-- ─────────────  WORK INDEX  ───────────── -->
+<!-- ─────────────  SKILLS  ───────────── -->
+<section class="band band--split" id="skills">
+  <h2 class="band__label">Skills</h2>
+
+  <div class="prose">
+    <p class="prose__big">
+      I started because a college attendance sheet annoyed me enough to
+      write something better. That habit stuck.
+    </p>
+    <p>
+      I'm two years into a B.Tech in computer science at Parul University,
+      specialising in AI and machine learning. Most of what I actually know
+      came from building things that broke and then figuring out why —
+      BookyUniverse taught me about data modelling, Tellsgroup taught me that
+      eighteen brands need one system, not eighteen stylesheets.
+    </p>
+    <p>
+      I write Java and C++ for algorithms, JavaScript for the web, and I'm
+      working through Python for the machine-learning half of my degree.
+      I care about pages that load fast and code the next person can read.
+    </p>
+    <p>
+      Right now I'm looking for an internship where I'll be the least
+      experienced person in the room. That's the point.
+    </p>
+  </div>
+
+  <aside class="stack">
+    <div class="editor-wrap">
+      <span class="chip chip--a">301 solved</span>
+      <span class="chip chip--b">CGPA 7.17</span>
+
+      <figure class="editor" aria-label="A Java class describing Soumyadeep Das">
+        <figcaption class="editor__bar">
+          <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="editor__file">Soumyadeep.java</span>
+        </figcaption>
+        <pre class="editor__code"><code id="code"></code><span class="editor__caret" id="caret" aria-hidden="true"></span></pre>
+      </figure>
     </div>
 
-    <div class="skills">
-      <article class="skill-card reveal">
-        <div class="skill-card__icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg>
-        </div>
-        <h3>Languages &amp; DSA</h3>
-        <p>My core strength — 300+ problems solved across competitive platforms.</p>
-        <ul class="bars">
-          <li><span>Java</span><i class="bar" style="--v:85%"></i></li>
-          <li><span>C++</span><i class="bar" style="--v:80%"></i></li>
-          <li><span>Python / C</span><i class="bar" style="--v:70%"></i></li>
-        </ul>
-      </article>
-
-      <article class="skill-card reveal" data-delay="1">
-        <div class="skill-card__icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
-        </div>
-        <h3>Web &amp; Databases</h3>
-        <p>Building responsive interfaces and wiring them to real data.</p>
-        <ul class="bars">
-          <li><span>HTML / CSS</span><i class="bar" style="--v:88%"></i></li>
-          <li><span>JavaScript</span><i class="bar" style="--v:78%"></i></li>
-          <li><span>MySQL / MongoDB</span><i class="bar" style="--v:72%"></i></li>
-        </ul>
-      </article>
-
-      <article class="skill-card reveal" data-delay="2">
-        <div class="skill-card__icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg>
-        </div>
-        <h3>ML &amp; Cloud</h3>
-        <p>Data handling and analysis, plus cloud fundamentals via AWS Academy.</p>
-        <ul class="bars">
-          <li><span>NumPy / Pandas</span><i class="bar" style="--v:70%"></i></li>
-          <li><span>Matplotlib</span><i class="bar" style="--v:65%"></i></li>
-          <li><span>AWS &amp; Git</span><i class="bar" style="--v:62%"></i></li>
-        </ul>
-      </article>
+    <div class="stack__group">
+      <h3>Languages</h3>
+      <p>Java, C++, Python, C, JavaScript</p>
     </div>
+    <div class="stack__group">
+      <h3>Web</h3>
+      <p>HTML, CSS, Supabase, Vercel, Git</p>
+    </div>
+    <div class="stack__group">
+      <h3>Data</h3>
+      <p>MySQL, MongoDB, NumPy, Pandas, Matplotlib</p>
+    </div>
+    <div class="stack__group">
+      <h3>Foundations</h3>
+      <p>Data structures, algorithms, OOP, DBMS, operating systems, networks</p>
+    </div>
+  </aside>
 
-    <ul class="tags reveal" data-delay="2">
-      <li>Data Structures</li><li>Algorithms</li><li>OOP</li><li>DBMS</li>
-      <li>Operating Systems</li><li>Computer Networks</li><li>Supabase</li>
-      <li>Git &amp; GitHub</li><li>VS Code</li><li>IntelliJ IDEA</li><li>Eclipse</li>
+</section>
+
+<!-- ─────────────  PROJECTS  ───────────── -->
+<section class="band" id="projects">
+  <h2 class="band__label">Projects</h2>
+
+  <ol class="index" id="index">
+    <li class="row">
+      <a href="https://bookyuniverse-zmzb.vercel.app/" target="_blank" rel="noopener">
+        <span class="row__no">01</span>
+        <span class="row__title">BookyUniverse</span>
+        <span class="row__desc">A digital library with live search, filtering and personal collections.</span>
+        <span class="row__meta">JS · Supabase</span>
+        <span class="row__year">2026</span>
+      </a>
+    </li>
+    <li class="row">
+      <a href="https://tellsgroup.vercel.app" target="_blank" rel="noopener">
+        <span class="row__no">02</span>
+        <span class="row__title">Tellsgroup</span>
+        <span class="row__desc">Parent site for eighteen media brands. Searchable, filterable, no framework.</span>
+        <span class="row__meta">JS · Vercel</span>
+        <span class="row__year">2026</span>
+      </a>
+    </li>
+  </ol>
+
+</section>
+
+<!-- ─────────────  EDUCATION  ───────────── -->
+<section class="band" id="education">
+  <h2 class="band__label">Education</h2>
+
+  <div class="ledger">
+    <div class="ledger__row">
+      <span class="ledger__k">Degree</span>
+      <span class="ledger__v">
+        <strong>B.Tech, Computer Science &amp; Engineering</strong>
+        Parul University, Vadodara — AI &amp; ML specialisation. CGPA 7.17.
+      </span>
+      <span class="ledger__t">2024 – 2028</span>
+    </div>
+    <div class="ledger__row">
+      <span class="ledger__k">School</span>
+      <span class="ledger__v">
+        <strong>Higher Secondary</strong>
+        Khejuri Adarsha Vidyapith — 90.42% (X), 67.80% (XII).
+      </span>
+      <span class="ledger__t">2020 – 2024</span>
+    </div>
+  </div>
+
+  <a class="cv" href="assets/Soumyadeep_Das_Resume.pdf" download>
+    <span>Download résumé</span>
+    <span class="cv__ext">PDF, 110 KB</span>
+  </a>
+</section>
+
+<!-- ─────────────  ACHIEVEMENTS  ───────────── -->
+<section class="band" id="achievements">
+  <h2 class="band__label">Achievements</h2>
+
+  <div class="ledger">
+    <div class="ledger__row">
+      <span class="ledger__k">Certified</span>
+      <span class="ledger__v">
+        <strong>IT Specialist — HTML &amp; CSS</strong>
+        Pearson VUE
+      </span>
+      <span class="ledger__t">
+        <a class="verify" href="https://www.credly.com/badges/319505ea-b5f7-4d71-96d8-dd075491b111/public_url" target="_blank" rel="noopener">
+          Verify<span class="verify__arrow" aria-hidden="true">↗</span>
+          <span class="sr">IT Specialist — HTML &amp; CSS certificate</span>
+        </a>
+      </span>
+    </div>
+    <div class="ledger__row">
+      <span class="ledger__k"></span>
+      <span class="ledger__v">
+        <strong>IT Specialist — JavaScript</strong>
+        Pearson VUE
+      </span>
+      <span class="ledger__t">
+        <a class="verify" href="https://www.credly.com/badges/d54c9ea1-04cc-4eb9-9884-7bda975b5e5a/public_url" target="_blank" rel="noopener">
+          Verify<span class="verify__arrow" aria-hidden="true">↗</span>
+          <span class="sr">IT Specialist — JavaScript certificate</span>
+        </a>
+      </span>
+    </div>
+    <div class="ledger__row">
+      <span class="ledger__k"></span>
+      <span class="ledger__v">
+        <strong>Python for Data Science</strong>
+        IBM
+      </span>
+      <span class="ledger__t">
+        <a class="verify" href="https://courses.etrain.skillsnetwork.site/certificates/1bc015389d95434b923e6e99cac5985c" target="_blank" rel="noopener">
+          Verify<span class="verify__arrow" aria-hidden="true">↗</span>
+          <span class="sr">Python for Data Science certificate</span>
+        </a>
+      </span>
+    </div>
+    <div class="ledger__row">
+      <span class="ledger__k"></span>
+      <span class="ledger__v">
+        <strong>Data Engineering</strong>
+        AWS Academy
+      </span>
+      <span class="ledger__t">
+        <a class="verify" href="https://www.credly.com/badges/7132b302-922d-46b0-91bd-dd0e15bd0601/public_url" target="_blank" rel="noopener">
+          Verify<span class="verify__arrow" aria-hidden="true">↗</span>
+          <span class="sr">Data Engineering certificate</span>
+        </a>
+      </span>
+    </div>
+    <div class="ledger__row">
+      <span class="ledger__k">Practice</span>
+      <span class="ledger__v">
+        <strong><span class="tally" id="tally" data-to="301">1</span> problems solved</strong>
+        LeetCode, GeeksforGeeks, CodeChef, Codeforces, HackerRank, InterviewBit, AtCoder.
+        178 active days, longest streak 69.
+      </span>
+      <span class="ledger__t">
+        <a class="verify" href="https://codolio.com/profile/soumyadeepdas" target="_blank" rel="noopener">
+          Codolio<span class="verify__arrow" aria-hidden="true">↗</span>
+        </a>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────  CONTACT  ───────────── -->
+<section class="band band--end" id="contact">
+  <h2 class="band__label">Contact</h2>
+
+  <div class="closing">
+    <p class="tag">
+      <span class="tag__dot" aria-hidden="true"></span>
+      Available for internships — Summer 2027
+    </p>
+
+    <p class="closing__line">Have something<br />worth building?</p>
+
+    <a class="mailto" href="mailto:soumyadeepdas044@gmail.com">soumyadeepdas044@gmail.com</a>
+
+    <ul class="elsewhere">
+      <li><a href="https://github.com/Soumyadeepdas2" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/soumyadeep-das-6a5a8331b" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://codolio.com/profile/soumyadeepdas" target="_blank" rel="noopener">Codolio</a></li>
+      <li><a href="https://leetcode.com/u/soumyadeepdas__" target="_blank" rel="noopener">LeetCode</a></li>
+      <li><a href="tel:+919609005441">+91 96090 05441</a></li>
     </ul>
-  </div>
-</section>
 
-<!-- ============ PROJECTS ============ -->
-<section class="section" id="work">
-  <div class="container">
-    <div class="section__head">
-      <p class="section__kicker reveal">03 — Projects</p>
-      <h2 class="section__title reveal" data-delay="1">Things I've built</h2>
-      <p class="section__intro reveal" data-delay="2">
-        Shipped and live — where the theory turns into something people
-        can actually click.
-      </p>
-    </div>
-
-    <div class="projects" id="projects">
-
-      <article class="project reveal" data-cat="web">
-        <div class="project__thumb thumb--booky">
-          <img src="assets/booky-logo.png" alt="BookyUniverse logo — the word BOOK styled as a ringed planet among stars" class="thumb__badge" loading="lazy" width="128" height="128" />
-          <span class="project__year">2026</span>
-        </div>
-        <div class="project__body">
-          <h3>BookyUniverse — digital library</h3>
-          <p>
-            A modern web-based library for discovering and reading books online.
-            I built dynamic search and filtering so readers can find titles fast,
-            plus personalised collections to manage what they're reading — all
-            backed by Supabase and wrapped in an interface that stays out of the way.
-          </p>
-          <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Supabase</li></ul>
-          <div class="project__links">
-            <a href="https://bookyuniverse-zmzb.vercel.app/" class="link" target="_blank" rel="noopener">Live site <span>↗</span></a>
-            <a href="https://github.com/Soumyadeepdas2" class="link link--muted" target="_blank" rel="noopener">Code <span>↗</span></a>
-          </div>
-        </div>
-      </article>
-
-      <article class="project reveal" data-cat="web" data-delay="1">
-        <div class="project__thumb thumb--tells">
-          <img src="assets/tells-logo.png" alt="Tellsgroup logo — a navy speech bubble reading 'tells'" class="thumb__logo" loading="lazy" width="400" height="394" />
-          <span class="project__year">2026</span>
-        </div>
-        <div class="project__body">
-          <h3>Tellsgroup — media house</h3>
-          <p>
-            A parent company site for a network of 18 focused publications —
-            WorldTells, CricketTells, TechTells and more. I built the searchable,
-            filterable brand directory, the editorial-goals layout, and a small
-            chat mascot that greets visitors. Same stack as this portfolio:
-            no framework, just HTML, CSS and JavaScript.
-          </p>
-          <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Vercel</li></ul>
-          <div class="project__links">
-            <a href="https://tellsgroup.vercel.app" class="link" target="_blank" rel="noopener">Live site <span>↗</span></a>
-            <a href="https://instagram.com/tellsgroup" class="link link--muted" target="_blank" rel="noopener">Instagram <span>↗</span></a>
-          </div>
-        </div>
-      </article>
-
-      <article class="project reveal" data-cat="dsa" data-delay="2">
-        <div class="project__thumb thumb--c">
-          <svg viewBox="0 0 400 260" aria-hidden="true">
-            <circle cx="200" cy="72" r="22" class="pt-panel"/>
-            <circle cx="120" cy="160" r="22" class="pt-panel"/>
-            <circle cx="280" cy="160" r="22" class="pt-panel"/>
-            <circle cx="70" cy="226" r="16" class="pt-block"/>
-            <circle cx="170" cy="226" r="16" class="pt-block"/>
-            <path d="M200 94L120 138M200 94l80 44M120 182l-50 28M120 182l50 28" class="pt-line-s"/>
-          </svg>
-          <span class="project__year">Ongoing</span>
-        </div>
-        <div class="project__body">
-          <h3>My coding journey</h3>
-          <p>
-            300+ problems solved across LeetCode, GeeksforGeeks, CodeChef,
-            Codeforces and more — tracked in one place on Codolio, with a
-            69-day best streak and 178 active days.
-          </p>
-          <ul class="chips"><li>Java</li><li>C++</li><li>Algorithms</li></ul>
-          <div class="project__links">
-            <a href="https://codolio.com/profile/soumyadeepdas" class="link" target="_blank" rel="noopener">Codolio <span>↗</span></a>
-            <a href="https://leetcode.com/u/soumyadeepdas__" class="link link--muted" target="_blank" rel="noopener">LeetCode <span>↗</span></a>
-          </div>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============ EDUCATION ============ -->
-<section class="section section--tint" id="education">
-  <div class="container">
-    <div class="section__head">
-      <p class="section__kicker reveal">04 — Education</p>
-      <h2 class="section__title reveal" data-delay="1">My path so far</h2>
-      <a class="btn btn--primary btn--sm reveal" data-delay="3" href="assets/Soumyadeep_Das_Resume.pdf" download>
-        ⬇ Download résumé (PDF)
-      </a>
-    </div>
-
-    <ol class="timeline">
-      <li class="tl reveal">
-        <div class="tl__dot"></div>
-        <div class="tl__card">
-          <div class="tl__meta"><span class="tl__date">Aug 2024 — Apr 2028</span><span class="tl__type">In progress</span></div>
-          <h3>B.Tech, Computer Science &amp; Engineering</h3>
-          <p class="tl__org">Parul University · Vadodara, Gujarat</p>
-          <p>Specialising in Artificial Intelligence &amp; Machine Learning. Current CGPA 7.17. Coursework across data structures, algorithms, OOP, DBMS, operating systems and computer networks.</p>
-          <ul class="chips"><li>AI &amp; ML</li><li>DSA</li><li>DBMS</li><li>OS</li></ul>
-        </div>
-      </li>
-      <li class="tl reveal" data-delay="1">
-        <div class="tl__dot"></div>
-        <div class="tl__card">
-          <div class="tl__meta"><span class="tl__date">Apr 2020 — Jun 2024</span><span class="tl__type">Completed</span></div>
-          <h3>Secondary &amp; Higher Secondary</h3>
-          <p class="tl__org">Khejuri Adarsha Vidyapith</p>
-          <p>Class 10: 90.42% · Class 12: 67.80%. Where the interest in computers started and turned into writing actual code.</p>
-        </div>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<!-- ============ ACHIEVEMENTS & CERTIFICATES ============ -->
-<section class="section" id="achievements">
-  <div class="container">
-    <div class="section__head">
-      <p class="section__kicker reveal">05 — Achievements</p>
-      <h2 class="section__title reveal" data-delay="1">Milestones &amp; certificates</h2>
-      <p class="section__intro reveal" data-delay="2">
-        Verified credentials and the practice behind them.
-      </p>
-    </div>
-
-    <div class="achievements reveal">
-      <div class="ach">
-        <b class="count" data-target="300">0</b>
-        <span>Problems solved across 7 verified coding platforms</span>
-      </div>
-      <div class="ach">
-        <b class="count" data-target="69" data-exact>0</b>
-        <span>Day longest solving streak · 178 active days</span>
-      </div>
-      <div class="ach">
-        <b class="count" data-target="4" data-exact>0</b>
-        <span>Industry certifications earned</span>
-      </div>
-    </div>
-
-    <div class="posts certs">
-      <a class="post reveal" href="https://www.credly.com/badges/319505ea-b5f7-4d71-96d8-dd075491b111/public_url" target="_blank" rel="noopener">
-        <span class="post__tag">Pearson VUE</span>
-        <h3>IT Specialist — HTML &amp; CSS</h3>
-        <p>Certified in semantic markup, layout and styling fundamentals.</p>
-        <span class="post__meta">Verify on Credly ↗</span>
-      </a>
-      <a class="post reveal" data-delay="1" href="https://www.credly.com/badges/d54c9ea1-04cc-4eb9-9884-7bda975b5e5a/public_url" target="_blank" rel="noopener">
-        <span class="post__tag">Pearson VUE</span>
-        <h3>IT Specialist — JavaScript</h3>
-        <p>Certified in core language features, the DOM and event-driven logic.</p>
-        <span class="post__meta">Verify on Credly ↗</span>
-      </a>
-      <a class="post reveal" data-delay="2" href="https://courses.etrain.skillsnetwork.site/certificates/1bc015389d95434b923e6e99cac5985c" target="_blank" rel="noopener">
-        <span class="post__tag">IBM</span>
-        <h3>Python for Data Science</h3>
-        <p>Python fundamentals applied to data handling and analysis workflows.</p>
-        <span class="post__meta">View certificate ↗</span>
-      </a>
-      <a class="post reveal" href="https://www.credly.com/badges/7132b302-922d-46b0-91bd-dd0e15bd0601/public_url" target="_blank" rel="noopener">
-        <span class="post__tag">AWS Academy</span>
-        <h3>Graduate — Data Engineering</h3>
-        <p>Cloud data pipelines, storage and processing on AWS infrastructure.</p>
-        <span class="post__meta">Verify on Credly ↗</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CONTACT ============ -->
-<section class="section section--tint" id="contact">
-  <div class="container contact">
-    <div class="contact__intro">
-      <p class="section__kicker reveal">06 — Contact</p>
-      <h2 class="section__title reveal" data-delay="1">Let's talk.</h2>
-      <p class="lead reveal" data-delay="2">
-        I'm looking for internships and happy to collaborate on anything
-        interesting. Drop me a line — I'll get back to you quickly.
-      </p>
-
-      <ul class="contact__list reveal" data-delay="3">
-        <li><span class="ci">✉</span><a href="https://mail.google.com/mail/u/0/?fs=1&to=soumyadeepdas044@gmail.com&tf=cm">soumyadeepdas044@gmail.com</a></li>
-        <li><span class="ci">☏</span><a href="https://wa.me/919609005441">+91 96090 05441</a></li>
-        <li><span class="ci">◎</span><span>Vadodara, Gujarat · IST (UTC+5:30)</span></li>
-      </ul>
-
-      <div class="socials reveal" data-delay="4">
-        <a href="https://github.com/Soumyadeepdas2" class="social" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/soumyadeep-das-6a5a8331b" class="social" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://leetcode.com/soumyadeepdas__/" class="social" target="_blank" rel="noopener">LeetCode</a>
-        <a href="https://codeforces.com/profile/Soumyadeepdas_" class="social" target="_blank" rel="noopener">Codeforces</a>
-        <a href="https://codolio.com/profile/soumyadeepdas" class="social" target="_blank" rel="noopener">Codolio</a>
-      </div>
-    </div>
-
-    <!-- HOW THIS SENDS:
-         Right now `data-endpoint` is empty, so submitting opens the visitor's
-         email app with everything pre-filled (works with zero setup).
-         To receive messages straight to your inbox instead, create a free
-         form at https://formspree.io, then paste your endpoint URL below,
-         e.g. data-endpoint="https://formspree.io/f/abcdwxyz"            -->
-    <form class="form reveal" data-delay="2" id="contactForm" novalidate
-          data-endpoint=""
+    <!-- Sends via FormSubmit (no backend, no key). The first message you
+         receive asks you to click "Activate Form" once — after that every
+         submission lands in your inbox. Swap the address to change where. -->
+    <form class="note" id="contactForm" novalidate
+          data-endpoint="https://formsubmit.co/ajax/soumyadeepdas044@gmail.com"
           data-fallback-email="soumyadeepdas044@gmail.com">
-      <div class="field">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" placeholder="Jane Smith" required />
-        <small class="error" data-for="name"></small>
+      <p class="note__label">Or leave a note</p>
+      <div class="note__grid">
+        <label class="fld">
+          <span>Name</span>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+          <small class="err" data-for="name"></small>
+        </label>
+        <label class="fld">
+          <span>Email</span>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+          <small class="err" data-for="email"></small>
+        </label>
       </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="jane@company.com" required />
-        <small class="error" data-for="email"></small>
-      </div>
-      <div class="field">
-        <label for="subject">Subject</label>
-        <select id="subject" name="subject">
-          <option>Internship opportunity</option>
-          <option>Project collaboration</option>
-          <option>Freelance work</option>
-          <option>Just saying hi</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" placeholder="A sentence or two about what you need…" required></textarea>
-        <small class="error" data-for="message"></small>
-      </div>
-      <button type="submit" class="btn btn--primary btn--block">Send message</button>
-      <p class="form__note" id="formNote" role="status"></p>
+      <fieldset class="fld topic">
+        <legend>Subject</legend>
+        <div class="topic__opts">
+          <label class="topic__opt">
+            <input type="radio" name="subject" value="Internship opportunity" checked />
+            <span>Internship opportunity</span>
+          </label>
+          <label class="topic__opt">
+            <input type="radio" name="subject" value="Project collaboration" />
+            <span>Project collaboration</span>
+          </label>
+          <label class="topic__opt">
+            <input type="radio" name="subject" value="Freelance work" />
+            <span>Freelance work</span>
+          </label>
+          <label class="topic__opt">
+            <input type="radio" name="subject" value="Just saying hi" />
+            <span>Just saying hi</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="fld">
+        <span>Message</span>
+        <textarea id="message" name="message" rows="3" required></textarea>
+        <small class="err" data-for="message"></small>
+      </label>
+      <button type="submit" class="send">Send<span aria-hidden="true"> →</span></button>
+      <p class="note__status" id="formNote" role="status"></p>
     </form>
   </div>
 </section>
 
 </main>
 
-<!-- ============ FOOTER ============ -->
-<footer class="footer">
-  <div class="container footer__inner">
-    <div>
-      <a href="#home" class="brand"><span class="brand__mark">◆</span><span class="brand__text">Soumyadeep<span class="dot">.</span>Das</span></a>
-      <p class="footer__tag">CS student · Building &amp; learning in Vadodara.</p>
-    </div>
-    <nav class="footer__links" aria-label="Footer">
-      <a href="#about">About</a><a href="#work">Projects</a><a href="#education">Education</a>
-      <a href="#achievements">Achievements</a><a href="#contact">Contact</a>
-    </nav>
-    <p class="footer__copy">© <span id="year"></span> Soumyadeep Das. Handcrafted with HTML, CSS &amp; JS.</p>
-  </div>
+<footer class="colophon">
+  <span class="sign">
+    <svg class="sign__mark" viewBox="0 0 862 217" role="img" aria-label="Soumyadeep Das, signed">
+      <defs>
+        <mask id="inkMask" maskUnits="userSpaceOnUse" x="0" y="0" width="862" height="217">
+          <g stroke="#fff" fill="none" stroke-width="46" stroke-linecap="round" stroke-linejoin="round">
+            <path class="sign__pen" d="M26.0,91.0 L18.0,99.0 L18.0,117.0 L26.0,125.0 L34.0,128.0 L47.0,127.0 L69.0,109.0 L67.0,43.0 L75.0,25.0 L81.0,19.0 L87.0,18.0 L91.0,21.0 L92.0,38.0 L69.0,110.0 L78.0,111.0 L78.0,123.0 L85.0,129.0 L95.0,129.0 L107.0,125.0 L117.0,113.0 L126.0,109.0 L147.0,107.0 L146.0,130.0 L149.0,133.0 L159.0,133.0 L175.0,122.0 L186.0,118.0 L189.0,106.0 L199.0,91.0 L186.0,120.0 L189.0,130.0 L200.0,127.0 L226.0,98.0 L234.0,97.0 L239.0,110.0 L229.0,128.0 L241.0,107.0 L260.0,101.0 L263.0,110.0 L256.0,122.0 L264.0,108.0 L284.0,100.0 L287.0,102.0 L288.0,108.0 L283.0,119.0 L281.0,132.0 L289.0,133.0 L312.0,124.0 L317.0,108.0 L321.0,103.0 L314.0,123.0 L320.0,126.0 L341.0,125.0 L349.0,133.0 L349.0,139.0 L343.0,160.0 L332.0,182.0 L324.0,192.0 L308.0,198.0 L301.0,193.0 L301.0,183.0 L306.0,167.0 L318.0,151.0 L334.0,139.0 L353.0,118.0 L367.0,114.0 L376.0,108.0 L385.0,107.0 L384.0,125.0 L388.0,130.0 L402.0,127.0 L413.0,116.0 L422.0,116.0 L425.0,119.0 L427.0,128.0 L431.0,131.0 L440.0,130.0 L452.0,120.0 L458.0,119.0 L466.0,81.0 L475.0,75.0 L479.0,64.0 L480.0,52.0 L476.0,50.0 L470.0,55.0 L465.0,65.0 L464.0,78.0 L466.0,80.0 L483.0,34.0 L459.0,101.0 L444.0,102.0 L431.0,108.0 L423.0,115.0 L461.0,118.0 L463.0,124.0 L467.0,127.0 L477.0,127.0 L494.0,121.0 L495.0,110.0 L503.0,100.0 L496.0,123.0 L503.0,124.0 L516.0,121.0 L526.0,112.0 L540.0,112.0 L543.0,115.0 L543.0,127.0 L545.0,129.0 L565.0,131.0 L575.0,128.0 L591.0,109.0 L591.0,90.0 L587.0,82.0 L575.0,82.0 L556.0,89.0 L546.0,108.0 L541.0,112.0 L555.0,89.0 L555.0,76.0 L561.0,64.0 L569.0,33.0 L543.0,128.0 L540.0,131.0 L539.0,142.0 L523.0,184.0 L521.0,195.0 L526.0,203.0 L542.0,128.0 L526.0,111.0 L528.0,103.0 L460.0,118.0 L413.0,115.0 L412.0,98.0 L410.0,96.0 L396.0,99.0 L386.0,107.0 L408.0,95.0 L406.0,92.0 L353.0,117.0 L357.0,100.0 L342.0,154.0 L231.0,96.0 L230.0,93.0 L148.0,106.0 L162.0,88.0 L124.0,109.0 L121.0,93.0 L111.0,88.0 L103.0,90.0 L101.0,94.0 L108.0,109.0 L116.0,113.0 L107.0,110.0 L102.0,116.0 L100.0,95.0 L90.0,98.0 L78.0,109.0" pathLength="100" style="--dur:1.84s;--delay:0.00s"/><path class="sign__pen" d="M680.0,112.0 L684.0,111.0 L686.0,114.0 L704.0,120.0 L733.0,118.0 L756.0,108.0 L760.0,92.0 L784.0,87.0 L786.0,91.0 L786.0,110.0 L791.0,114.0 L800.0,113.0 L811.0,105.0 L818.0,95.0 L820.0,87.0 L824.0,84.0 L830.0,87.0 L836.0,96.0 L836.0,116.0 L843.0,115.0 L847.0,117.0 L836.0,117.0 L827.0,124.0 L819.0,125.0 L823.0,83.0 L822.0,63.0 L786.0,111.0 L775.0,118.0 L769.0,119.0 L760.0,115.0 L758.0,108.0 L759.0,92.0 L757.0,90.0 L728.0,89.0 L711.0,78.0 L712.0,66.0 L722.0,61.0 L732.0,45.0 L746.0,50.0 L757.0,73.0 L758.0,90.0 L730.0,42.0 L721.0,43.0 L716.0,48.0 L715.0,52.0 L722.0,58.0 L714.0,52.0 L712.0,54.0 L710.0,79.0 L700.0,87.0 L686.0,104.0 L684.0,110.0 L711.0,79.0" pathLength="100" style="--dur:0.51s;--delay:2.00s"/>
+          </g>
+        </mask>
+      </defs>
+      <path class="sign__ink" fill="currentColor" fill-rule="evenodd" mask="url(#inkMask)" d="M300.8,203.4C297.3,200.9 297.1,200.6 296.5,192.6C295.5,180.9 298.7,167.1 303.6,162.0C305.5,160.0 307.0,157.7 307.0,156.9C307.0,156.1 308.4,154.4 310.0,153.1C311.7,151.9 314.1,149.1 315.5,147.0C317.0,144.6 318.8,143.0 320.0,143.0C321.1,143.0 323.4,141.5 325.2,139.8C327.0,138.0 329.8,135.7 331.3,134.7C334.2,132.8 334.1,130.3 331.2,131.9C328.4,133.3 317.7,133.0 315.3,131.4C312.4,129.6 309.6,129.6 308.0,131.5C305.1,135.0 288.9,141.0 282.2,141.0C277.9,141.0 275.0,138.0 275.0,133.5C275.0,130.1 279.4,114.6 281.0,112.5C281.4,112.0 282.1,110.5 282.4,109.2C284.2,103.5 278.8,108.0 267.1,122.0C265.3,124.2 263.3,126.0 262.7,126.0C262.1,126.0 260.6,127.0 259.3,128.2C257.0,130.4 257.0,130.4 254.2,128.3C251.1,125.9 250.7,121.6 253.2,116.0C257.6,106.3 254.7,104.0 250.0,113.4C249.2,115.0 247.1,117.3 245.4,118.7C243.7,120.0 240.6,123.7 238.6,126.9C234.6,133.4 230.1,136.1 227.2,133.8C225.2,132.1 226.2,122.6 229.5,113.5C232.3,105.6 232.6,103.0 230.7,103.0C229.3,103.0 222.0,110.0 222.0,111.4C222.0,112.9 210.6,125.2 204.2,130.6C197.9,136.0 197.9,136.0 191.1,136.0C183.8,136.0 182.6,135.4 181.5,130.7C180.5,126.8 179.2,126.4 176.2,129.3C169.0,135.9 162.1,139.1 154.1,139.5C146.4,140.0 146.3,139.9 143.1,136.6C140.0,133.4 139.9,133.0 140.4,127.4C140.6,124.1 141.2,120.1 141.5,118.4C142.2,115.3 140.8,112.9 139.5,115.0C139.2,115.5 137.4,116.0 135.5,116.0C133.6,116.0 131.8,116.5 131.5,117.0C131.2,117.6 130.1,118.0 129.2,118.0C127.4,118.0 116.5,125.0 114.6,127.4C114.0,128.1 112.2,129.2 110.5,129.8C108.8,130.4 105.0,131.8 102.0,133.0C91.3,137.3 77.5,135.2 74.3,128.9C73.6,127.6 73.0,124.4 73.0,121.8C73.0,119.2 72.6,116.9 72.1,116.6C71.7,116.3 68.2,118.8 64.4,122.1C51.0,133.8 41.0,136.2 25.1,131.2C22.2,130.3 19.5,128.9 19.2,128.0C18.9,127.2 17.6,125.6 16.2,124.4C14.0,122.6 13.6,121.2 12.9,112.4C11.8,100.3 13.0,93.3 16.5,92.0C17.8,91.5 19.1,90.6 19.5,90.1C20.2,88.9 23.9,88.7 26.4,89.6C28.5,90.4 28.4,92.5 26.0,99.5C21.7,111.9 23.7,117.3 34.4,121.9C40.1,124.4 42.3,124.5 44.0,122.5C44.6,121.7 46.2,120.8 47.3,120.4C48.5,120.0 50.7,118.8 52.2,117.6C53.7,116.5 56.3,114.5 58.0,113.2C59.6,111.9 61.0,109.9 61.0,108.8C61.0,107.7 61.9,105.5 63.1,103.9C64.6,101.7 65.0,100.2 64.5,98.2C63.2,93.4 62.0,61.9 62.7,49.7C63.1,40.8 63.7,37.2 65.1,34.7C66.2,33.0 67.7,30.0 68.6,28.1C70.9,23.0 77.1,16.1 81.0,14.0C85.0,12.0 90.5,12.3 93.3,14.8C95.9,17.1 99.3,29.2 98.7,34.3C96.8,50.2 91.5,58.8 85.3,55.8C81.9,54.2 81.4,52.1 83.3,47.8C85.5,42.8 88.0,32.5 88.0,28.5C88.0,21.2 81.1,23.7 78.6,31.9C77.8,34.6 76.4,38.3 75.3,40.1C73.2,44.1 72.9,63.4 74.8,73.4C75.5,76.7 76.0,84.9 76.0,91.7C76.0,98.5 76.3,104.0 76.8,104.0C78.2,104.0 92.1,91.2 95.0,87.1C96.7,84.9 98.8,83.0 99.7,83.0C100.6,83.0 102.3,82.2 103.4,81.1C106.5,78.4 111.9,76.9 115.9,77.6C119.4,78.2 124.0,81.4 124.0,83.2C124.0,83.7 124.9,85.3 126.1,86.9C127.4,88.7 128.4,91.9 128.7,95.8C129.5,104.4 130.5,104.9 138.7,101.0C146.0,97.7 150.3,94.1 152.6,89.8C154.3,86.5 163.4,83.3 165.7,85.1C167.2,86.4 167.5,93.0 166.0,93.0C165.4,93.0 164.4,94.2 163.8,95.8C163.1,97.3 161.6,99.8 160.3,101.3C157.2,105.2 155.5,109.4 154.0,117.0C153.3,120.6 152.5,124.5 152.2,125.7C151.7,128.5 154.4,129.8 157.1,128.2C158.1,127.5 159.6,127.0 160.4,127.0C161.1,127.0 162.3,126.3 163.0,125.5C163.7,124.7 164.8,124.0 165.6,124.0C167.6,124.0 182.0,109.2 182.0,107.0C182.0,106.0 183.8,103.0 186.0,100.5C188.2,98.0 190.0,95.3 190.0,94.7C190.0,92.1 195.0,86.2 197.6,85.7C201.3,85.0 202.8,85.7 204.5,89.1C207.5,94.7 205.9,98.9 197.7,107.7C195.6,110.0 194.9,111.5 195.3,113.2C195.6,114.5 195.3,116.3 194.4,117.4C192.4,120.2 192.5,125.0 194.7,125.0C196.8,125.0 207.6,113.8 212.4,106.6C215.8,101.4 228.2,89.0 229.8,89.0C230.3,89.0 232.8,89.9 235.3,91.0C238.8,92.6 240.3,93.9 241.6,97.0C243.5,101.2 245.0,101.9 247.0,99.5C249.1,96.9 256.8,93.0 259.7,93.0C263.6,93.0 267.0,95.6 267.0,98.5C267.0,102.0 268.9,102.6 271.4,99.7C275.3,95.1 284.2,92.2 288.7,94.3C294.0,96.7 296.8,109.1 293.2,114.0C292.0,115.5 290.8,118.0 290.4,119.4C290.1,120.8 289.4,122.3 288.9,122.6C288.4,122.9 288.0,124.2 288.0,125.6C288.0,127.5 288.5,128.0 290.4,128.0C293.7,128.0 303.0,123.2 303.0,121.5C303.0,120.7 304.2,119.5 305.8,118.8C307.8,117.8 308.6,116.6 308.8,114.1C309.0,112.2 310.0,109.5 311.1,108.2C312.1,106.8 313.0,104.9 313.0,104.0C313.0,101.3 318.8,96.8 321.8,97.2C323.2,97.4 325.2,98.7 326.2,100.1C328.2,102.7 328.2,102.7 325.5,108.4C324.0,111.6 323.1,114.4 323.4,114.7C323.7,115.1 323.3,116.1 322.4,117.1C318.4,121.5 326.3,122.4 334.5,118.5C341.6,115.2 350.0,105.2 350.0,100.2C350.0,96.4 354.6,92.7 358.7,93.2C362.8,93.7 364.1,97.1 362.8,104.3C361.7,110.8 362.1,112.1 364.8,109.7C365.8,108.7 367.4,108.0 368.2,108.0C369.1,108.0 370.4,107.2 371.1,106.3C371.9,105.4 377.2,102.5 383.0,99.8C388.8,97.2 394.3,94.5 395.2,94.0C396.2,93.4 397.7,93.0 398.5,93.0C399.4,93.0 401.1,91.9 402.3,90.6C404.5,88.2 404.7,88.2 410.9,89.5C419.5,91.3 422.9,94.5 421.2,99.3C418.6,106.6 419.8,108.8 424.8,105.4C426.7,104.0 429.5,102.7 430.9,102.3C432.3,102.0 434.2,101.2 435.0,100.6C438.4,97.9 445.4,95.6 450.5,95.6C456.4,95.5 457.5,94.9 457.5,91.7C457.7,77.0 460.7,62.7 465.1,56.1C466.7,53.7 468.3,50.1 468.6,48.1C469.8,41.4 479.6,28.0 483.4,28.0C484.3,28.0 486.0,29.0 487.1,30.1C489.1,32.1 489.2,32.9 488.6,39.7C487.8,48.1 483.7,65.1 480.9,71.7C479.9,74.2 479.0,77.0 479.0,78.0C479.0,78.9 477.9,82.3 476.5,85.5C475.1,88.6 473.7,93.2 473.3,95.7C473.0,98.1 471.7,101.6 470.5,103.4C464.3,112.5 468.1,122.0 477.8,122.0C484.0,122.0 486.5,119.3 488.0,111.3C489.9,101.6 497.7,93.0 504.8,93.0C508.5,93.0 510.9,97.0 510.0,101.5C508.7,107.7 506.6,112.8 504.2,115.3C501.3,118.3 501.4,119.0 504.8,119.0C509.9,119.0 513.6,115.8 514.3,110.6C515.2,104.4 518.1,98.9 522.4,95.7C528.6,90.9 536.0,92.9 536.0,99.3C536.0,102.6 538.0,103.9 539.4,101.5C540.0,100.5 542.0,97.7 543.8,95.3C547.0,91.0 547.9,87.9 551.6,69.6C552.3,65.8 553.6,61.8 554.3,60.6C555.0,59.4 556.5,55.6 557.5,52.0C558.5,48.4 559.9,44.8 560.7,43.9C561.4,43.1 562.0,41.9 562.0,41.3C562.0,40.7 563.1,37.7 564.5,34.6C567.2,28.4 569.0,27.7 573.2,31.0C575.5,32.7 575.7,33.5 575.2,38.2C575.0,41.1 574.4,44.0 574.0,44.5C573.6,45.0 572.0,50.6 570.6,56.8C569.1,63.0 566.3,71.2 564.4,75.1C562.5,78.9 561.2,82.5 561.5,83.0C561.8,83.5 563.9,82.9 566.3,81.5C572.3,78.2 585.6,76.2 589.6,78.1C594.6,80.5 596.4,85.8 596.4,99.0C596.5,113.4 595.9,114.9 582.0,131.2C578.8,134.9 572.1,138.0 567.0,138.0C565.6,138.0 563.9,138.5 563.3,139.1C562.1,140.3 557.2,139.1 551.6,136.4C547.7,134.4 546.4,135.8 545.6,142.5C545.3,145.5 543.7,150.3 542.2,153.2C539.6,158.1 536.0,170.4 536.0,174.1C536.0,175.0 535.1,176.9 534.0,178.3C532.9,179.7 531.7,182.3 531.4,184.2C531.0,186.0 530.3,188.0 529.8,188.7C529.3,189.3 529.2,191.4 529.5,193.2C530.0,195.8 529.7,197.0 528.2,198.3C526.9,199.5 526.4,200.9 526.8,202.3C527.3,204.4 527.3,204.4 525.6,202.7C524.3,201.4 522.9,201.1 520.9,201.5C518.4,202.1 517.9,201.8 516.9,199.3C515.4,195.6 517.5,182.3 520.6,175.5C521.9,172.8 524.7,164.7 527.0,157.5C529.3,150.4 531.5,144.1 531.9,143.5C532.4,143.0 533.3,139.3 534.0,135.5C534.6,131.7 535.4,127.4 535.7,126.0C535.9,124.6 536.1,123.3 536.0,123.0C535.7,122.1 532.5,123.2 530.6,124.8C529.2,126.1 527.1,126.5 521.3,126.3C515.0,126.1 513.3,126.4 510.9,128.2C508.3,130.1 507.3,130.2 497.8,129.6C488.9,129.1 487.2,129.2 485.0,130.7C482.3,132.6 473.6,134.8 468.3,134.9C463.7,135.0 458.0,131.4 458.0,128.4C458.0,124.2 455.4,124.5 449.9,129.3C445.1,133.5 435.6,138.0 431.7,138.0C429.1,138.0 423.2,132.2 421.8,128.4C420.7,125.2 420.3,124.9 417.5,125.4C415.9,125.8 413.0,127.1 411.0,128.5C404.4,133.0 394.1,137.0 388.9,137.0C384.6,137.0 383.9,136.7 382.6,134.2C381.8,132.6 380.4,130.8 379.6,130.1C377.5,128.4 377.5,120.9 379.5,117.0C381.4,113.3 379.8,112.2 376.3,114.7C374.9,115.7 373.0,117.0 372.1,117.5C362.6,123.5 359.4,129.0 351.5,153.4C345.7,171.0 342.3,178.5 337.4,184.6C335.4,187.0 333.0,190.5 332.1,192.2C331.2,194.0 329.4,196.0 328.0,196.7C326.6,197.4 323.9,198.7 322.0,199.6C320.1,200.5 316.9,202.1 315.0,203.0C308.6,206.3 304.9,206.4 300.8,203.4ZM315.4,190.5C317.4,189.1 319.8,188.0 320.6,188.0C321.4,188.0 322.4,187.0 322.9,185.7C323.4,184.4 324.9,182.1 326.2,180.4C327.4,178.8 329.2,175.9 330.1,174.0C331.0,172.1 333.4,167.1 335.3,162.9C337.6,158.1 338.7,154.6 338.3,153.2C338.0,151.7 338.2,151.0 339.1,151.0C340.4,151.0 344.0,143.8 344.0,141.2C344.0,139.2 341.5,139.8 338.9,142.6C337.6,144.0 334.2,146.7 331.4,148.6C320.8,155.6 312.2,167.0 311.1,175.4C310.7,178.4 309.9,181.5 309.3,182.2C307.4,184.5 306.9,187.7 307.9,190.4C309.2,193.6 310.7,193.7 315.4,190.5ZM813.4,129.4C810.6,125.3 812.4,121.8 818.4,120.0C827.9,116.9 834.5,106.0 831.4,98.4C828.5,91.4 825.0,89.2 825.0,94.4C825.0,95.6 823.9,97.7 822.5,99.0C821.1,100.3 820.0,101.8 820.0,102.4C820.0,103.4 816.7,107.0 809.0,114.4C805.5,117.9 798.6,120.0 790.8,120.0C786.1,120.0 781.9,120.8 776.9,122.6C767.4,126.0 759.2,124.6 757.3,119.2C757.0,118.3 756.0,116.7 755.2,115.8C753.8,114.1 753.6,114.2 751.4,116.5C750.1,117.9 748.0,119.0 746.7,119.0C745.3,119.0 743.7,119.7 743.0,120.5C742.3,121.3 740.6,122.0 739.1,122.0C737.7,122.0 734.0,122.7 731.0,123.5C727.6,124.4 720.9,125.0 713.5,125.0C701.3,125.0 693.1,123.2 684.1,118.5C682.4,117.7 679.9,117.0 678.5,117.0C676.7,117.0 675.7,116.3 674.9,114.4C673.5,110.5 674.3,109.1 681.0,103.1C684.4,100.2 688.9,95.3 691.2,92.2C693.5,89.0 696.8,85.1 698.5,83.3C705.2,76.2 705.7,75.0 706.2,65.5C707.1,51.0 713.3,40.6 722.5,38.0C725.0,37.3 727.3,36.3 727.6,35.9C729.5,32.7 745.2,36.9 746.5,40.9C746.8,41.9 747.9,43.5 749.0,44.5C750.1,45.5 751.0,47.5 751.0,49.0C751.0,50.4 751.7,52.5 752.5,53.6C753.3,54.6 754.0,56.1 754.0,56.9C754.0,57.7 755.5,60.6 757.3,63.4C761.1,69.1 763.0,75.0 763.0,80.4C763.0,85.6 764.9,85.8 774.3,81.6C783.2,77.7 788.9,77.4 793.5,80.4C797.3,82.9 799.3,96.1 797.0,104.0C795.6,108.8 797.4,110.4 800.3,106.9C801.5,105.4 803.5,103.9 804.7,103.6C807.1,102.8 812.0,97.6 812.0,95.8C812.0,95.2 812.6,93.9 813.4,93.1C815.7,90.5 817.6,76.6 816.2,72.7C814.1,66.8 814.6,62.6 818.0,60.2C821.4,57.7 823.3,57.4 824.9,59.4C826.2,60.9 829.0,71.0 829.0,73.9C829.0,74.9 829.7,76.4 830.7,77.1C831.6,77.9 833.3,80.5 834.4,83.0C835.6,85.5 837.4,88.8 838.6,90.5C840.9,93.9 842.8,100.5 843.2,106.5C843.5,109.9 843.9,110.5 846.0,110.8C847.4,111.0 849.1,111.9 849.8,112.8C851.6,115.2 851.3,119.9 849.2,120.7C848.3,121.0 846.6,122.1 845.5,123.0C844.4,124.0 841.9,125.0 839.9,125.4C837.8,125.8 835.6,126.8 834.9,127.7C832.6,130.4 827.4,132.0 821.1,132.0C815.7,132.0 814.9,131.7 813.4,129.4ZM440.0,124.5C446.0,120.7 454.0,112.5 454.0,110.1C454.0,108.4 453.4,108.0 450.6,108.0C448.7,108.0 446.8,108.5 446.5,109.0C446.2,109.5 444.8,110.0 443.6,110.0C442.3,110.0 440.7,110.7 440.0,111.5C439.3,112.3 438.2,113.0 437.5,113.0C435.6,113.0 431.0,118.8 431.0,121.1C431.0,124.0 432.8,127.0 434.6,127.0C435.4,127.0 437.8,125.9 440.0,124.5ZM564.5,125.0C566.3,125.0 569.0,123.9 571.0,122.5C572.9,121.1 574.8,120.0 575.3,120.0C577.6,120.0 583.2,114.5 585.5,110.0C588.3,104.5 588.6,100.0 586.6,92.5C585.4,88.0 585.0,87.5 582.2,87.2C580.3,87.0 576.6,88.0 572.8,89.8C569.3,91.4 565.7,93.0 564.8,93.3C563.8,93.7 563.0,94.8 563.0,95.8C563.0,96.8 562.6,98.0 562.1,98.5C561.2,99.5 558.1,104.8 556.3,108.6C555.8,109.7 554.4,112.4 553.2,114.7C549.1,122.5 551.2,126.7 558.5,125.4C560.1,125.2 562.9,125.0 564.5,125.0ZM104.2,120.7C108.8,118.3 109.8,117.4 108.9,116.3C107.4,114.5 104.4,114.6 103.6,116.6C103.3,117.4 102.5,117.8 101.9,117.4C101.0,116.9 101.2,116.3 102.3,115.5C104.6,113.9 104.5,113.4 101.2,109.1C99.6,107.1 98.0,104.7 97.7,103.8C96.3,99.9 93.2,102.2 87.2,111.3C83.3,117.2 83.3,117.7 87.0,121.9C89.8,124.9 90.4,125.1 94.2,124.5C96.6,124.1 101.0,122.4 104.2,120.7ZM398.5,123.0C399.5,121.9 400.9,121.0 401.5,121.0C404.1,121.0 405.4,117.7 405.6,110.4C405.7,106.4 405.5,102.8 405.1,102.5C402.6,101.0 390.0,116.7 390.0,121.2C390.0,124.9 395.7,126.1 398.5,123.0ZM727.0,114.6C737.1,113.9 747.6,107.4 750.8,99.8C752.3,96.2 750.6,94.9 744.3,94.9C727.5,95.0 717.9,92.6 713.3,87.1C710.7,84.0 708.8,84.7 705.2,90.1C703.9,92.0 700.3,96.2 697.1,99.6C692.1,104.8 689.0,109.6 690.2,110.4C698.9,115.6 704.5,116.2 727.0,114.6ZM774.7,112.9C777.5,111.1 778.0,110.3 777.4,108.6C777.0,107.5 776.7,103.7 776.8,100.3C777.0,94.1 777.0,94.1 772.5,97.2C766.6,101.3 763.1,110.7 766.2,113.8C768.0,115.6 770.8,115.3 774.7,112.9ZM118.8,104.7C119.2,102.5 116.6,99.4 112.7,97.4C108.6,95.2 108.0,98.0 111.6,103.1C114.5,107.4 118.2,108.2 118.8,104.7ZM753.2,84.3C754.3,83.7 754.2,78.3 753.1,76.2C750.7,71.7 745.7,60.7 745.1,58.2C744.4,55.9 743.9,55.5 741.0,55.8C739.2,55.9 737.1,55.5 736.4,54.9C734.6,53.5 733.3,54.5 729.4,60.3C727.8,62.6 724.6,66.6 722.3,69.2C719.9,71.8 718.0,74.5 718.0,75.2C718.1,78.8 724.6,82.9 733.5,84.9C737.2,85.8 751.5,85.3 753.2,84.3ZM474.2,66.9C476.2,60.6 476.4,58.0 475.0,58.0C474.4,58.0 474.0,58.8 474.0,59.8C473.9,60.7 473.1,63.3 472.0,65.5C469.8,70.1 469.4,73.4 471.2,72.8C471.9,72.5 473.2,69.9 474.2,66.9ZM719.0,58.5C719.0,57.7 718.5,57.0 718.0,57.0C717.5,57.0 717.0,57.7 717.0,58.5C717.0,59.3 717.5,60.0 718.0,60.0C718.5,60.0 719.0,59.3 719.0,58.5ZM724.0,51.7C724.8,50.3 725.1,48.8 724.7,48.4C723.9,47.6 720.1,52.0 720.0,53.8C720.0,55.9 722.3,54.6 724.0,51.7Z"/>
+    </svg>
+    <span class="sign__c">© <span id="year"></span></span>
+  </span>
+  <span>Vadodara, Gujarat · <time id="clock"></time> IST</span>
+  <span>Hand-built with HTML, CSS &amp; JavaScript</span>
 </footer>
 
-<button class="to-top" id="toTop" aria-label="Back to top">↑</button>
+<!-- ─────────────  CAT  ─────────────
+     A scripted helper, not an AI. It answers the handful of things
+     people actually ask. No network calls, nothing to break. -->
+<div class="cat" id="cat">
+  <button class="cat__tab" id="catTab" aria-expanded="false" aria-controls="catBox">
+    <span class="cat__avatar" aria-hidden="true">
+      <svg viewBox="0 0 48 48" class="cat__face">
+        <!-- black head + ears as one silhouette -->
+        <path class="cat__ink" d="M9 20 L8.5 5 L21 12 Z"/>
+        <path class="cat__ink" d="M39 20 L39.5 5 L27 12 Z"/>
+        <circle class="cat__ink" cx="24" cy="26" r="17"/>
+        <!-- white muzzle/face -->
+        <ellipse class="cat__fur" cx="24" cy="28" rx="13.6" ry="12.4"/>
+        <g class="cat__eyes">
+          <ellipse cx="18.4" cy="25" rx="2.3" ry="2.7"/>
+          <ellipse cx="29.6" cy="25" rx="2.3" ry="2.7"/>
+        </g>
+        <path class="cat__nose" d="M24 30.4 l-1.9 -2.1 h3.8 Z"/>
+        <path class="cat__mouth" d="M24 30.6 v1.5 M24 32.1 q-2.4 2 -4.3 .2 M24 32.1 q2.4 2 4.3 .2"/>
+        <g class="cat__whisk">
+          <path d="M3.5 27 h8.5 M3.5 31.5 h8.5 M36 27 h8.5 M36 31.5 h8.5"/>
+        </g>
+      </svg>
+    </span>
+    <span class="cat__hi" id="catHi">Ask me about Soumyadeep</span>
+  </button>
+
+  <div class="cat__box" id="catBox" role="dialog" aria-label="Ask about Soumyadeep" hidden>
+    <header class="cat__bar">
+      <span class="cat__title">Soumyadeep's cat</span>
+      <button class="cat__x" id="catClose" aria-label="Close">✕</button>
+    </header>
+
+    <div class="cat__log" id="catLog" role="log" aria-live="polite"></div>
+
+    <div class="cat__asks" id="catAsks"></div>
+  </div>
+</div>
 
 <script src="js/main.js"></script>
 </body>
