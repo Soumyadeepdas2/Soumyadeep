@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Soumyadeep Das — CS Student &amp; Developer</title>
+<meta name="description" content="Portfolio of Soumyadeep Das, a Computer Science (AI &amp; ML) student at Parul University building web projects and solving algorithms." />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#090c12" media="(prefers-color-scheme: dark)" />
+<!-- Anti-FOUC: set the theme BEFORE first paint, or dark-mode users see a white flash. -->
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem('theme');
+      var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', s || (d ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="#home" class="brand">
+      <span class="brand__mark">◆</span>
+      <span class="brand__text">Soumyadeep<span class="dot">.</span>Das</span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#work">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact" class="nav__cta">Contact</a>
+    </nav>
+
+    <div class="nav__actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle theme">
+        <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g class="rays"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>
+        <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+      </button>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero__bg" aria-hidden="true">
+    <div class="blob blob--1"></div>
+    <div class="blob blob--2"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow reveal">
+        <span class="pulse"></span> Open to internships &amp; collaborations
+      </p>
+      <h1 class="hero__title reveal" data-delay="1">
+        I build things<br />
+        and <span class="ink">solve&nbsp;problems.</span>
+      </h1>
+      <p class="hero__sub reveal" data-delay="2">
+        I'm <strong>Soumyadeep Das</strong>, a Computer Science (AI &amp; ML) undergrad
+        at Parul University, Vadodara. I write code that
+        <span class="typed-wrap"><span id="typed" class="typed"></span><span class="caret"></span></span>
+      </p>
+      <div class="hero__actions reveal" data-delay="3">
+        <a href="#work" class="btn btn--primary">See my work</a>
+        <a href="assets/Soumyadeep_Das_Resume.pdf" class="btn btn--ghost" download>Download résumé ⬇</a>
+      </div>
+
+      <ul class="hero__stats reveal" data-delay="4">
+        <li><b class="count" data-target="300">0</b><span>DSA problems solved</span></li>
+        <li><b class="count" data-target="4" data-exact>0</b><span>Certifications</span></li>
+        <li><b class="count" data-target="18" data-exact>0</b><span>Brands in the Tells network</span></li>
+      </ul>
+    </div>
+
+    <div class="hero__visual reveal" data-delay="2">
+      <div class="code-card" role="img" aria-label="Illustrative code snippet">
+        <div class="code-card__bar">
+          <i></i><i></i><i></i>
+          <span>soumyadeep.java</span>
+        </div>
+<pre class="code"><code><span class="c-k">class</span> <span class="c-v">Soumyadeep</span> {
+  <span class="c-p">String</span> role = <span class="c-s">"CS (AI &amp; ML) Student"</span>;
+  <span class="c-p">String</span> campus = <span class="c-s">"Parul University"</span>;
+  <span class="c-p">String</span>[] stack = { <span class="c-s">"Java"</span>, <span class="c-s">"C++"</span>,
+                     <span class="c-s">"Python"</span>, <span class="c-s">"JS"</span> };
+  <span class="c-n">int</span> problemsSolved = <span class="c-n">301</span>;
+
+  <span class="c-n">void</span> <span class="c-f">build</span>(Idea idea) {
+    <span class="c-k">while</span> (!idea.<span class="c-f">works</span>()) {
+      idea.<span class="c-f">debug</span>();
+    }
+  }
+}</code></pre>
+      </div>
+      <div class="float-chip chip--1">300+ DSA</div>
+      <div class="float-chip chip--2">CGPA 7.17</div>
+    </div>
+  </div>
+
+  <a href="#about" class="scroll-hint" aria-label="Scroll down"><span></span></a>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Java</span><span>◆</span><span>C++</span><span>◆</span><span>Python</span><span>◆</span><span>JavaScript</span><span>◆</span><span>MySQL</span><span>◆</span><span>MongoDB</span><span>◆</span><span>AWS</span><span>◆</span><span>Git</span><span>◆</span><span>Supabase</span><span>◆</span><span>Vercel</span><span>◆</span>
+    <span>Java</span><span>◆</span><span>C++</span><span>◆</span><span>Python</span><span>◆</span><span>JavaScript</span><span>◆</span><span>MySQL</span><span>◆</span><span>MongoDB</span><span>◆</span><span>AWS</span><span>◆</span><span>Git</span><span>◆</span><span>Supabase</span><span>◆</span><span>Vercel</span><span>◆</span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about">
+  <div class="container about">
+    <div class="about__media reveal">
+      <div class="portrait">
+        <svg viewBox="0 0 400 480" aria-label="Portrait placeholder" role="img">
+          <defs>
+            <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" class="pg-a"/><stop offset="100%" class="pg-b"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="480" fill="url(#pg)"/>
+          <circle cx="200" cy="180" r="72" class="pg-fig"/>
+          <path d="M60 480c0-82 63-148 140-148s140 66 140 148z" class="pg-fig"/>
+          <text x="200" y="455" text-anchor="middle" font-size="15" class="pg-txt" font-family="system-ui">your photo here</text>
+        </svg>
+        <div class="portrait__badge">
+          <b>Hi, I'm Soumyadeep 👋</b>
+          <span>CS Student · Vadodara, IN</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about__text">
+      <p class="section__kicker reveal">01 — About</p>
+      <h2 class="section__title reveal" data-delay="1">Learning by building,<br />one problem at a time.</h2>
+      <p class="lead reveal" data-delay="2">
+        I'm a Computer Science undergraduate specialising in AI &amp; Machine Learning,
+        currently in my second year at Parul University.
+      </p>
+      <p class="reveal" data-delay="3">
+        Most of what I know came from building things and getting stuck. I've solved
+        over 300 data-structures and algorithms problems across LeetCode,
+        GeeksforGeeks, CodeChef and Codeforces, and I put that practice to work on real
+        projects — <strong>BookyUniverse</strong>, a web-based digital library, and
+        <strong>Tellsgroup</strong>, the parent site for a network of 18 media brands.
+      </p>
+      <p class="reveal" data-delay="3">
+        I'm strongest in Java and C++, comfortable across the web stack, and
+        currently going deeper into machine learning with Python and the AWS
+        data-engineering toolchain. Looking for an internship where I can learn
+        from people who've shipped more than I have.
+      </p>
+
+      <ul class="facts reveal" data-delay="4">
+        <li><b>Based in</b><span>Vadodara, Gujarat (IST)</span></li>
+        <li><b>Studying</b><span>B.Tech CSE — AI &amp; ML</span></li>
+        <li><b>Graduating</b><span>April 2028</span></li>
+        <li><b>Looking for</b><span>Internships &amp; open source</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section class="section section--tint" id="skills">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__kicker reveal">02 — Skills</p>
+      <h2 class="section__title reveal" data-delay="1">What I work with</h2>
+      <p class="section__intro reveal" data-delay="2">
+        Languages I reach for first, plus the tools I've used in coursework
+        and personal projects.
+      </p>
+    </div>
+
+    <div class="skills">
+      <article class="skill-card reveal">
+        <div class="skill-card__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg>
+        </div>
+        <h3>Languages &amp; DSA</h3>
+        <p>My core strength — 300+ problems solved across competitive platforms.</p>
+        <ul class="bars">
+          <li><span>Java</span><i class="bar" style="--v:85%"></i></li>
+          <li><span>C++</span><i class="bar" style="--v:80%"></i></li>
+          <li><span>Python / C</span><i class="bar" style="--v:70%"></i></li>
+        </ul>
+      </article>
+
+      <article class="skill-card reveal" data-delay="1">
+        <div class="skill-card__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
+        </div>
+        <h3>Web &amp; Databases</h3>
+        <p>Building responsive interfaces and wiring them to real data.</p>
+        <ul class="bars">
+          <li><span>HTML / CSS</span><i class="bar" style="--v:88%"></i></li>
+          <li><span>JavaScript</span><i class="bar" style="--v:78%"></i></li>
+          <li><span>MySQL / MongoDB</span><i class="bar" style="--v:72%"></i></li>
+        </ul>
+      </article>
+
+      <article class="skill-card reveal" data-delay="2">
+        <div class="skill-card__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg>
+        </div>
+        <h3>ML &amp; Cloud</h3>
+        <p>Data handling and analysis, plus cloud fundamentals via AWS Academy.</p>
+        <ul class="bars">
+          <li><span>NumPy / Pandas</span><i class="bar" style="--v:70%"></i></li>
+          <li><span>Matplotlib</span><i class="bar" style="--v:65%"></i></li>
+          <li><span>AWS &amp; Git</span><i class="bar" style="--v:62%"></i></li>
+        </ul>
+      </article>
+    </div>
+
+    <ul class="tags reveal" data-delay="2">
+      <li>Data Structures</li><li>Algorithms</li><li>OOP</li><li>DBMS</li>
+      <li>Operating Systems</li><li>Computer Networks</li><li>Supabase</li>
+      <li>Git &amp; GitHub</li><li>VS Code</li><li>IntelliJ IDEA</li><li>Eclipse</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="section" id="work">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__kicker reveal">03 — Projects</p>
+      <h2 class="section__title reveal" data-delay="1">Things I've built</h2>
+      <p class="section__intro reveal" data-delay="2">
+        Shipped and live — where the theory turns into something people
+        can actually click.
+      </p>
+    </div>
+
+    <div class="projects" id="projects">
+
+      <article class="project reveal" data-cat="web">
+        <div class="project__thumb thumb--booky">
+          <img src="assets/booky-logo.png" alt="BookyUniverse logo — the word BOOK styled as a ringed planet among stars" class="thumb__badge" loading="lazy" width="128" height="128" />
+          <span class="project__year">2026</span>
+        </div>
+        <div class="project__body">
+          <h3>BookyUniverse — digital library</h3>
+          <p>
+            A modern web-based library for discovering and reading books online.
+            I built dynamic search and filtering so readers can find titles fast,
+            plus personalised collections to manage what they're reading — all
+            backed by Supabase and wrapped in an interface that stays out of the way.
+          </p>
+          <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Supabase</li></ul>
+          <div class="project__links">
+            <a href="https://bookyuniverse-zmzb.vercel.app/" class="link" target="_blank" rel="noopener">Live site <span>↗</span></a>
+            <a href="https://github.com/Soumyadeepdas2" class="link link--muted" target="_blank" rel="noopener">Code <span>↗</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project reveal" data-cat="web" data-delay="1">
+        <div class="project__thumb thumb--tells">
+          <img src="assets/tells-logo.png" alt="Tellsgroup logo — a navy speech bubble reading 'tells'" class="thumb__logo" loading="lazy" width="400" height="394" />
+          <span class="project__year">2026</span>
+        </div>
+        <div class="project__body">
+          <h3>Tellsgroup — media house</h3>
+          <p>
+            A parent company site for a network of 18 focused publications —
+            WorldTells, CricketTells, TechTells and more. I built the searchable,
+            filterable brand directory, the editorial-goals layout, and a small
+            chat mascot that greets visitors. Same stack as this portfolio:
+            no framework, just HTML, CSS and JavaScript.
+          </p>
+          <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Vercel</li></ul>
+          <div class="project__links">
+            <a href="https://tellsgroup.vercel.app" class="link" target="_blank" rel="noopener">Live site <span>↗</span></a>
+            <a href="https://instagram.com/tellsgroup" class="link link--muted" target="_blank" rel="noopener">Instagram <span>↗</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project reveal" data-cat="dsa" data-delay="2">
+        <div class="project__thumb thumb--c">
+          <svg viewBox="0 0 400 260" aria-hidden="true">
+            <circle cx="200" cy="72" r="22" class="pt-panel"/>
+            <circle cx="120" cy="160" r="22" class="pt-panel"/>
+            <circle cx="280" cy="160" r="22" class="pt-panel"/>
+            <circle cx="70" cy="226" r="16" class="pt-block"/>
+            <circle cx="170" cy="226" r="16" class="pt-block"/>
+            <path d="M200 94L120 138M200 94l80 44M120 182l-50 28M120 182l50 28" class="pt-line-s"/>
+          </svg>
+          <span class="project__year">Ongoing</span>
+        </div>
+        <div class="project__body">
+          <h3>My coding journey</h3>
+          <p>
+            300+ problems solved across LeetCode, GeeksforGeeks, CodeChef,
+            Codeforces and more — tracked in one place on Codolio, with a
+            69-day best streak and 178 active days.
+          </p>
+          <ul class="chips"><li>Java</li><li>C++</li><li>Algorithms</li></ul>
+          <div class="project__links">
+            <a href="https://codolio.com/profile/soumyadeepdas" class="link" target="_blank" rel="noopener">Codolio <span>↗</span></a>
+            <a href="https://leetcode.com/u/soumyadeepdas__" class="link link--muted" target="_blank" rel="noopener">LeetCode <span>↗</span></a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section class="section section--tint" id="education">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__kicker reveal">04 — Education</p>
+      <h2 class="section__title reveal" data-delay="1">My path so far</h2>
+      <a class="btn btn--primary btn--sm reveal" data-delay="3" href="assets/Soumyadeep_Das_Resume.pdf" download>
+        ⬇ Download résumé (PDF)
+      </a>
+    </div>
+
+    <ol class="timeline">
+      <li class="tl reveal">
+        <div class="tl__dot"></div>
+        <div class="tl__card">
+          <div class="tl__meta"><span class="tl__date">Aug 2024 — Apr 2028</span><span class="tl__type">In progress</span></div>
+          <h3>B.Tech, Computer Science &amp; Engineering</h3>
+          <p class="tl__org">Parul University · Vadodara, Gujarat</p>
+          <p>Specialising in Artificial Intelligence &amp; Machine Learning. Current CGPA 7.17. Coursework across data structures, algorithms, OOP, DBMS, operating systems and computer networks.</p>
+          <ul class="chips"><li>AI &amp; ML</li><li>DSA</li><li>DBMS</li><li>OS</li></ul>
+        </div>
+      </li>
+      <li class="tl reveal" data-delay="1">
+        <div class="tl__dot"></div>
+        <div class="tl__card">
+          <div class="tl__meta"><span class="tl__date">Apr 2020 — Jun 2024</span><span class="tl__type">Completed</span></div>
+          <h3>Secondary &amp; Higher Secondary</h3>
+          <p class="tl__org">Khejuri Adarsha Vidyapith</p>
+          <p>Class 10: 90.42% · Class 12: 67.80%. Where the interest in computers started and turned into writing actual code.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ ACHIEVEMENTS & CERTIFICATES ============ -->
+<section class="section" id="achievements">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__kicker reveal">05 — Achievements</p>
+      <h2 class="section__title reveal" data-delay="1">Milestones &amp; certificates</h2>
+      <p class="section__intro reveal" data-delay="2">
+        Verified credentials and the practice behind them.
+      </p>
+    </div>
+
+    <div class="achievements reveal">
+      <div class="ach">
+        <b class="count" data-target="300">0</b>
+        <span>Problems solved across 7 verified coding platforms</span>
+      </div>
+      <div class="ach">
+        <b class="count" data-target="69" data-exact>0</b>
+        <span>Day longest solving streak · 178 active days</span>
+      </div>
+      <div class="ach">
+        <b class="count" data-target="4" data-exact>0</b>
+        <span>Industry certifications earned</span>
+      </div>
+    </div>
+
+    <div class="posts certs">
+      <a class="post reveal" href="https://www.credly.com/badges/319505ea-b5f7-4d71-96d8-dd075491b111/public_url" target="_blank" rel="noopener">
+        <span class="post__tag">Pearson VUE</span>
+        <h3>IT Specialist — HTML &amp; CSS</h3>
+        <p>Certified in semantic markup, layout and styling fundamentals.</p>
+        <span class="post__meta">Verify on Credly ↗</span>
+      </a>
+      <a class="post reveal" data-delay="1" href="https://www.credly.com/badges/d54c9ea1-04cc-4eb9-9884-7bda975b5e5a/public_url" target="_blank" rel="noopener">
+        <span class="post__tag">Pearson VUE</span>
+        <h3>IT Specialist — JavaScript</h3>
+        <p>Certified in core language features, the DOM and event-driven logic.</p>
+        <span class="post__meta">Verify on Credly ↗</span>
+      </a>
+      <a class="post reveal" data-delay="2" href="https://courses.etrain.skillsnetwork.site/certificates/1bc015389d95434b923e6e99cac5985c" target="_blank" rel="noopener">
+        <span class="post__tag">IBM</span>
+        <h3>Python for Data Science</h3>
+        <p>Python fundamentals applied to data handling and analysis workflows.</p>
+        <span class="post__meta">View certificate ↗</span>
+      </a>
+      <a class="post reveal" href="https://www.credly.com/badges/7132b302-922d-46b0-91bd-dd0e15bd0601/public_url" target="_blank" rel="noopener">
+        <span class="post__tag">AWS Academy</span>
+        <h3>Graduate — Data Engineering</h3>
+        <p>Cloud data pipelines, storage and processing on AWS infrastructure.</p>
+        <span class="post__meta">Verify on Credly ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section section--tint" id="contact">
+  <div class="container contact">
+    <div class="contact__intro">
+      <p class="section__kicker reveal">06 — Contact</p>
+      <h2 class="section__title reveal" data-delay="1">Let's talk.</h2>
+      <p class="lead reveal" data-delay="2">
+        I'm looking for internships and happy to collaborate on anything
+        interesting. Drop me a line — I'll get back to you quickly.
+      </p>
+
+      <ul class="contact__list reveal" data-delay="3">
+        <li><span class="ci">✉</span><a href="mailto:soumyadeepdas044@gmail.com">soumyadeepdas044@gmail.com</a></li>
+        <li><span class="ci">☏</span><a href="tel:+919609005441">+91 96090 05441</a></li>
+        <li><span class="ci">◎</span><span>Vadodara, Gujarat · IST (UTC+5:30)</span></li>
+      </ul>
+
+      <div class="socials reveal" data-delay="4">
+        <a href="https://github.com/Soumyadeepdas2" class="social" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/soumyadeep-das-6a5a8331b" class="social" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://leetcode.com/soumyadeepdas__/" class="social" target="_blank" rel="noopener">LeetCode</a>
+        <a href="https://codeforces.com/profile/Soumyadeepdas_" class="social" target="_blank" rel="noopener">Codeforces</a>
+        <a href="https://codolio.com/profile/soumyadeepdas" class="social" target="_blank" rel="noopener">Codolio</a>
+      </div>
+    </div>
+
+    <form class="form reveal" data-delay="2" id="contactForm" novalidate>
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="Jane Smith" required />
+        <small class="error" data-for="name"></small>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="jane@company.com" required />
+        <small class="error" data-for="email"></small>
+      </div>
+      <div class="field">
+        <label for="subject">Subject</label>
+        <select id="subject" name="subject">
+          <option>Internship opportunity</option>
+          <option>Project collaboration</option>
+          <option>Freelance work</option>
+          <option>Just saying hi</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="A sentence or two about what you need…" required></textarea>
+        <small class="error" data-for="message"></small>
+      </div>
+      <button type="submit" class="btn btn--primary btn--block">Send message</button>
+      <p class="form__note" id="formNote" role="status"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div>
+      <a href="#home" class="brand"><span class="brand__mark">◆</span><span class="brand__text">Soumyadeep<span class="dot">.</span>Das</span></a>
+      <p class="footer__tag">CS student · Building &amp; learning in Vadodara.</p>
+    </div>
+    <nav class="footer__links" aria-label="Footer">
+      <a href="#about">About</a><a href="#work">Projects</a><a href="#education">Education</a>
+      <a href="#achievements">Achievements</a><a href="#contact">Contact</a>
+    </nav>
+    <p class="footer__copy">© <span id="year"></span> Soumyadeep Das. Handcrafted with HTML, CSS &amp; JS.</p>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Back to top">↑</button>
+
+<script src="js/main.js"></script>
+</body>
+</html>
