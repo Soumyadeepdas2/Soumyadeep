@@ -241,11 +241,36 @@
     }
   }
 
-  /* ── Problem tally ──────────────────────────────────────
-     Keep the factual value stable. Scroll reveal supplies enough motion;
-     changing the text to 1 caused crawlers to index the wrong number. */
+  /* ── Problem tally: counts 1 → 301 when it scrolls into view ──
+     Source HTML stays “301” for crawlers. We only swap the visible
+     digits once the section is on screen. */
   const tally = $('#tally');
-  if (tally) tally.textContent = tally.dataset.to || '301';
+  if (tally) {
+    const target = +tally.dataset.to || 301;
+
+    if (calm) {
+      tally.textContent = target;
+    } else if ('IntersectionObserver' in window) {
+      const once = new IntersectionObserver((es, o) => {
+        es.forEach(en => {
+          if (!en.isIntersecting) return;
+          o.disconnect();
+          tally.textContent = '1';
+          const dur = 1700, t0 = performance.now();
+          (function step(now) {
+            const p = Math.min((now - t0) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            tally.textContent = Math.max(1, Math.round(target * eased));
+            if (p < 1) requestAnimationFrame(step);
+            else tally.textContent = target;
+          })(t0);
+        });
+      }, { threshold: 0.55 });
+      once.observe(tally);
+    } else {
+      tally.textContent = target;
+    }
+  }
 
   /* ── Signature: writes itself when the footer arrives ────
      Same play sequence as signature-preview.html: class goes on both

@@ -420,8 +420,11 @@ ul,ol{ list-style:none; }
 }
 
 /* ── Record (ledger, not timeline) ──────────────────────── */
-.leder-bottom:1px solid var(--rule);
-  align-items:baseline;
+.ledger{ border-top:1px solid var(--rule); }
+.ledger__row{
+  display:grid; grid-template-columns:130px minmax(0,1fr) auto;
+  gap:24px; padding:20px 0; border-bottom:1px solid var(--rule);
+  align-items:center;
 }
 .ledger__k{
   font-family:var(--mono); font-size:10px; letter-spacing:.1em;
@@ -674,9 +677,10 @@ ul,ol{ list-style:none; }
   .project__title{ font-size:clamp(30px,9vw,42px); }
   .meta{ flex-wrap:wrap; gap:18px 30px; }
   .note__grid{ grid-template-columns:1fr; gap:0; }
-  .ledger__row{ grid-template-columns:1fr; gap:6px; padding:18px 0; }
+  .ledger__row{ grid-template-columns:1fr auto; gap:10px 16px; padding:18px 0; }
+  .ledger__k{ grid-column:1/-1; }
   .ledger__k:empty{ display:none; }
-  .ledger__t{ text-align:left; }
+  .ledger__t{ text-align:right; align-self:center; }
   .colophon{ flex-direction:column; gap:8px; }
 }
 
