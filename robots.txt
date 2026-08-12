@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://soumyadeep.space/sitemap.xml
+Sitemap: https://www.soumyadeep.space/sitemap.xml

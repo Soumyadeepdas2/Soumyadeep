@@ -19,10 +19,10 @@
   --label:    #cf644a;   /* section labels share the accent */
   --sel:      #2b2825;
 
-  --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
-  --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --read:  "Newsreader", "Iowan Old Style", Georgia, serif;
-  --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --serif: "Cormorant Garamond";
+  --sans:  "Inter";
+  --read:  "Newsreader";
+  --mono:  "JetBrains Mono";
 
   --bar:  69px;                    /* fixed masthead height */
   --gut:  clamp(20px, 5vw, 64px);
@@ -71,10 +71,11 @@ ul,ol{ list-style:none; }
 
 .skip{
   position:fixed; top:-60px; left:16px; z-index:200;
-  background:var(--accent); color:#fff; padding:10px 16px; font-size:14px;
+  background:var(--accent); color:var(--ink); padding:10px 16px; font-size:14px; font-weight:500;
   transition:top .2s;
 }
 .skip:focus{ top:16px; }
+[data-theme="light"] .skip{ color:#fff; }
 
 /* ── Masthead ───────────────────────────────────────────── */
 .masthead{
@@ -137,7 +138,6 @@ ul,ol{ list-style:none; }
 
 .toggle__disc{
   fill:currentColor;
-  transition:r .45s var(--ease);
 }
 .toggle__cut{
   /* scaled to nothing in dark mode -> nothing is cut, so it's a full sun */
@@ -155,7 +155,6 @@ ul,ol{ list-style:none; }
 }
 
 /* ── light theme: rays retract, crescent appears ── */
-[data-theme="light"] .toggle__disc{ r:6.6; }
 [data-theme="light"] .toggle__cut{
   transform:translate(3.6px,-3.4px) scale(1);
 }
@@ -229,6 +228,17 @@ ul,ol{ list-style:none; }
   max-width:48ch; font-family:var(--read); font-weight:300;
   font-size:18px; line-height:1.62; color:var(--fg-dim);
 }
+.hero-actions{
+  display:flex; flex-wrap:wrap; gap:10px 20px; margin-top:20px;
+}
+.hero-actions a{
+  font-family:var(--mono); font-size:10.5px; font-weight:500;
+  letter-spacing:.07em; text-transform:uppercase; color:var(--accent);
+  border-bottom:1px solid currentColor; padding-bottom:3px;
+  transition:color .3s var(--ease), transform .3s var(--ease);
+}
+.hero-actions a:hover,
+.hero-actions a:focus-visible{ color:var(--fg); transform:translateY(-1px); }
 
 .meta{ display:flex; gap:clamp(20px,3.4vw,48px); }
 .meta dt{
@@ -260,36 +270,48 @@ ul,ol{ list-style:none; }
   content:""; flex:1; height:1px; background:var(--hair);
 }
 
-/* ── Work index (rows, not cards) ───────────────────────── */
-.index{ border-top:1px solid var(--rule); }
-.row{ border-bottom:1px solid var(--rule); }
-.row a{
-  display:grid;
-  grid-template-columns:56px minmax(180px,1.1fr) minmax(0,1.6fr) 120px 84px;
+/* ── Project evidence (editorial rows, not cards) ───────── */
+.projects{ border-top:1px solid var(--rule); }
+.project{ padding:30px 0; border-bottom:1px solid var(--rule); }
+.project__head{
+  display:grid; grid-template-columns:56px minmax(0,1fr) 84px;
   align-items:baseline; gap:20px;
-  padding:30px 0;
-  transition:padding .55s var(--ease), color .35s;
 }
-.row a:hover{ padding-left:22px; padding-right:22px; }
-
-.row__no{
+.project__no,
+.project__year{
   font-family:var(--mono); font-size:11px; color:var(--fg-faint);
   letter-spacing:.06em;
 }
-.row__title{
+.project__year{ text-align:right; }
+.project__title{
   font-family:var(--serif); font-weight:300;
-  font-size:clamp(28px,3.9vw,48px);
-  line-height:1.04; letter-spacing:-.01em;
-  transition:color .35s var(--ease);
+  font-size:clamp(34px,4.3vw,54px); line-height:1.04;
+  letter-spacing:-.01em;
 }
-.row a:hover .row__title{ color:var(--accent); font-style:italic; }
-.row__desc{ font-size:14px; color:var(--fg-dim); line-height:1.6; }
-.row__meta,
-.row__year{
-  font-family:var(--mono); font-size:11px; color:var(--fg-faint);
-  letter-spacing:.04em;
+.project__title a{ transition:color .35s var(--ease), font-style .35s var(--ease); }
+.project:hover .project__title a,
+.project__title a:focus-visible{ color:var(--accent); font-style:italic; }
+.project__body{
+  display:grid; grid-template-columns:minmax(0,1.2fr) minmax(190px,.75fr) auto;
+  gap:clamp(24px,4vw,64px); align-items:start;
+  margin:24px 84px 0 76px;
 }
-.row__year{ text-align:right; }
+.project__label{
+  display:block; margin-bottom:7px;
+  font-family:var(--mono); font-size:10px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--label);
+}
+.project__body p{ max-width:48ch; font-size:14px; line-height:1.65; color:var(--fg-dim); }
+.project__actions{ display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
+.project__link{
+  display:inline-flex; align-items:center; white-space:nowrap;
+  font-family:var(--mono); font-size:10px; font-weight:500;
+  letter-spacing:.07em; text-transform:uppercase; color:var(--accent);
+  border:1px solid currentColor; border-radius:2px; padding:6px 10px;
+  transition:background .3s var(--ease), color .3s var(--ease);
+}
+.project__link:hover,
+.project__link:focus-visible{ background:var(--accent); color:var(--bg); }
 
 /* ── About ──────────────────────────────────────────────── */
 .band--split{
@@ -325,7 +347,7 @@ ul,ol{ list-style:none; }
 /* ── Java editor (types itself out) ─────────────────────── */
 .editor-wrap{ position:relative; margin:0 0 34px; }
 
-/* floating chips — real numbers, pulled from the résumé */
+/* floating chips — compact, recruiter-relevant proof points */
 .chip{
   position:absolute; z-index:3;
   font-family:var(--mono); font-size:10px; letter-spacing:.07em;
@@ -398,10 +420,7 @@ ul,ol{ list-style:none; }
 }
 
 /* ── Record (ledger, not timeline) ──────────────────────── */
-.ledger{ border-top:1px solid var(--rule); }
-.ledger__row{
-  display:grid; grid-template-columns:130px minmax(0,1fr) 110px;
-  gap:24px; padding:20px 0; border-bottom:1px solid var(--rule);
+.leder-bottom:1px solid var(--rule);
   align-items:baseline;
 }
 .ledger__k{
@@ -437,7 +456,8 @@ ul,ol{ list-style:none; }
 /* screen-reader-only text so each button says what it verifies */
 .sr{
   position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+  overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%);
+  white-space:nowrap; border:0;
 }
 
 .cv{
@@ -503,12 +523,11 @@ ul,ol{ list-style:none; }
   margin-top:6px; min-height:1em;
 }
 
-/* The 301 counter — orange, tabular so digits don't jitter as it climbs. */
+/* The verified problem tally — orange, with stable tabular figures. */
 .tally{
   color:var(--accent);
   /* Cormorant defaults to old-style figures — digits sit at different
-     heights, which looks unsteady while the number is climbing. Force
-     lining + tabular so every digit is the same height and width.     */
+     heights. Force lining + tabular so every digit is aligned. */
   font-variant-numeric:lining-nums tabular-nums;
   font-feature-settings:"lnum" 1, "tnum" 1;
   letter-spacing:.005em;
@@ -579,33 +598,37 @@ ul,ol{ list-style:none; }
 .colophon:hover .sign__mark{ color:var(--accent); }
 .sign__c{ display:block; white-space:nowrap; transform:translateY(-2px); }
 
-/* the pen strokes live in the mask; dashoffset 100 = fully hidden */
+/* Hide the ink until writing starts. An empty mask can fall back to
+   showing the unmasked drawing — that put Das on screen before the name. */
+.sign:not(.writing):not(.written) .sign__ink{ opacity:0; }
+
+/* dashoffset 100 = hidden. Long gap so the dash cannot wrap. */
 .sign__pen{
-  stroke-dasharray:100;
+  stroke-dasharray:100 400;
   stroke-dashoffset:100;
 }
-.sign.writing .sign__pen{
+.sign.writing .sign__pen,
+.sign__mark.writing .sign__pen{
   animation:signWrite var(--dur,1s) linear var(--delay,0s) forwards;
 }
-@keyframes signWrite{ to{ stroke-dashoffset:0; } }
+@keyframes signWrite{
+  from{ stroke-dashoffset:100; }
+  to{ stroke-dashoffset:0; }
+}
 
 /* once written, hold it visible for good */
-.sign.written .sign__pen{ stroke-dashoffset:0; }
+.sign.written .sign__pen,
+.sign__mark.written .sign__pen{ stroke-dashoffset:0; }
 
 @media (max-width:720px){
   .sign__mark{ width:146px; }
 }
 
 @media (prefers-reduced-motion:reduce){
+  .sign:not(.writing):not(.written) .sign__ink{ opacity:1; }
   .sign__pen{ stroke-dashoffset:0; }
-  .sign.writing .sign__pen{ animation:none; }
-}
-
-/* ── Entrances ──────────────────────────────────────────── */
-.up{ opacity:0; transform:translateY(18px); }
-.up.in{
-  opacity:1; transform:none;
-  transition:opacity .9s var(--ease), transform .9s var(--ease);
+  .sign.writing .sign__pen,
+  .sign__mark.writing .sign__pen{ animation:none; }
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
@@ -622,27 +645,13 @@ ul,ol{ list-style:none; }
 }
 /* Small phones (SE, 360x640): same problem, narrower. */
 @media (max-width:1000px){
-  .row a{ grid-template-columns:44px minmax(140px,1fr) 90px; }
-  .row__desc{ display:none; }
-  .row__meta{ display:none; }
   .band--split{ grid-template-columns:1fr; }
-  .doing{
-  font-family:var(--serif);
-  font-weight:300;
-  font-size:clamp(24px,3.7vw,46px);
-  line-height:1.2; letter-spacing:-.008em;
-  color:var(--fg-dim);
-  margin:-24px 0 46px;
-  min-height:1.3em;
-}
-.doing__type{ color:var(--accent); font-style:italic; }
-.doing__caret{
-  display:inline-block; width:2px; height:.82em;
-  background:var(--accent); vertical-align:-.06em; margin-left:2px;
-  animation:blink 1.05s steps(1) infinite;
-}
-
-.lede__foot{ grid-template-columns:1fr; align-items:start; }
+  .lede__foot{ grid-template-columns:1fr; align-items:start; }
+  .project__body{
+    grid-template-columns:minmax(0,1fr) minmax(180px,.7fr);
+    margin-right:0;
+  }
+  .project__actions{ grid-column:1/-1; flex-direction:row; flex-wrap:wrap; }
 }
 
 @media (max-width:720px){
@@ -657,41 +666,46 @@ ul,ol{ list-style:none; }
   .masthead__nav a{ font-family:var(--serif); font-weight:300; font-size:34px; opacity:1; padding:6px 16px; }
   .menu-btn{ display:block; z-index:2; }
   .display{ font-size:clamp(56px,20vw,110px); }
+  .hero-actions{ margin-top:17px; gap:9px 16px; }
+  .project{ padding:25px 0; }
+  .project__head{ grid-template-columns:34px minmax(0,1fr) auto; gap:10px; }
+  .project__body{ grid-template-columns:1fr; gap:18px; margin:22px 0 0; }
+  .project__actions{ grid-column:auto; }
+  .project__title{ font-size:clamp(30px,9vw,42px); }
   .meta{ flex-wrap:wrap; gap:18px 30px; }
   .note__grid{ grid-template-columns:1fr; gap:0; }
   .ledger__row{ grid-template-columns:1fr; gap:6px; padding:18px 0; }
   .ledger__k:empty{ display:none; }
   .ledger__t{ text-align:left; }
+  .colophon{ flex-direction:column; gap:8px; }
+}
 
-/* Short phones. MUST come after the general mobile block above,
-   or that block's larger .display wins and collides with the masthead. */
+/* Short phones. This follows the general mobile block so its smaller
+   display size wins and never collides with the masthead. */
 @media (max-width:720px) and (max-height:700px){
   .display{ font-size:clamp(42px,14vw,64px); }
   .doing{ font-size:clamp(17px,4.4vw,22px); margin:-8px 0 22px; }
   .lede{ padding-bottom:32px; }
   .lede__bio{ font-size:16px; }
+  .hero-actions{ margin-top:13px; }
   .meta{ gap:12px 22px; }
   .meta dd{ font-size:12.5px; }
-}
-
-  .colophon{ flex-direction:column; gap:8px; }
 }
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{ animation-duration:.01ms!important; transition-duration:.01ms!important; }
   html{ scroll-behavior:auto; }
-  .up{ opacity:1; transform:none; }
 }
 
 @media print{
-  .masthead,.note,.toggle{ display:none!important; }
+  .masthead,.note,.toggle,.cat,.hero-actions{ display:none!important; }
   body{ background:#fff; color:#000; }
   .band{ padding:20px 0; border-color:#ccc; page-break-inside:avoid; }
 }
 
 /* ── Cat helper ─────────────────────────────────────────── */
 .cat{
-  position:fixed; right:clamp(16px,2.4vw,30px); bottom:clamp(74px,8vh,104px);
+  position:fixed; right:clamp(16px,2.4vw,30px); bottom:clamp(220px,30vh,340px);
   z-index:120; display:flex; flex-direction:column; align-items:flex-end; gap:12px;
   opacity:0; visibility:hidden; transform:translateY(14px) scale(.94);
   transition:opacity .45s var(--ease), transform .45s var(--ease), visibility .45s;
@@ -796,7 +810,7 @@ ul,ol{ list-style:none; }
 @media (max-width:520px){
   .cat__hi{ display:none; }
   .cat__tab{ padding:6px; }
-  .cat{ bottom:clamp(66px,7vh,88px); }
+  .cat{ bottom:clamp(200px,28vh,300px); }
 }
 @media (prefers-reduced-motion:reduce){
   .cat__eyes{ animation:none; }

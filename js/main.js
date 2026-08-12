@@ -16,6 +16,9 @@
     root.setAttribute('data-theme', mode);
     if (save) localStorage.setItem('theme', mode);
     toggle?.setAttribute('aria-pressed', String(mode === 'light'));
+    const next = mode === 'light' ? 'dark' : 'light';
+    toggle?.setAttribute('aria-label', `Switch to ${next} theme`);
+    toggle?.setAttribute('title', `Switch to ${next} theme`);
   };
   setTheme(root.getAttribute('data-theme') || 'dark', false);
 
@@ -31,20 +34,40 @@
   const menuBtn = $('#menuBtn');
   const nav = $('#nav');
 
-  menuBtn?.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    menuBtn.textContent = open ? 'Close' : 'Menu';
-    menuBtn.setAttribute('aria-expanded', String(open));
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
+  const menuItems = () => [
+    ...$$('#nav a'), toggle, menuBtn
+  ].filter(el => el && !el.disabled);
 
-  const shut = () => {
-    nav?.classList.remove('open');
-    if (menuBtn) { menuBtn.textContent = 'Menu'; menuBtn.setAttribute('aria-expanded', 'false'); }
-    document.body.style.overflow = '';
+  const setMenu = (open, returnFocus = false) => {
+    nav?.classList.toggle('open', open);
+    if (menuBtn) {
+      menuBtn.textContent = open ? 'Close' : 'Menu';
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) requestAnimationFrame(() => nav?.querySelector('a')?.focus());
+    else if (returnFocus) menuBtn?.focus();
   };
-  $$('#nav a').forEach(a => a.addEventListener('click', shut));
-  addEventListener('keydown', e => { if (e.key === 'Escape') shut(); });
+
+  menuBtn?.addEventListener('click', () =>
+    setMenu(!nav?.classList.contains('open'))
+  );
+
+  $$('#nav a').forEach(a => a.addEventListener('click', () => setMenu(false, true)));
+  addEventListener('keydown', e => {
+    if (!nav?.classList.contains('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); setMenu(false, true); return; }
+    if (e.key !== 'Tab') return;
+
+    const items = menuItems();
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last?.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first?.focus();
+    }
+  });
 
   /* ── Masthead backdrop on scroll ───────────────────────── */
   const mast = document.querySelector('.masthead');
@@ -53,8 +76,8 @@
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      mast.classList.toggle('stuck', scrollY > 40);
       syncSpy();
+      mast?.classList.toggle('stuck', scrollY > 40);
       // the cat waits until you've started reading
       cat?.classList.toggle('ready', scrollY > innerHeight * 0.55);
       ticking = false;
@@ -73,20 +96,34 @@
   const spied = $$('main section[id]').filter(sec => navLinks.has(sec.id));
 
   let current = null;
+  let spyLineOffset = 93;
+  let pageHeight = document.documentElement.scrollHeight;
+  let sectionRanges = [];
+
+  function measureSpy() {
+    const bar = parseFloat(getComputedStyle(root).getPropertyValue('--bar')) || 69;
+    spyLineOffset = bar + 24;
+    sectionRanges = spied.map(sec => ({
+      id: sec.id,
+      top: sec.offsetTop,
+      bottom: sec.offsetTop + sec.offsetHeight
+    }));
+    pageHeight = document.documentElement.scrollHeight;
+    syncSpy();
+  }
+
   function syncSpy() {
-    if (!spied.length) return;
+    if (!sectionRanges.length) return;
 
-    const line = scrollY + parseFloat(getComputedStyle(root).getPropertyValue('--bar') || 69) + 24;
-    const atBottom = innerHeight + scrollY >= document.body.scrollHeight - 2;
-
+    const line = scrollY + spyLineOffset;
+    const atBottom = innerHeight + scrollY >= pageHeight - 2;
     let id = null;
+
     if (atBottom) {
-      id = spied[spied.length - 1].id;          // last section wins at the end
+      id = sectionRanges[sectionRanges.length - 1].id;
     } else {
-      for (const sec of spied) {
-        const top = sec.offsetTop;
-        if (line >= top && line < top + sec.offsetHeight) { id = sec.id; break; }
-      }
+      const match = sectionRanges.find(sec => line >= sec.top && line < sec.bottom);
+      id = match?.id || null;
     }
 
     if (id === current) return;
@@ -95,25 +132,9 @@
     if (id) navLinks.get(id)?.classList.add('on');
   }
 
-  syncSpy();
-  addEventListener('resize', syncSpy, { passive: true });
-
-  /* ── Reveal ────────────────────────────────────────────── */
-  const targets = $$('.band__label, .row, .prose p, .stack__group, .ledger__row, .closing__line, .mailto, .elsewhere, .note, .cv, .lede__foot');
-  if (!calm) {
-    targets.forEach((el, i) => {
-      el.classList.add('up');
-      el.style.transitionDelay = Math.min(i % 8, 6) * 45 + 'ms';
-    });
-    const rev = new IntersectionObserver((es, o) => {
-      es.forEach(en => {
-        if (!en.isIntersecting) return;
-        en.target.classList.add('in');
-        o.unobserve(en.target);
-      });
-    }, { threshold: .15, rootMargin: '0px 0px -60px 0px' });
-    targets.forEach(el => rev.observe(el));
-  }
+  measureSpy();
+  addEventListener('resize', () => requestAnimationFrame(measureSpy), { passive: true });
+  document.fonts?.ready?.then(measureSpy);
 
   /* ── Hero: what I do, typed and cycled ─────────────────── */
   const doing = $('#doing');
@@ -169,6 +190,7 @@
 
   function typeOut() {
     if (!codeEl) return;
+    codeEl.textContent = '';
 
     if (calm) {                                 // reduced motion: show it at once
       SRC.forEach(([t, c]) => {
@@ -205,63 +227,55 @@
   }
 
   if (codeEl) {
-    const once = new IntersectionObserver((es, o) => {
-      es.forEach(en => {
-        if (!en.isIntersecting) return;
-        typeOut();
-        o.disconnect();
-      });
-    }, { threshold: .3 });
-    once.observe(codeEl);
-  }
-
-  /* ── Problem tally: counts up when it scrolls into view ── */
-  const tally = $('#tally');
-  if (tally) {
-    const target = +tally.dataset.to || 301;
-
-    if (calm) {
-      tally.textContent = target;
-    } else {
-      const run = () => {
-        const dur = 1700, t0 = performance.now();
-        (function step(now) {
-          const p = Math.min((now - t0) / dur, 1);
-          // ease-out cubic: quick off the mark, settles onto the number
-          const eased = 1 - Math.pow(1 - p, 3);
-          tally.textContent = Math.max(1, Math.round(target * eased));
-          if (p < 1) requestAnimationFrame(step);
-          else tally.textContent = target;
-        })(t0);
-      };
-
+    if ('IntersectionObserver' in window) {
       const once = new IntersectionObserver((es, o) => {
         es.forEach(en => {
           if (!en.isIntersecting) return;
-          run();
+          typeOut();
           o.disconnect();
         });
-      }, { threshold: 0.6 });
-      once.observe(tally);
+      }, { threshold: .3 });
+      once.observe(codeEl);
+    } else {
+      typeOut();
     }
   }
 
-  /* ── Signature: writes itself when the footer arrives ──── */
+  /* ── Problem tally ──────────────────────────────────────
+     Keep the factual value stable. Scroll reveal supplies enough motion;
+     changing the text to 1 caused crawlers to index the wrong number. */
+  const tally = $('#tally');
+  if (tally) tally.textContent = tally.dataset.to || '301';
+
+  /* ── Signature: writes itself when the footer arrives ────
+     Same play sequence as signature-preview.html: class goes on both
+     the wrapper and the SVG, and we never leave the mask empty. */
   const sign = $('.sign');
+  const signMark = $('.sign__mark');
   if (sign) {
+    const playSign = () => {
+      sign.classList.add('writing');
+      signMark?.classList.add('writing');
+      setTimeout(() => {
+        sign.classList.add('written');
+        signMark?.classList.add('written');
+      }, 4600);
+    };
+
     if (calm) {
       sign.classList.add('written');
-    } else {
+      signMark?.classList.add('written');
+    } else if ('IntersectionObserver' in window) {
       const signOnce = new IntersectionObserver((es, o) => {
         es.forEach(en => {
           if (!en.isIntersecting) return;
-          sign.classList.add('writing');
+          playSign();
           o.disconnect();
-          // freeze it written, so a later repaint can't reset the strokes
-          setTimeout(() => sign.classList.add('written'), 3200);
         });
-      }, { threshold: 0.9 });
+      }, { threshold: 0.15, rootMargin: '0px 0px 80px 0px' });
       signOnce.observe(sign);
+    } else {
+      playSign();
     }
   }
 
@@ -455,7 +469,13 @@
   }
 
   let catStarted = false;
+  let catReturnFocus = null;
+
+  const catFocusable = () => $$('a[href], button:not([disabled])', catBox)
+    .filter(el => !el.hidden && el.getClientRects().length);
+
   function openCat() {
+    catReturnFocus = document.activeElement;
     cat.classList.add('open');
     catBox.hidden = false;
     catTab.setAttribute('aria-expanded', 'true');
@@ -474,13 +494,23 @@
     cat.classList.remove('open');
     catBox.hidden = true;
     catTab.setAttribute('aria-expanded', 'false');
-    catTab.focus();
+    (catReturnFocus?.isConnected ? catReturnFocus : catTab)?.focus();
   }
 
   catTab?.addEventListener('click', openCat);
   $('#catClose')?.addEventListener('click', closeCat);
   addEventListener('keydown', e => {
-    if (e.key === 'Escape' && cat?.classList.contains('open')) closeCat();
+    if (!cat?.classList.contains('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeCat(); return; }
+    if (e.key !== 'Tab') return;
+
+    const items = catFocusable();
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last?.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first?.focus();
+    }
   });
 
   /* ── Year ──────────────────────────────────────────────── */
