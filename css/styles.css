@@ -4,6 +4,30 @@
    No cards, no gradients, no glow.
    ═══════════════════════════════════════════════════════════ */
 
+/* ── Local typefaces ─────────────────────────────────────
+   Latin subsets are self-hosted to remove the render-blocking Google Fonts
+   request chain. Each variable file covers the weights used on this page. */
+@font-face{
+  font-family:"Cormorant Garamond"; font-style:normal; font-weight:300 400;
+  font-display:swap; src:url("/assets/fonts/cormorant-garamond-latin-normal.woff2") format("woff2");
+}
+@font-face{
+  font-family:"Cormorant Garamond"; font-style:italic; font-weight:300 400;
+  font-display:swap; src:url("/assets/fonts/cormorant-garamond-latin-italic.woff2") format("woff2");
+}
+@font-face{
+  font-family:"Newsreader"; font-style:normal; font-weight:300 400;
+  font-display:swap; src:url("/assets/fonts/newsreader-latin-normal.woff2") format("woff2");
+}
+@font-face{
+  font-family:"Inter"; font-style:normal; font-weight:300 500;
+  font-display:swap; src:url("/assets/fonts/inter-latin-normal.woff2") format("woff2");
+}
+@font-face{
+  font-family:"JetBrains Mono"; font-style:normal; font-weight:400 500;
+  font-display:swap; src:url("/assets/fonts/jetbrains-mono-latin-normal.woff2") format("woff2");
+}
+
 :root{
   /* Warm near-black + paper. Neutral greys read as "template". */
   --ink:      #0e0d0c;
@@ -19,10 +43,10 @@
   --label:    #cf644a;   /* section labels share the accent */
   --sel:      #2b2825;
 
-  --serif: "Cormorant Garamond";
-  --sans:  "Inter";
-  --read:  "Newsreader";
-  --mono:  "JetBrains Mono";
+  --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --read:  "Newsreader", "Iowan Old Style", Georgia, serif;
+  --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --bar:  69px;                    /* fixed masthead height */
   --gut:  clamp(20px, 5vw, 64px);
@@ -422,9 +446,9 @@ ul,ol{ list-style:none; }
 /* ── Record (ledger, not timeline) ──────────────────────── */
 .ledger{ border-top:1px solid var(--rule); }
 .ledger__row{
-  display:grid; grid-template-columns:130px minmax(0,1fr) auto;
+  display:grid; grid-template-columns:130px minmax(0,1fr) 110px;
   gap:24px; padding:20px 0; border-bottom:1px solid var(--rule);
-  align-items:center;
+  align-items:baseline;
 }
 .ledger__k{
   font-family:var(--mono); font-size:10px; letter-spacing:.1em;
@@ -601,38 +625,32 @@ ul,ol{ list-style:none; }
 .colophon:hover .sign__mark{ color:var(--accent); }
 .sign__c{ display:block; white-space:nowrap; transform:translateY(-2px); }
 
-/* Hide the ink until writing starts. An empty mask can fall back to
-   showing the unmasked drawing — that put Das on screen before the name. */
-.sign:not(.writing):not(.written) .sign__ink{ opacity:0; }
-
-/* dashoffset 100 = hidden. Long gap so the dash cannot wrap. */
+/* the pen strokes live in the mask; dashoffset 100 = fully hidden */
 .sign__pen{
-  stroke-dasharray:100 400;
+  stroke-dasharray:100;
   stroke-dashoffset:100;
 }
-.sign.writing .sign__pen,
-.sign__mark.writing .sign__pen{
+/* The surname uses its own centerline guides. A slightly wider reveal keeps
+   every edge of the original ink visible without changing the signature. */
+.sign__pen--das{ stroke-width:58; }
+.sign.writing .sign__pen{
   animation:signWrite var(--dur,1s) linear var(--delay,0s) forwards;
 }
-@keyframes signWrite{
-  from{ stroke-dashoffset:100; }
-  to{ stroke-dashoffset:0; }
-}
+@keyframes signWrite{ to{ stroke-dashoffset:0; } }
 
 /* once written, hold it visible for good */
-.sign.written .sign__pen,
-.sign__mark.written .sign__pen{ stroke-dashoffset:0; }
+.sign.written .sign__pen{ stroke-dashoffset:0; }
 
 @media (max-width:720px){
   .sign__mark{ width:146px; }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .sign:not(.writing):not(.written) .sign__ink{ opacity:1; }
   .sign__pen{ stroke-dashoffset:0; }
-  .sign.writing .sign__pen,
-  .sign__mark.writing .sign__pen{ animation:none; }
+  .sign.writing .sign__pen{ animation:none; }
 }
+
+/* Content and divider lines remain stationary while the page scrolls. */
 
 /* ── Responsive ─────────────────────────────────────────── */
 /* Short laptop screens: shrink the display so the hero fits one screen. */
@@ -677,10 +695,9 @@ ul,ol{ list-style:none; }
   .project__title{ font-size:clamp(30px,9vw,42px); }
   .meta{ flex-wrap:wrap; gap:18px 30px; }
   .note__grid{ grid-template-columns:1fr; gap:0; }
-  .ledger__row{ grid-template-columns:1fr auto; gap:10px 16px; padding:18px 0; }
-  .ledger__k{ grid-column:1/-1; }
+  .ledger__row{ grid-template-columns:1fr; gap:6px; padding:18px 0; }
   .ledger__k:empty{ display:none; }
-  .ledger__t{ text-align:right; align-self:center; }
+  .ledger__t{ text-align:left; }
   .colophon{ flex-direction:column; gap:8px; }
 }
 
@@ -709,7 +726,7 @@ ul,ol{ list-style:none; }
 
 /* ── Cat helper ─────────────────────────────────────────── */
 .cat{
-  position:fixed; right:clamp(16px,2.4vw,30px); bottom:clamp(220px,30vh,340px);
+  position:fixed; right:clamp(16px,2.4vw,30px); bottom:clamp(74px,8vh,104px);
   z-index:120; display:flex; flex-direction:column; align-items:flex-end; gap:12px;
   opacity:0; visibility:hidden; transform:translateY(14px) scale(.94);
   transition:opacity .45s var(--ease), transform .45s var(--ease), visibility .45s;
@@ -814,7 +831,7 @@ ul,ol{ list-style:none; }
 @media (max-width:520px){
   .cat__hi{ display:none; }
   .cat__tab{ padding:6px; }
-  .cat{ bottom:clamp(200px,28vh,300px); }
+  .cat{ bottom:clamp(66px,7vh,88px); }
 }
 @media (prefers-reduced-motion:reduce){
   .cat__eyes{ animation:none; }

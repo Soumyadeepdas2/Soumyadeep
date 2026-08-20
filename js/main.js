@@ -241,66 +241,33 @@
     }
   }
 
-  /* ── Problem tally: counts 1 → 301 when it scrolls into view ──
-     Source HTML stays “301” for crawlers. We only swap the visible
-     digits once the section is on screen. */
+  /* ── Problem tally ──────────────────────────────────────
+     Keep the factual value stable; changing it to 1 during an animation
+     caused crawlers to index the wrong number. */
   const tally = $('#tally');
-  if (tally) {
-    const target = +tally.dataset.to || 301;
+  if (tally) tally.textContent = tally.dataset.to || '301';
 
-    if (calm) {
-      tally.textContent = target;
-    } else if ('IntersectionObserver' in window) {
-      const once = new IntersectionObserver((es, o) => {
-        es.forEach(en => {
-          if (!en.isIntersecting) return;
-          o.disconnect();
-          tally.textContent = '1';
-          const dur = 1700, t0 = performance.now();
-          (function step(now) {
-            const p = Math.min((now - t0) / dur, 1);
-            const eased = 1 - Math.pow(1 - p, 3);
-            tally.textContent = Math.max(1, Math.round(target * eased));
-            if (p < 1) requestAnimationFrame(step);
-            else tally.textContent = target;
-          })(t0);
-        });
-      }, { threshold: 0.55 });
-      once.observe(tally);
-    } else {
-      tally.textContent = target;
-    }
-  }
-
-  /* ── Signature: writes itself when the footer arrives ────
-     Same play sequence as signature-preview.html: class goes on both
-     the wrapper and the SVG, and we never leave the mask empty. */
+  /* ── Signature: writes itself when the footer arrives ──── */
   const sign = $('.sign');
-  const signMark = $('.sign__mark');
   if (sign) {
-    const playSign = () => {
-      sign.classList.add('writing');
-      signMark?.classList.add('writing');
-      setTimeout(() => {
-        sign.classList.add('written');
-        signMark?.classList.add('written');
-      }, 4600);
-    };
-
     if (calm) {
       sign.classList.add('written');
-      signMark?.classList.add('written');
-    } else if ('IntersectionObserver' in window) {
-      const signOnce = new IntersectionObserver((es, o) => {
-        es.forEach(en => {
-          if (!en.isIntersecting) return;
-          playSign();
-          o.disconnect();
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px 80px 0px' });
-      signOnce.observe(sign);
     } else {
-      playSign();
+      // Only enhanced pages begin hidden; without JS the full name stays visible.
+      sign.classList.add('enhanced');
+      if ('IntersectionObserver' in window) {
+        const signOnce = new IntersectionObserver((es, o) => {
+          es.forEach(en => {
+            if (!en.isIntersecting) return;
+            sign.classList.add('writing');
+            o.disconnect();
+            setTimeout(() => sign.classList.add('written'), 3550);
+          });
+        }, { threshold: 0.9 });
+        signOnce.observe(sign);
+      } else {
+        sign.classList.add('written');
+      }
     }
   }
 
@@ -454,13 +421,13 @@
 
   const ASKS = [
     { q: 'Available?', a: "Yes — he's looking for a <b>Summer 2027 internship</b>, and open to interesting collaborations any time. Best route is <a href=\"mailto:soumyadeepdas044@gmail.com\">soumyadeepdas044@gmail.com</a>." },
-    { q: 'What has he built?', a: "Two things worth your time: <b>BookyUniverse</b>, a digital library with live search and personal collections, and <b>Tellsgroup</b>, the parent site for eighteen media brands. Both are live — see <a href=\"#projects\">Projects</a>." },
-    { q: 'Tech stack?', a: "Java and C++ for algorithms, JavaScript for the web. Also Python, MySQL, MongoDB, Supabase, Git and AWS. Full list under <a href=\"#skills\">Skills</a>." },
+    { q: 'What has he built?', a: "Three live products: <b>hushh</b>, private realtime messaging built around Chat IDs instead of phone numbers or email; <b>BookyUniverse</b>, a searchable digital library with personal collections; and <b>Tellsgroup</b>, one searchable home for eighteen media brands. See <a href=\"#projects\">Projects</a>." },
+    { q: 'Tech stack?', a: "Java and C++ for algorithms; JavaScript and React for the web. Also Python, MySQL, MongoDB, Supabase Realtime, Git and AWS. Full list under <a href=\"#skills\">Skills</a>." },
     { q: 'Studying what?', a: "<b>B.Tech in Computer Science</b> at Parul University, Vadodara — specialising in AI &amp; ML, graduating 2028. CGPA 7.17." },
     { q: 'Any code cred?', a: "<b>301 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 178 active days, longest streak 69. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
     { q: 'Résumé?', a: "Right here — <a href=\"assets/Soumyadeep_Das_Resume.pdf\" download>download the PDF</a>. One page, no fluff." },
     { q: 'Where is he?', a: "Vadodara, Gujarat, India — that's IST, UTC+5:30. Happy to work remotely." },
-    { q: 'Are you a real cat?', a: "What do you think? 😏 Ask him when you meet in real. Meow Meow🐾" }
+    { q: 'Are you a real cat?', a: "I'm a few lines of JavaScript in a trench coat. No API, no training data, just answers Soumyadeep wrote himself. 🐾" }
   ];
 
   function bubble(html, who) {
