@@ -179,7 +179,7 @@
     ['  String', 'k'], [' campus = ', ''], ['"Parul University"', 's'], [';\n', ''],
     ['  String', 'k'], ['[] stack = { ', ''], ['"Java"', 's'], [', ', ''], ['"C++"', 's'], [',\n', ''],
     ['                     ', ''], ['"Python"', 's'], [', ', ''], ['"JS"', 's'], [' };\n', ''],
-    ['  int', 'k'], [' problemsSolved = ', ''], ['301', 'n'], [';\n\n', ''],
+    ['  int', 'k'], [' problemsSolved = ', ''], ['400', 'n'], [';\n\n', ''],
     ['  void', 'k'], [' ', ''], ['build', 'f'], ['(Idea idea) {\n', ''],
     ['    while', 'k'], [' (!idea.', ''], ['works', 'f'], ['()) {\n', ''],
     ['      idea.', ''], ['debug', 'f'], ['();  ', ''], ['// this is the job\n', 'c'],
@@ -245,7 +245,7 @@
      Keep the factual value stable; changing it to 1 during an animation
      caused crawlers to index the wrong number. */
   const tally = $('#tally');
-  if (tally) tally.textContent = tally.dataset.to || '301';
+  if (tally) tally.textContent = tally.dataset.to || '400';
 
   /* ── Signature: writes itself when the footer arrives ──── */
   const sign = $('.sign');
@@ -424,7 +424,7 @@
     { q: 'What has he built?', a: "Three live products: <b>hushh</b>, private realtime messaging built around Chat IDs instead of phone numbers or email; <b>BookyUniverse</b>, a searchable digital library with personal collections; and <b>Tellsgroup</b>, one searchable home for eighteen media brands. See <a href=\"#projects\">Projects</a>." },
     { q: 'Tech stack?', a: "Java and C++ for algorithms; JavaScript and React for the web. Also Python, MySQL, MongoDB, Supabase Realtime, Git and AWS. Full list under <a href=\"#skills\">Skills</a>." },
     { q: 'Studying what?', a: "<b>B.Tech in Computer Science</b> at Parul University, Vadodara — specialising in AI &amp; ML, graduating 2028. CGPA 7.17." },
-    { q: 'Any code cred?', a: "<b>301 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 178 active days, longest streak 69. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
+    { q: 'Any code cred?', a: "<b>400 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 178 active days, longest streak 69. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
     { q: 'Résumé?', a: "Right here — <a href=\"assets/Soumyadeep_Das_Resume.pdf\" download>download the PDF</a>. One page, no fluff." },
     { q: 'Where is he?', a: "Vadodara, Gujarat, India — that's IST, UTC+5:30. Happy to work remotely." },
     { q: 'Are you a real cat?', a: "I'm a few lines of JavaScript in a trench coat. No API, no training data, just answers Soumyadeep wrote himself. 🐾" }
