@@ -489,7 +489,7 @@ ul,ol{ list-style:none; }
 
 .cv{
   display:inline-flex; align-items:center; gap:12px; margin-top:36px;
-  background:var(--accent); color:var(--bg);
+  background:transparent; color:var(--accent);
   border:1px solid var(--accent); border-radius:2px;
   padding:10px 14px;
   font-family:var(--sans); font-size:13px; font-weight:400;
@@ -497,7 +497,7 @@ ul,ol{ list-style:none; }
   transition:background .3s var(--ease), color .3s var(--ease);
 }
 .cv:hover,
-.cv:focus-visible{ background:transparent; color:var(--accent); }
+.cv:focus-visible{ background:var(--accent); color:var(--bg); }
 .cv__ext{
   font-family:var(--mono); font-size:9.5px; color:inherit; opacity:.78;
   border-left:1px solid currentColor; padding-left:12px;
