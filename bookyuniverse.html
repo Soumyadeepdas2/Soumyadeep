@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookyUniverse — Soumyadeep Das</title>
+<meta name="description" content="BookyUniverse is a focused digital library: search, filter and save ebooks, then read them on the page. JavaScript, Supabase, Vercel.">
+<link rel="canonical" href="https://www.soumyadeep.space/bookyuniverse">
+<meta name="author" content="Soumyadeep Das">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060b16" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.soumyadeep.space/bookyuniverse">
+<meta property="og:title" content="BookyUniverse — Soumyadeep Das">
+<meta property="og:description" content="A digital library you can search, filter, save and read without leaving the page.">
+<meta property="og:image" content="https://www.soumyadeep.space/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=13">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', s || 'dark');
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <a class="masthead__name" href="/">Soumyadeep&nbsp;Das</a>
+  <nav class="masthead__nav" id="nav" aria-label="Sections">
+    <a href="/#projects">Projects</a>
+    <a href="/#skills">Skills</a>
+    <a href="/#education">Education</a>
+    <a href="/#achievements">Achievements</a>
+    <a href="/#contact">Contact</a>
+  </nav>
+  <button class="toggle" id="themeToggle" aria-label="Switch theme" aria-pressed="false" title="Switch theme">
+    <svg class="toggle__svg" viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <mask id="moonCut">
+          <rect width="24" height="24" fill="#fff"/>
+          <circle class="toggle__cut" cx="12" cy="12" r="5.6" fill="#000"/>
+        </mask>
+      </defs>
+      <circle class="toggle__disc" cx="12" cy="12" r="5.6" mask="url(#moonCut)"/>
+      <g class="toggle__rays">
+        <line x1="12" y1="3.8" x2="12" y2="1.4"/>
+        <line x1="17.80" y1="6.20" x2="19.50" y2="4.51"/>
+        <line x1="20.20" y1="12" x2="22.60" y2="12"/>
+        <line x1="17.80" y1="17.80" x2="19.50" y2="19.50"/>
+        <line x1="12" y1="20.20" x2="12" y2="22.60"/>
+        <line x1="6.20" y1="17.80" x2="4.51" y2="19.50"/>
+        <line x1="3.80" y1="12" x2="1.40" y2="12"/>
+        <line x1="6.20" y1="6.20" x2="4.51" y2="4.51"/>
+      </g>
+    </svg>
+  </button>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">Menu</button>
+</header>
+
+<main id="main" class="case">
+  <p class="case__kicker"><span class="tag__dot" aria-hidden="true"></span> Project 02 · 2026</p>
+  <h1 class="case__title">Booky<em>Universe</em></h1>
+  <p class="case__lead">A digital library you can search, save and read without leaving the page.</p>
+
+  <figure class="case__shot">
+    <img src="assets/bookyuniverse.jpg" width="1600" height="770" alt="BookyUniverse homepage: Read your ebooks in one focused digital library.">
+  </figure>
+
+  <div class="case__grid">
+    <article class="case__block">
+      <h2>The problem</h2>
+      <p>Ebooks usually live in scattered files, folders and tabs. Finding a title, remembering where you stopped, and actually reading it means jumping between apps. A growing shelf gets harder to use, not easier.</p>
+    </article>
+    <article class="case__block">
+      <h2>How it solves it</h2>
+      <p>One shelf. Search by title or author, filter by subject, save a personal collection, and open the book in the same page. The catalogue lives in Supabase so the library can grow without rebuilding the front end.</p>
+    </article>
+    <article class="case__block">
+      <h2>Built with</h2>
+      <ul class="case__tech">
+        <li>JavaScript</li>
+        <li>Supabase</li>
+        <li>Vercel</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="case__actions">
+    <a class="project__link" href="/#projects">Portfolio</a>
+    <a class="project__link" href="https://bookyuniverse.vercel.app/" target="_blank" rel="noopener">Live project<span aria-hidden="true"> ↗</span></a>
+    <a class="project__link" href="https://github.com/Soumyadeepdas2" target="_blank" rel="noopener">Source code<span aria-hidden="true"> ↗</span></a>
+  </div>
+</main>
+
+<footer class="colophon">
+  <span>© <span id="year"></span> Soumyadeep Das</span>
+  <span>Vadodara, Gujarat · <span id="clock"></span> IST</span>
+  <span>Hand-built with HTML, CSS &amp; JavaScript</span>
+</footer>
+
+<script src="js/main.js?v=12"></script>
+</body>
+</html>

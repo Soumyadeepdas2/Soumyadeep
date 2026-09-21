@@ -2,6 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/hushh", "destination": "/hushhconnect", "permanent": true },
+    { "source": "/hushh.html", "destination": "/hushhconnect", "permanent": true },
+    { "source": "/hushhconnect.html", "destination": "/hushhconnect", "permanent": true },
+    { "source": "/bookyuniverse.html", "destination": "/bookyuniverse", "permanent": true },
+    { "source": "/tellsgroup.html", "destination": "/tellsgroup", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/assets/fonts/(.*)",
