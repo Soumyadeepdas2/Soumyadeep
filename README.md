@@ -14,6 +14,9 @@ Deploy the project root to Vercel. The site expects `www.soumyadeep.space` to re
 - `js/main.js` — progressive interactions and contact form handling
 - `assets/` — résumé, social preview, favicon and self-hosted fonts
 - `vercel.json` — caching and security headers
+- `data/practice.json` — Codolio heatmap (refreshed daily)
+- `scripts/fetch_codolio.py` — writes that JSON from Codolio’s public API
+- `.github/workflows/update-practice.yml` — runs the script once a day
 
 ## Adding another project
 
@@ -40,6 +43,20 @@ Also in `index.html`, update the `live products` chip, hero/skills copy and SEO
 - **`js/main.js`** — update the cat helper’s `What has he built?` answer.
 - **`assets/og-image.png`** — update it when the social preview should feature the new project.
 - **Résumé PDF** — update separately if the project should appear in the résumé.
+
+## Practice heatmap
+
+The Achievements grid is **not** live-fetched in the browser (CORS + CSP). A GitHub Action pulls Codolio once a day and commits `data/practice.json`. The page reads that file. **Solved, active days, streak and the heatmap all come from Codolio’s totals.**
+
+1. Push this repo to GitHub and connect it to Vercel so Action commits redeploy.
+2. Enable Actions. Run **Update practice heatmap** once via *Run workflow*.
+3. After that it runs daily at 06:00 IST. If Codolio is down the job fails and the last good JSON stays.
+
+Local refresh:
+
+```bash
+python3 scripts/fetch_codolio.py
+```
 
 ## Before publishing
 

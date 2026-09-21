@@ -179,7 +179,7 @@
     ['  String', 'k'], [' campus = ', ''], ['"Parul University"', 's'], [';\n', ''],
     ['  String', 'k'], ['[] stack = { ', ''], ['"Java"', 's'], [', ', ''], ['"C++"', 's'], [',\n', ''],
     ['                     ', ''], ['"Python"', 's'], [', ', ''], ['"JS"', 's'], [' };\n', ''],
-    ['  int', 'k'], [' problemsSolved = ', ''], ['400', 'n'], [';\n\n', ''],
+    ['  int', 'k'], [' problemsSolved = ', ''], ['490', 'n'], [';\n\n', ''],
     ['  void', 'k'], [' ', ''], ['build', 'f'], ['(Idea idea) {\n', ''],
     ['    while', 'k'], [' (!idea.', ''], ['works', 'f'], ['()) {\n', ''],
     ['      idea.', ''], ['debug', 'f'], ['();  ', ''], ['// this is the job\n', 'c'],
@@ -243,9 +243,116 @@
 
   /* ── Problem tally ──────────────────────────────────────
      Keep the factual value stable; changing it to 1 during an animation
-     caused crawlers to index the wrong number. */
+     caused crawlers to index the wrong number. The live figure is
+     Codolio’s total, hydrated from data/practice.json. */
   const tally = $('#tally');
-  if (tally) tally.textContent = tally.dataset.to || '400';
+  if (tally) tally.textContent = tally.dataset.to || '490';
+
+  /* ── Practice heatmap ───────────────────────────────────
+     data/practice.json is written once a day by GitHub Actions
+     (scripts/fetch_codolio.py). The page never talks to Codolio. */
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const DOWS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  const isoDay = d => d.toISOString().slice(0, 10);
+  const levelOf = n => n <= 0 ? 0 : n === 1 ? 1 : n <= 3 ? 2 : n <= 7 ? 3 : 4;
+
+  function paintHeat(calendar) {
+    const rootEl = $('#heat');
+    if (!rootEl) return;
+
+    const today = new Date();
+    const end = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+    const start = new Date(end);
+    start.setUTCDate(start.getUTCDate() - 52 * 7 - start.getUTCDay());
+
+    const weeks = document.createElement('div');
+    weeks.className = 'heat__weeks';
+
+    const dows = document.createElement('div');
+    dows.className = 'heat__dows';
+    dows.setAttribute('aria-hidden', 'true');
+    ['', 'Sun', '', 'Tue', '', 'Thu', '', 'Sat'].forEach(label => {
+      const s = document.createElement('span');
+      s.textContent = label;
+      dows.appendChild(s);
+    });
+
+    let cursor = new Date(start);
+    let lastMonth = -1;
+    while (cursor <= end) {
+      const week = document.createElement('div');
+      week.className = 'heat__week';
+      const mo = document.createElement('span');
+      mo.className = 'heat__mo';
+      if (cursor.getUTCMonth() !== lastMonth) {
+        mo.textContent = MONTHS[cursor.getUTCMonth()];
+        lastMonth = cursor.getUTCMonth();
+      }
+      week.appendChild(mo);
+
+      for (let i = 0; i < 7; i++) {
+        const key = isoDay(cursor);
+        const cell = document.createElement('i');
+        cell.className = 'heat__cell';
+        if (cursor > end) {
+          cell.style.visibility = 'hidden';
+        } else {
+          const n = calendar[key] || 0;
+          cell.dataset.l = String(levelOf(n));
+          const label = n
+            ? `${n} ${n === 1 ? 'solve' : 'solves'} on ${DOWS[cursor.getUTCDay()]} ${MONTHS[cursor.getUTCMonth()]} ${cursor.getUTCDate()}`
+            : `No solves on ${DOWS[cursor.getUTCDay()]} ${MONTHS[cursor.getUTCMonth()]} ${cursor.getUTCDate()}`;
+          cell.title = label;
+          cell.setAttribute('aria-label', label);
+        }
+        week.appendChild(cell);
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+      }
+      weeks.appendChild(week);
+    }
+
+    rootEl.replaceChildren(dows, weeks);
+  }
+
+  function applyPractice(j) {
+    if (!j) return;
+    const solved = j.solved;
+    const days = j.activeDays;
+    const streak = j.currentStreak;
+    const max = j.maxStreak;
+    const solvedText = solved != null ? String(solved) : null;
+
+    if (solvedText) {
+      if (tally) {
+        tally.dataset.to = solvedText;
+        tally.textContent = solvedText;
+      }
+      const chip = $('#solvedChip');
+      if (chip) chip.textContent = solvedText + ' solved';
+      SRC.forEach(chunk => {
+        if (chunk[1] === 'n' && /^\d+$/.test(chunk[0])) chunk[0] = solvedText;
+      });
+      const typed = codeEl && codeEl.querySelector('.n');
+      if (typed && /^\d+$/.test(typed.textContent)) typed.textContent = solvedText;
+    }
+
+    const detail = $('#practiceDetail');
+    if (detail && days != null && streak != null) {
+      const extra = max && max !== streak ? `, longest ${max}` : '';
+      detail.textContent = `${days} active days, current streak ${streak}${extra}.`;
+    }
+    const cred = ASKS.find(a => a.q === 'Any code cred?');
+    if (cred) {
+      const n = solvedText || '490';
+      const dayBit = days != null
+        ? `${days} active days, current streak ${streak}`
+        : '219 active days, current streak 106';
+      cred.a = `<b>${n} problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. ${dayBit}. All verifiable on <a href="https://codolio.com/profile/soumyadeepdas" target="_blank" rel="noopener">Codolio</a>.`;
+    }
+    if (j.calendar) paintHeat(j.calendar);
+    requestAnimationFrame(measureSpy);
+  }
 
   /* ── Signature: writes itself when the footer arrives ──── */
   const sign = $('.sign');
@@ -424,11 +531,16 @@
     { q: 'What has he built?', a: "Three live products: <b>hushh</b>, private realtime messaging built around Chat IDs instead of phone numbers or email; <b>BookyUniverse</b>, a searchable digital library with personal collections; and <b>Tellsgroup</b>, one searchable home for eighteen media brands. See <a href=\"#projects\">Projects</a>." },
     { q: 'Tech stack?', a: "Java and C++ for algorithms; JavaScript and React for the web. Also Python, MySQL, MongoDB, Supabase Realtime, Git and AWS. Full list under <a href=\"#skills\">Skills</a>." },
     { q: 'Studying what?', a: "<b>B.Tech in Computer Science</b> at Parul University, Vadodara — specialising in AI &amp; ML, graduating 2028. CGPA 7.17." },
-    { q: 'Any code cred?', a: "<b>400 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 178 active days, longest streak 69. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
+    { q: 'Any code cred?', a: "<b>490 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 219 active days, current streak 106. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
     { q: 'Résumé?', a: "Right here — <a href=\"assets/Soumyadeep_Das_Resume.pdf\" download>download the PDF</a>. One page, no fluff." },
     { q: 'Where is he?', a: "Vadodara, Gujarat, India — that's IST, UTC+5:30. Happy to work remotely." },
     { q: 'Are you a real cat?', a: "I'm a few lines of JavaScript in a trench coat. No API, no training data, just answers Soumyadeep wrote himself. 🐾" }
   ];
+
+  fetch('data/practice.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(applyPractice)
+    .catch(() => {});
 
   function bubble(html, who) {
     const el = document.createElement('div');

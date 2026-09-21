@@ -7,29 +7,31 @@
 <meta name="description" content="Soumyadeep Das is a computer science student in Vadodara building web products — hushh, BookyUniverse and Tellsgroup — and solving algorithms.">
 <link rel="canonical" href="https://www.soumyadeep.space/">
 <meta name="author" content="Soumyadeep Das">
-<meta name="theme-color" content="#f2efe9" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0e0d0c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060b16" media="(prefers-color-scheme: dark)">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.soumyadeep.space/">
 <meta property="og:title" content="Soumyadeep Das — Developer, Vadodara">
-<meta property="og:description" content="Computer science student building web products. hushh, BookyUniverse, Tellsgroup and 500 algorithm problems.">
+<meta property="og:description" content="Computer science student building web products. hushh, BookyUniverse, Tellsgroup and 490 algorithm problems.">
 <meta property="og:image" content="https://www.soumyadeep.space/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Soumyadeep Das — computer science student available for internships">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Soumyadeep Das — Developer, Vadodara">
-<meta name="twitter:description" content="Computer science student building web products. hushh, BookyUniverse, Tellsgroup and 500 algorithm problems.">
+<meta name="twitter:description" content="Computer science student building web products. hushh, BookyUniverse, Tellsgroup and 490 algorithm problems.">
 <meta name="twitter:image" content="https://www.soumyadeep.space/assets/og-image.png">
 <meta name="twitter:image:alt" content="Soumyadeep Das — computer science student available for internships">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 
 <!-- The two hero faces are local and preloaded: no third-party font chain delays the LCP. -->
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css?v=11">
 
 <script>
   (function () {
@@ -107,7 +109,7 @@
       <p class="lede__bio">
         I'm a computer science undergraduate in Vadodara who learns by shipping.
         I built a private messenger, a digital library, and a media network of
-        eighteen publications — then spent four hundred nights arguing with
+        eighteen publications — then spent five hundred nights arguing with
         algorithms. Everything here is live and clickable.
       </p>
       <nav class="hero-actions" aria-label="Portfolio actions">
@@ -238,7 +240,7 @@
 
   <div class="stack">
     <div class="editor-wrap">
-      <span class="chip chip--a">500 solved</span>
+      <span class="chip chip--a" id="solvedChip">490 solved</span>
       <span class="chip chip--b">3 live products</span>
 
       <figure class="editor" aria-label="A Java class describing Soumyadeep Das">
@@ -366,9 +368,9 @@
     <div class="ledger__row">
       <span class="ledger__k">Practice</span>
       <span class="ledger__v">
-        <strong><span class="tally" id="tally" data-to="500">500</span> problems solved</strong>
+        <strong><span class="tally" id="tally" data-to="490">490</span> problems solved</strong>
         LeetCode, GeeksforGeeks, CodeChef, Codeforces, HackerRank, InterviewBit, AtCoder.
-        178 active days, longest streak 69.
+        <span id="practiceDetail">219 active days, current streak 106.</span>
       </span>
       <span class="ledger__t">
         <a class="verify" href="https://codolio.com/profile/soumyadeepdas" target="_blank" rel="noopener">
@@ -376,6 +378,14 @@
         </a>
       </span>
     </div>
+  </div>
+
+  <div class="heat-wrap" id="practice">
+    <div class="heat__bar">
+      <span class="heat__caption">Last 12 months — updates daily from Codolio</span>
+      <span class="heat__scale" aria-hidden="true">Less<i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i>More</span>
+    </div>
+    <div class="heat" id="heat" role="img" aria-label="Daily practice heatmap across seven platforms"></div>
   </div>
 </section>
 
@@ -522,6 +532,6 @@
   </div>
 </div>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=9"></script>
 </body>
 </html>
