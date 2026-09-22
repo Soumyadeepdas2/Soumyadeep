@@ -31,7 +31,7 @@
 <!-- The two hero faces are local and preloaded: no third-party font chain delays the LCP. -->
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=15">
+<link rel="stylesheet" href="css/styles.css?v=21">
 
 <script>
   (function () {
@@ -94,36 +94,44 @@
 
 <!-- ─────────────  OPENING  ───────────── -->
 <section class="lede" id="top">
-  <h1 class="display">
-    Soumyadeep<br>
-    <em>Das</em>
-  </h1>
+  <div class="lede__hero">
+    <div class="lede__copy">
+      <h1 class="display">
+        Soumyadeep<br>
+        <em>Das</em>
+      </h1>
 
-  <p class="doing">
-    I <span class="doing__type" id="doing" aria-hidden="true">build things for the web.</span><span class="doing__caret" id="doingCaret" aria-hidden="true"></span>
-    <span class="sr">build web products, solve algorithms, and ship projects that work.</span>
-  </p>
-
-  <div class="lede__foot">
-    <div class="lede__intro">
-      <p class="lede__bio">
-        I'm a computer science undergraduate in Vadodara who learns by shipping.
-        I built a private messenger, a digital library, and a media network of
-        eighteen publications — then spent five hundred nights arguing with
-        algorithms. Everything here is live and clickable.
+      <p class="doing">
+        I <span class="doing__type" id="doing" aria-hidden="true">build things for the web.</span><span class="doing__caret" id="doingCaret" aria-hidden="true"></span>
+        <span class="sr">build web products, solve algorithms, and ship projects that work.</span>
       </p>
-      <nav class="hero-actions" aria-label="Portfolio actions">
-        <a href="#projects">View projects<span aria-hidden="true"> ↓</span></a>
-        <a href="assets/Soumyadeep_Das_Resume.pdf" download>Résumé<span aria-hidden="true"> ↓</span></a>
-        <a href="mailto:soumyadeepdas044@gmail.com">Email me<span aria-hidden="true"> ↗</span></a>
-      </nav>
+
+      <div class="lede__intro">
+        <p class="lede__bio">
+          I'm a computer science undergraduate in Vadodara who learns by shipping.
+          I built a private messenger, a digital library, and a media network of
+          eighteen publications — then spent five hundred nights arguing with
+          algorithms. Everything here is live and clickable.
+        </p>
+        <nav class="hero-actions" aria-label="Portfolio actions">
+          <a href="#projects">View projects<span aria-hidden="true"> ↓</span></a>
+          <a href="assets/Soumyadeep_Das_Resume.pdf" download>Résumé<span aria-hidden="true"> ↓</span></a>
+          <a href="mailto:soumyadeepdas044@gmail.com">Email me<span aria-hidden="true"> ↗</span></a>
+        </nav>
+      </div>
+
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Student, developer</dd></div>
+        <div><dt>Place</dt><dd>Vadodara, IN</dd></div>
+        <div><dt>Focus</dt><dd>Web, AI &amp; ML</dd></div>
+        <div><dt>Since</dt><dd>2024</dd></div>
+      </dl>
     </div>
-    <dl class="meta">
-      <div><dt>Role</dt><dd>Student, developer</dd></div>
-      <div><dt>Place</dt><dd>Vadodara, IN</dd></div>
-      <div><dt>Focus</dt><dd>Web, AI &amp; ML</dd></div>
-      <div><dt>Since</dt><dd>2024</dd></div>
-    </dl>
+
+    <div class="lede__pix" id="pixPortrait">
+      <canvas id="pixCanvas" aria-hidden="true"></canvas>
+      <img class="lede__pix-fallback" src="assets/portrait.webp" width="720" height="980" alt="Soumyadeep Das">
+    </div>
   </div>
 </section>
 
@@ -537,5 +545,6 @@
 </div>
 
 <script src="js/main.js?v=24"></script>
+<script src="js/portrait.js?v=4"></script>
 </body>
 </html>
