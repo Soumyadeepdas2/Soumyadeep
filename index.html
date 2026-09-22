@@ -413,13 +413,15 @@
       <li><a href="https://wa.me/6285716917164" target="_blank" rel="noopener">WhatsApp</a></li>
     </ul>
 
-    <!-- Sends via FormSubmit (no backend, no key). The first message you
-         receive asks you to click "Activate Form" once — after that every
-         submission lands in your inbox. Swap the address to change where. -->
+    <!-- Sends via Web3Forms. Stay on this page. Get a free access key at
+         https://web3forms.com (use soumyadeepdas044@gmail.com) and paste it
+         in data-access-key. Without the key, Send opens a mail app instead. -->
     <form class="note" id="contactForm" novalidate
-          data-endpoint="https://formsubmit.co/ajax/soumyadeepdas044@gmail.com"
+          data-endpoint="https://api.web3forms.com/submit"
+          data-access-key="6b8d7823-494c-4d5b-bf8b-b176d7e7460a"
           data-fallback-email="soumyadeepdas044@gmail.com">
       <p class="note__label">Or leave a note</p>
+      <input type="checkbox" name="botcheck" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="note__grid">
         <label class="fld">
           <span>Name</span>
@@ -534,6 +536,6 @@
   </div>
 </div>
 
-<script src="js/main.js?v=21"></script>
+<script src="js/main.js?v=23"></script>
 </body>
 </html>

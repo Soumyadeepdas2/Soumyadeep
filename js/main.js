@@ -403,8 +403,8 @@
   }
 
   /* ── Contact form ──────────────────────────────────────────
-     endpoint set   -> POST JSON to it (Formspree etc.)
-     endpoint empty -> open the visitor's mail app, pre-filled  */
+     Web3Forms AJAX (stay on the page). Needs data-access-key.
+     No key -> open the visitor's mail app, pre-filled.        */
   const form = $('#contactForm');
   const note = $('#formNote');
   let token = 0;
@@ -426,20 +426,20 @@
     const mine = ++token;
 
     const name = $('#name'), email = $('#email'), message = $('#message');
-    let ok = true, first = null;
+    let valid = true, first = null;
 
-    if (!name.value.trim()) { flag(name, 'Required'); ok = false; first = name; }
+    if (!name.value.trim()) { flag(name, 'Required'); valid = false; first = name; }
     else flag(name);
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) {
-      flag(email, 'Check this address'); ok = false; first = first || email;
+      flag(email, 'Check this address'); valid = false; first = first || email;
     } else flag(email);
 
     if (message.value.trim().length < 10) {
-      flag(message, 'A little more detail'); ok = false; first = first || message;
+      flag(message, 'A little more detail'); valid = false; first = first || message;
     } else flag(message);
 
-    if (!ok) { say('Please fix the marked fields.', 'bad'); first?.focus(); return; }
+    if (!valid) { say('Please fix the marked fields.', 'bad'); first?.focus(); return; }
 
     const data = {
       name: name.value.trim(),
@@ -448,19 +448,21 @@
       message: message.value.trim()
     };
 
-    const endpoint = form.dataset.endpoint?.trim();
+    const endpoint = form.dataset.endpoint?.trim() || 'https://api.web3forms.com/submit';
+    const accessKey = form.dataset.accessKey?.trim();
     const to = form.dataset.fallbackEmail || '';
 
-    // No endpoint configured -> hand off to a mail client. Note this fails
-    // silently on desktops with no mail app registered, which is why the
-    // endpoint above is the default path.
-    if (!endpoint) {
+    const openMail = () => {
       const body = `${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
       say('Opening your mail app…', 'ok');
       location.href = `mailto:${to}?subject=${encodeURIComponent('[Portfolio] ' + data.subject)}&body=${encodeURIComponent(body)}`;
       setTimeout(() => {
         if (mine === token) say('If nothing opened, write to ' + to, '');
       }, 2500);
+    };
+
+    if (!accessKey) {
+      openMail();
       return;
     }
 
@@ -471,48 +473,34 @@
     say('');
 
     try {
+      const honey = form.querySelector('[name="botcheck"]');
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          name:     data.name,
-          email:    data.email,
-          message:  data.message,
-          _subject: `[Portfolio] ${data.subject} — ${data.name}`,
-          _replyto: data.email,     // so replying goes straight to them
-          _template: 'table',
-          _captcha: 'false'
+          access_key: accessKey,
+          name: data.name,
+          email: data.email,
+          message: data.message,
+          subject: `[Portfolio] ${data.subject} — ${data.name}`,
+          from_name: 'soumyadeep.space',
+          replyto: data.email,
+          botcheck: !!(honey && honey.checked)
         })
       });
 
-      let ok = res.ok;
-      let why = '';
+      let sent = false;
       try {
         const j = await res.json();
-        // FormSubmit answers 200 with success:"false" for real problems
-        if (j && String(j.success) === 'false') { ok = false; why = j.message || ''; }
-      } catch (_) { /* non-JSON body on success is fine */ }
+        sent = !!(j && (j.success === true || String(j.success) === 'true'));
+        if (!sent && j && j.message) console.warn('[contact form]', j.message);
+      } catch (_) { /* ignore non-JSON */ }
 
-      if (!ok) {
-        // Owner-facing hint: the most common cause is the one-time activation.
-        if (/activat/i.test(why)) {
-          console.warn(
-            '[contact form] FormSubmit is not activated for ' + location.origin + '\n' +
-            'Activation is PER DOMAIN — activating soumyadeep.space does not\n' +
-            'activate www.soumyadeep.space (or localhost). Submit once from\n' +
-            'THIS domain, then click the "Activate Form" link FormSubmit\n' +
-            'emails to ' + to + ' (check spam).'
-          );
-        } else if (why) {
-          console.warn('[contact form] ' + why);
-        }
-        throw new Error(why || 'HTTP ' + res.status);
-      }
+      if (!sent) throw new Error('send');
 
       form.reset();
       say('Thanks — that reached me. I\'ll reply soon.', 'ok');
     } catch (err) {
-      // Never leave them stuck: offer a copyable address and a mail link.
       say(
         'That didn\'t send. Email me directly at ' +
         `<a href="mailto:${to}">${to}</a>`, 'bad'

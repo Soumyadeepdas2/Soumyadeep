@@ -135,7 +135,8 @@ python3 scripts/fetch_codolio.py
 
 ## Before publishing
 
-1. Send a real contact-form test from `www.soumyadeep.space`.
-2. If FormSubmit emails an activation link, approve it for that exact domain.
-3. Confirm the WhatsApp number in `index.html`.
-4. Point Source buttons at real repos when they are public.
+1. Create a free Web3Forms access key at https://web3forms.com with `soumyadeepdas044@gmail.com`.
+2. Paste the key into `index.html` on the contact form’s `data-access-key`.
+3. Send a real note from `www.soumyadeep.space` and confirm it arrives in Gmail.
+4. Confirm the WhatsApp number in `index.html`.
+5. Point Source buttons at real repos when they are public.
