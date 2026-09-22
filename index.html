@@ -413,12 +413,14 @@
       <li><a href="https://wa.me/6285716917164" target="_blank" rel="noopener">WhatsApp</a></li>
     </ul>
 
-    <!-- Posts to /api/contact (Vercel). That server talks to FormSubmit so
-         visitors never hit the captcha-skip / fake-success page. -->
+    <!-- First try /api/contact (stay on this page). If FormSubmit
+         throttles the server, fall back to a real FormSubmit POST. -->
     <form class="note" id="contactForm" novalidate
           action="/api/contact"
           method="POST"
           accept-charset="UTF-8">
+      <input type="hidden" name="_subject" id="fsSubject" value="[Portfolio] enquiry">
+      <input type="hidden" name="_template" value="table">
       <p class="note__label">Or leave a note</p>
       <div class="note__grid">
         <label class="fld">
@@ -534,6 +536,6 @@
   </div>
 </div>
 
-<script src="js/main.js?v=17"></script>
+<script src="js/main.js?v=18"></script>
 </body>
 </html>

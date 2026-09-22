@@ -456,6 +456,7 @@
     if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
     say('Sending…', '');
 
+    let handedOff = false;
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -469,17 +470,24 @@
       });
       let j = {};
       try { j = await res.json(); } catch {}
-      if (!res.ok || j.ok !== true) throw new Error('send');
-      form.reset();
-      say('Thanks — that reached me. I\'ll reply soon.', 'ok');
+      if (res.ok && j.ok === true) {
+        form.reset();
+        say('Thanks — that reached me. I\'ll reply soon.', 'ok');
+        return;
+      }
+      throw new Error('send');
     } catch {
-      say(
-        'That didn\'t send. Email me directly at ' +
-        `<a href="mailto:${MAIL}">${MAIL}</a>`,
-        'bad'
-      );
+      /* FormSubmit throttles the Vercel IP after a few mails.
+         Hand the same fields to FormSubmit in the browser so a
+         phone / second try still delivers (captcha may appear). */
+      const subj = $('#fsSubject');
+      if (subj) subj.value = `[Portfolio] ${subject} — ${name.value.trim()}`;
+      form.setAttribute('action', 'https://formsubmit.co/' + MAIL);
+      handedOff = true;
+      say('Sending…', '');
+      form.submit();
     } finally {
-      if (btn) { btn.disabled = false; btn.innerHTML = label; }
+      if (!handedOff && btn) { btn.disabled = false; btn.innerHTML = label; }
     }
   });
 
