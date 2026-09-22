@@ -403,11 +403,12 @@
   }
 
   /* ── Contact form ──────────────────────────────────────────
-     Real browser POST to FormSubmit. Do not intercept a valid
-     submit: that fake on-page "I'll reply soon" is what hid
-     missing mail. Invalid fields stay on the page. */
+     Same-origin POST /api/contact. The function mails via
+     FormSubmit server-side. Visitors stay here; "thanks" only
+     after the API confirms the send. */
   const form = $('#contactForm');
   const note = $('#formNote');
+  const MAIL = 'soumyadeepdas044@gmail.com';
 
   const flag = (input, msg) => {
     input.closest('.fld').classList.toggle('bad', !!msg);
@@ -421,7 +422,14 @@
     note.className = 'note__status' + (kind ? ' ' + kind : '');
   };
 
-  form?.addEventListener('submit', e => {
+  if (form && new URLSearchParams(location.search).get('sent') === '1') {
+    say('Thanks — that reached me. I\'ll reply soon.', 'ok');
+    history.replaceState(null, '', location.pathname + '#contact');
+    $('#contact')?.scrollIntoView({ block: 'start' });
+  }
+
+  form?.addEventListener('submit', async e => {
+    e.preventDefault();
     const name = $('#name'), email = $('#email'), message = $('#message');
     let ok = true, first = null;
 
@@ -437,16 +445,42 @@
     } else flag(message);
 
     if (!ok) {
-      e.preventDefault();
       say('Please fix the marked fields.', 'bad');
       first?.focus();
       return;
     }
 
     const subject = form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry';
-    const subj = $('#fsSubject');
-    if (subj) subj.value = `[Portfolio] ${subject} — ${name.value.trim()}`;
+    const btn = form.querySelector('.send');
+    const label = btn ? btn.innerHTML : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
     say('Sending…', '');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.value.trim(),
+          email: email.value.trim(),
+          subject,
+          message: message.value.trim()
+        })
+      });
+      let j = {};
+      try { j = await res.json(); } catch {}
+      if (!res.ok || j.ok !== true) throw new Error('send');
+      form.reset();
+      say('Thanks — that reached me. I\'ll reply soon.', 'ok');
+    } catch {
+      say(
+        'That didn\'t send. Email me directly at ' +
+        `<a href="mailto:${MAIL}">${MAIL}</a>`,
+        'bad'
+      );
+    } finally {
+      if (btn) { btn.disabled = false; btn.innerHTML = label; }
+    }
   });
 
   ['#name', '#email', '#message'].forEach(sel => {
