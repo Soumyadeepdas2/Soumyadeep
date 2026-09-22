@@ -413,14 +413,12 @@
       <li><a href="https://wa.me/6285716917164" target="_blank" rel="noopener">WhatsApp</a></li>
     </ul>
 
-    <!-- First try /api/contact (stay on this page). If FormSubmit
-         throttles the server, fall back to a real FormSubmit POST. -->
+    <!-- Sends via FormSubmit (no backend, no key). The first message you
+         receive asks you to click "Activate Form" once — after that every
+         submission lands in your inbox. Swap the address to change where. -->
     <form class="note" id="contactForm" novalidate
-          action="/api/contact"
-          method="POST"
-          accept-charset="UTF-8">
-      <input type="hidden" name="_subject" id="fsSubject" value="[Portfolio] enquiry">
-      <input type="hidden" name="_template" value="table">
+          data-endpoint="https://formsubmit.co/ajax/soumyadeepdas044@gmail.com"
+          data-fallback-email="soumyadeepdas044@gmail.com">
       <p class="note__label">Or leave a note</p>
       <div class="note__grid">
         <label class="fld">
@@ -536,6 +534,6 @@
   </div>
 </div>
 
-<script src="js/main.js?v=18"></script>
+<script src="js/main.js?v=20"></script>
 </body>
 </html>

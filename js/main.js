@@ -403,12 +403,11 @@
   }
 
   /* ── Contact form ──────────────────────────────────────────
-     Same-origin POST /api/contact. The function mails via
-     FormSubmit server-side. Visitors stay here; "thanks" only
-     after the API confirms the send. */
+     endpoint set   -> POST JSON to it (FormSubmit ajax)
+     endpoint empty -> open the visitor's mail app, pre-filled  */
   const form = $('#contactForm');
   const note = $('#formNote');
-  const MAIL = 'soumyadeepdas044@gmail.com';
+  let token = 0;
 
   const flag = (input, msg) => {
     input.closest('.fld').classList.toggle('bad', !!msg);
@@ -418,18 +417,14 @@
   };
   const say = (msg, kind) => {
     if (!note) return;
-    note.innerHTML = msg;
+    note.innerHTML = msg;                // trusted, author-written strings only
     note.className = 'note__status' + (kind ? ' ' + kind : '');
   };
 
-  if (form && new URLSearchParams(location.search).get('sent') === '1') {
-    say('Thanks — that reached me. I\'ll reply soon.', 'ok');
-    history.replaceState(null, '', location.pathname + '#contact');
-    $('#contact')?.scrollIntoView({ block: 'start' });
-  }
-
   form?.addEventListener('submit', async e => {
     e.preventDefault();
+    const mine = ++token;
+
     const name = $('#name'), email = $('#email'), message = $('#message');
     let ok = true, first = null;
 
@@ -444,50 +439,67 @@
       flag(message, 'A little more detail'); ok = false; first = first || message;
     } else flag(message);
 
-    if (!ok) {
-      say('Please fix the marked fields.', 'bad');
-      first?.focus();
+    if (!ok) { say('Please fix the marked fields.', 'bad'); first?.focus(); return; }
+
+    const data = {
+      name: name.value.trim(),
+      email: email.value.trim(),
+      subject: form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry',
+      message: message.value.trim()
+    };
+
+    const endpoint = form.dataset.endpoint?.trim();
+    const to = form.dataset.fallbackEmail || '';
+
+    if (!endpoint) {
+      const body = `${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
+      say('Opening your mail app…', 'ok');
+      location.href = `mailto:${to}?subject=${encodeURIComponent('[Portfolio] ' + data.subject)}&body=${encodeURIComponent(body)}`;
+      setTimeout(() => {
+        if (mine === token) say('If nothing opened, write to ' + to, '');
+      }, 2500);
       return;
     }
 
-    const subject = form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry';
     const btn = form.querySelector('.send');
-    const label = btn ? btn.innerHTML : '';
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-    say('Sending…', '');
+    const label = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    say('');
 
-    let handedOff = false;
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          name: name.value.trim(),
-          email: email.value.trim(),
-          subject,
-          message: message.value.trim()
+          name:     data.name,
+          email:    data.email,
+          message:  data.message,
+          _subject: `[Portfolio] ${data.subject} — ${data.name}`,
+          _replyto: data.email,
+          _template: 'table',
+          _captcha: 'false'
         })
       });
-      let j = {};
-      try { j = await res.json(); } catch {}
-      if (res.ok && j.ok === true) {
-        form.reset();
-        say('Thanks — that reached me. I\'ll reply soon.', 'ok');
-        return;
-      }
-      throw new Error('send');
-    } catch {
-      /* FormSubmit throttles the Vercel IP after a few mails.
-         Hand the same fields to FormSubmit in the browser so a
-         phone / second try still delivers (captcha may appear). */
-      const subj = $('#fsSubject');
-      if (subj) subj.value = `[Portfolio] ${subject} — ${name.value.trim()}`;
-      form.setAttribute('action', 'https://formsubmit.co/' + MAIL);
-      handedOff = true;
-      say('Sending…', '');
-      form.submit();
+
+      let sent = res.ok;
+      try {
+        const j = await res.json();
+        if (j && String(j.success) === 'false') sent = false;
+      } catch (_) { /* non-JSON body on success is fine */ }
+
+      if (!sent) throw new Error('send');
+
+      form.reset();
+      say('Thanks — that reached me. I\'ll reply soon.', 'ok');
+    } catch (err) {
+      say(
+        'That didn\'t send. Email me directly at ' +
+        `<a href="mailto:${to}">${to}</a>`, 'bad'
+      );
     } finally {
-      if (!handedOff && btn) { btn.disabled = false; btn.innerHTML = label; }
+      btn.disabled = false;
+      btn.innerHTML = label;
     }
   });
 
