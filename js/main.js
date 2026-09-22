@@ -403,11 +403,11 @@
   }
 
   /* ── Contact form ──────────────────────────────────────────
-     Native POST to FormSubmit. AJAX/fetch to /ajax/ is what
-     failed in the browser even when FormSubmit itself worked. */
+     Real browser POST to FormSubmit. Do not intercept a valid
+     submit: that fake on-page "I'll reply soon" is what hid
+     missing mail. Invalid fields stay on the page. */
   const form = $('#contactForm');
   const note = $('#formNote');
-  const to = form?.dataset.fallbackEmail || 'soumyadeepdas044@gmail.com';
 
   const flag = (input, msg) => {
     input.closest('.fld').classList.toggle('bad', !!msg);
@@ -417,19 +417,11 @@
   };
   const say = (msg, kind) => {
     if (!note) return;
-    note.innerHTML = msg;                // trusted, author-written strings only
+    note.innerHTML = msg;
     note.className = 'note__status' + (kind ? ' ' + kind : '');
   };
 
-  if (form && new URLSearchParams(location.search).get('sent') === '1') {
-    say('Thanks — that reached me. I\'ll reply soon.', 'ok');
-    history.replaceState(null, '', location.pathname + '#contact');
-    $('#contact')?.scrollIntoView({ block: 'start' });
-  }
-
   form?.addEventListener('submit', e => {
-    e.preventDefault();
-
     const name = $('#name'), email = $('#email'), message = $('#message');
     let ok = true, first = null;
 
@@ -444,18 +436,17 @@
       flag(message, 'A little more detail'); ok = false; first = first || message;
     } else flag(message);
 
-    if (!ok) { say('Please fix the marked fields.', 'bad'); first?.focus(); return; }
+    if (!ok) {
+      e.preventDefault();
+      say('Please fix the marked fields.', 'bad');
+      first?.focus();
+      return;
+    }
 
     const subject = form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry';
     const subj = $('#fsSubject');
     if (subj) subj.value = `[Portfolio] ${subject} — ${name.value.trim()}`;
-    const next = $('#fsNext');
-    if (next) next.value = `${location.origin}/?sent=1#contact`;
-
-    const btn = form.querySelector('.send');
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
     say('Sending…', '');
-    form.submit();
   });
 
   ['#name', '#email', '#message'].forEach(sel => {
