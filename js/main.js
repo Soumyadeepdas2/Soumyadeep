@@ -179,7 +179,7 @@
     ['  String', 'k'], [' campus = ', ''], ['"Parul University"', 's'], [';\n', ''],
     ['  String', 'k'], ['[] stack = { ', ''], ['"Java"', 's'], [', ', ''], ['"C++"', 's'], [',\n', ''],
     ['                     ', ''], ['"Python"', 's'], [', ', ''], ['"JS"', 's'], [' };\n', ''],
-    ['  int', 'k'], [' problemsSolved = ', ''], ['490', 'n'], [';\n\n', ''],
+    ['  int', 'k'], [' problemsSolved = ', ''], ['501', 'n'], [';\n\n', ''],
     ['  void', 'k'], [' ', ''], ['build', 'f'], ['(Idea idea) {\n', ''],
     ['    while', 'k'], [' (!idea.', ''], ['works', 'f'], ['()) {\n', ''],
     ['      idea.', ''], ['debug', 'f'], ['();  ', ''], ['// this is the job\n', 'c'],
@@ -246,7 +246,7 @@
      caused crawlers to index the wrong number. The live figure is
      Codolio’s total, hydrated from data/practice.json. */
   const tally = $('#tally');
-  if (tally) tally.textContent = tally.dataset.to || '490';
+  if (tally) tally.textContent = tally.dataset.to || '501';
 
   /* ── Practice heatmap ───────────────────────────────────
      data/practice.json is written once a day by GitHub Actions
@@ -257,12 +257,24 @@
   const isoDay = d => d.toISOString().slice(0, 10);
   const levelOf = n => n <= 0 ? 0 : n === 1 ? 1 : n <= 3 ? 2 : n <= 7 ? 3 : 4;
 
+  /* Calendar days are IST. Store each IST date as UTC midnight so
+     getUTC* lines up with the Asia/Kolkata calendar. */
+  function istToday() {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date());
+    const get = t => +parts.find(p => p.type === t).value;
+    return new Date(Date.UTC(get('year'), get('month') - 1, get('day')));
+  }
+
   function paintHeat(calendar) {
     const rootEl = $('#heat');
     if (!rootEl) return;
 
-    const today = new Date();
-    const end = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+    const today = istToday();
+    const end = new Date(today);
+    if (!(calendar[isoDay(end)] > 0)) end.setUTCDate(end.getUTCDate() - 1);
     const start = new Date(end);
     start.setUTCDate(start.getUTCDate() - 52 * 7 - start.getUTCDay());
 
@@ -344,10 +356,10 @@
     }
     const cred = ASKS.find(a => a.q === 'Any code cred?');
     if (cred) {
-      const n = solvedText || '490';
+      const n = solvedText || '501';
       const dayBit = days != null
         ? `${days} active days, current streak ${streak}`
-        : '219 active days, current streak 106';
+        : '220 active days, current streak 107';
       cred.a = `<b>${n} problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. ${dayBit}. All verifiable on <a href="https://codolio.com/profile/soumyadeepdas" target="_blank" rel="noopener">Codolio</a>.`;
     }
     if (j.calendar) paintHeat(j.calendar);
@@ -459,18 +471,19 @@
     say('');
 
     try {
+      const body = new FormData();
+      body.append('name', data.name);
+      body.append('email', data.email);
+      body.append('message', data.message);
+      body.append('_subject', `[Portfolio] ${data.subject} — ${data.name}`);
+      body.append('_replyto', data.email);
+      body.append('_template', 'table');
+      body.append('_captcha', 'false');
+
       const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name:     data.name,
-          email:    data.email,
-          message:  data.message,
-          _subject: `[Portfolio] ${data.subject} — ${data.name}`,
-          _replyto: data.email,     // so replying goes straight to them
-          _template: 'table',
-          _captcha: 'false'
-        })
+        headers: { Accept: 'application/json' },
+        body
       });
 
       let ok = res.ok;
@@ -531,13 +544,13 @@
     { q: 'What has he built?', a: "Three live products: <b><a href=\"/hushhconnect\">hushhconnect</a></b>, private realtime messaging built around Chat IDs; <b><a href=\"/bookyuniverse\">BookyUniverse</a></b>, a searchable digital library; and <b><a href=\"/tellsgroup\">Tellsgroup</a></b>, one home for eighteen media brands. See <a href=\"/#projects\">Projects</a>." },
     { q: 'Tech stack?', a: "Java and C++ for algorithms; JavaScript and React for the web. Also Python, MySQL, MongoDB, Supabase Realtime, Git and AWS. Full list under <a href=\"#skills\">Skills</a>." },
     { q: 'Studying what?', a: "<b>B.Tech in Computer Science</b> at Parul University, Vadodara — specialising in AI &amp; ML, graduating 2028. CGPA 7.17." },
-    { q: 'Any code cred?', a: "<b>490 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 219 active days, current streak 106. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
+    { q: 'Any code cred?', a: "<b>501 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 220 active days, current streak 107. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
     { q: 'Résumé?', a: "Right here — <a href=\"assets/Soumyadeep_Das_Resume.pdf\" download>download the PDF</a>. One page, no fluff." },
     { q: 'Where is he?', a: "Vadodara, Gujarat, India — that's IST, UTC+5:30. Happy to work remotely." },
     { q: 'Are you a real cat?', a: "I'm a few lines of JavaScript in a trench coat. No API, no training data, just answers Soumyadeep wrote himself. 🐾" }
   ];
 
-  fetch('data/practice.json', { cache: 'no-cache' })
+  fetch('/data/practice.json', { cache: 'no-cache' })
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(applyPractice)
     .catch(() => {});

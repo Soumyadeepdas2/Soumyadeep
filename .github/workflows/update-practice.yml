@@ -2,8 +2,10 @@ name: Update practice heatmap
 
 on:
   schedule:
-    # 06:00 IST (00:30 UTC)
+    # 06:00 IST — first pass
     - cron: "30 0 * * *"
+    # 09:00 IST — catch solves Codolio had not posted yet at 6am
+    - cron: "30 3 * * *"
   workflow_dispatch:
 
 permissions:

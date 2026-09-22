@@ -2,7 +2,7 @@
 """Pull public Codolio stats into data/practice.json.
 
 No token. Codolio aggregates LeetCode, GFG, CodeChef, Codeforces,
-HackerRank, InterviewBit and AtCoder. Run locally or from GitHub Actions.
+HackerRank, InterviewBit and AtCoder. Days are IST (Asia/Kolkata).
 """
 from __future__ import annotations
 
@@ -11,15 +11,23 @@ import sys
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 USER = "soumyadeepdas"
 URL = f"https://api.codolio.com/profile?userKey={USER}"
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "practice.json"
+IST = ZoneInfo("Asia/Kolkata")
 
 
-def utc_day(ts: int) -> date:
+def cal_day(ts: int) -> date:
+    # Codolio keys are UTC midnight of the activity day — same calendar
+    # date in IST as in UTC for these stamps.
     return datetime.fromtimestamp(int(ts), tz=timezone.utc).date()
+
+
+def today_ist() -> date:
+    return datetime.now(IST).date()
 
 
 def streak_ending(days: set[date], end: date) -> int:
@@ -75,17 +83,17 @@ def build(data: dict) -> dict:
         platforms.append(name)
         cal = (p.get("dailyActivityStatsResponse") or {}).get("submissionCalendar") or {}
         for ts, n in cal.items():
-            day = utc_day(ts)
+            day = cal_day(ts)
             key = day.isoformat()
             merged[key] = merged.get(key, 0) + int(n)
             days.add(day)
 
     ordered = sorted(days)
-    today = datetime.now(timezone.utc).date()
+    today = today_ist()
     end = today if today in days else today - timedelta(days=1)
 
     return {
-        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "updated": today.isoformat(),
         "profile": f"https://codolio.com/profile/{USER}",
         "solved": solved,
         "activeDays": len(days),

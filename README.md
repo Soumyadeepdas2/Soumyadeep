@@ -125,7 +125,7 @@ The browser never calls Codolio. A GitHub Action runs once a day, writes `data/p
 
 1. Enable Actions. Workflow permissions = **Read and write**.
 2. Run **Update practice heatmap** once by hand.
-3. After that it runs daily at 06:00 IST.
+3. After that it runs at **06:00 IST** and again at **09:00 IST** (so overnight Codolio solves are not missed).
 
 Local refresh:
 
