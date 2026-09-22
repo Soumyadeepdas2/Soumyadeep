@@ -453,7 +453,7 @@
     const to = form.dataset.fallbackEmail || '';
 
     const openMail = () => {
-      const body = `${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
+      const body = `Enquiry: ${data.subject}\n\n${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
       say('Opening your mail app…', 'ok');
       location.href = `mailto:${to}?subject=${encodeURIComponent('[Portfolio] ' + data.subject)}&body=${encodeURIComponent(body)}`;
       setTimeout(() => {
@@ -481,6 +481,7 @@
           access_key: accessKey,
           name: data.name,
           email: data.email,
+          Enquiry: data.subject,
           message: data.message,
           subject: `[Portfolio] ${data.subject} — ${data.name}`,
           from_name: 'soumyadeep.space',
