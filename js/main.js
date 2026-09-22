@@ -403,7 +403,7 @@
   }
 
   /* ── Contact form ──────────────────────────────────────────
-     endpoint set   -> POST JSON to it (FormSubmit ajax)
+     endpoint set   -> POST JSON to it (Formspree etc.)
      endpoint empty -> open the visitor's mail app, pre-filled  */
   const form = $('#contactForm');
   const note = $('#formNote');
@@ -451,6 +451,9 @@
     const endpoint = form.dataset.endpoint?.trim();
     const to = form.dataset.fallbackEmail || '';
 
+    // No endpoint configured -> hand off to a mail client. Note this fails
+    // silently on desktops with no mail app registered, which is why the
+    // endpoint above is the default path.
     if (!endpoint) {
       const body = `${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
       say('Opening your mail app…', 'ok');
@@ -476,23 +479,40 @@
           email:    data.email,
           message:  data.message,
           _subject: `[Portfolio] ${data.subject} — ${data.name}`,
-          _replyto: data.email,
+          _replyto: data.email,     // so replying goes straight to them
           _template: 'table',
           _captcha: 'false'
         })
       });
 
-      let sent = res.ok;
+      let ok = res.ok;
+      let why = '';
       try {
         const j = await res.json();
-        if (j && String(j.success) === 'false') sent = false;
+        // FormSubmit answers 200 with success:"false" for real problems
+        if (j && String(j.success) === 'false') { ok = false; why = j.message || ''; }
       } catch (_) { /* non-JSON body on success is fine */ }
 
-      if (!sent) throw new Error('send');
+      if (!ok) {
+        // Owner-facing hint: the most common cause is the one-time activation.
+        if (/activat/i.test(why)) {
+          console.warn(
+            '[contact form] FormSubmit is not activated for ' + location.origin + '\n' +
+            'Activation is PER DOMAIN — activating soumyadeep.space does not\n' +
+            'activate www.soumyadeep.space (or localhost). Submit once from\n' +
+            'THIS domain, then click the "Activate Form" link FormSubmit\n' +
+            'emails to ' + to + ' (check spam).'
+          );
+        } else if (why) {
+          console.warn('[contact form] ' + why);
+        }
+        throw new Error(why || 'HTTP ' + res.status);
+      }
 
       form.reset();
       say('Thanks — that reached me. I\'ll reply soon.', 'ok');
     } catch (err) {
+      // Never leave them stuck: offer a copyable address and a mail link.
       say(
         'That didn\'t send. Email me directly at ' +
         `<a href="mailto:${to}">${to}</a>`, 'bad'
