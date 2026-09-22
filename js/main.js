@@ -179,7 +179,7 @@
     ['  String', 'k'], [' campus = ', ''], ['"Parul University"', 's'], [';\n', ''],
     ['  String', 'k'], ['[] stack = { ', ''], ['"Java"', 's'], [', ', ''], ['"C++"', 's'], [',\n', ''],
     ['                     ', ''], ['"Python"', 's'], [', ', ''], ['"JS"', 's'], [' };\n', ''],
-    ['  int', 'k'], [' problemsSolved = ', ''], ['501', 'n'], [';\n\n', ''],
+    ['  int', 'k'], [' problemsSolved = ', ''], ['400', 'n'], [';\n\n', ''],
     ['  void', 'k'], [' ', ''], ['build', 'f'], ['(Idea idea) {\n', ''],
     ['    while', 'k'], [' (!idea.', ''], ['works', 'f'], ['()) {\n', ''],
     ['      idea.', ''], ['debug', 'f'], ['();  ', ''], ['// this is the job\n', 'c'],
@@ -243,128 +243,9 @@
 
   /* ── Problem tally ──────────────────────────────────────
      Keep the factual value stable; changing it to 1 during an animation
-     caused crawlers to index the wrong number. The live figure is
-     Codolio’s total, hydrated from data/practice.json. */
+     caused crawlers to index the wrong number. */
   const tally = $('#tally');
-  if (tally) tally.textContent = tally.dataset.to || '501';
-
-  /* ── Practice heatmap ───────────────────────────────────
-     data/practice.json is written once a day by GitHub Actions
-     (scripts/fetch_codolio.py). The page never talks to Codolio. */
-  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const DOWS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-  const isoDay = d => d.toISOString().slice(0, 10);
-  const levelOf = n => n <= 0 ? 0 : n === 1 ? 1 : n <= 3 ? 2 : n <= 7 ? 3 : 4;
-
-  /* Calendar days are IST. Store each IST date as UTC midnight so
-     getUTC* lines up with the Asia/Kolkata calendar. */
-  function istToday() {
-    const parts = new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Asia/Kolkata',
-      year: 'numeric', month: '2-digit', day: '2-digit'
-    }).formatToParts(new Date());
-    const get = t => +parts.find(p => p.type === t).value;
-    return new Date(Date.UTC(get('year'), get('month') - 1, get('day')));
-  }
-
-  function paintHeat(calendar) {
-    const rootEl = $('#heat');
-    if (!rootEl) return;
-
-    const today = istToday();
-    const end = new Date(today);
-    if (!(calendar[isoDay(end)] > 0)) end.setUTCDate(end.getUTCDate() - 1);
-    const start = new Date(end);
-    start.setUTCDate(start.getUTCDate() - 52 * 7 - start.getUTCDay());
-
-    const weeks = document.createElement('div');
-    weeks.className = 'heat__weeks';
-
-    const dows = document.createElement('div');
-    dows.className = 'heat__dows';
-    dows.setAttribute('aria-hidden', 'true');
-    ['', 'Sun', '', 'Tue', '', 'Thu', '', 'Sat'].forEach(label => {
-      const s = document.createElement('span');
-      s.textContent = label;
-      dows.appendChild(s);
-    });
-
-    let cursor = new Date(start);
-    let lastMonth = -1;
-    while (cursor <= end) {
-      const week = document.createElement('div');
-      week.className = 'heat__week';
-      const mo = document.createElement('span');
-      mo.className = 'heat__mo';
-      if (cursor.getUTCMonth() !== lastMonth) {
-        mo.textContent = MONTHS[cursor.getUTCMonth()];
-        lastMonth = cursor.getUTCMonth();
-      }
-      week.appendChild(mo);
-
-      for (let i = 0; i < 7; i++) {
-        const key = isoDay(cursor);
-        const cell = document.createElement('i');
-        cell.className = 'heat__cell';
-        if (cursor > end) {
-          cell.style.visibility = 'hidden';
-        } else {
-          const n = calendar[key] || 0;
-          cell.dataset.l = String(levelOf(n));
-          const label = n
-            ? `${n} ${n === 1 ? 'solve' : 'solves'} on ${DOWS[cursor.getUTCDay()]} ${MONTHS[cursor.getUTCMonth()]} ${cursor.getUTCDate()}`
-            : `No solves on ${DOWS[cursor.getUTCDay()]} ${MONTHS[cursor.getUTCMonth()]} ${cursor.getUTCDate()}`;
-          cell.title = label;
-          cell.setAttribute('aria-label', label);
-        }
-        week.appendChild(cell);
-        cursor.setUTCDate(cursor.getUTCDate() + 1);
-      }
-      weeks.appendChild(week);
-    }
-
-    rootEl.replaceChildren(dows, weeks);
-  }
-
-  function applyPractice(j) {
-    if (!j) return;
-    const solved = j.solved;
-    const days = j.activeDays;
-    const streak = j.currentStreak;
-    const max = j.maxStreak;
-    const solvedText = solved != null ? String(solved) : null;
-
-    if (solvedText) {
-      if (tally) {
-        tally.dataset.to = solvedText;
-        tally.textContent = solvedText;
-      }
-      const chip = $('#solvedChip');
-      if (chip) chip.textContent = solvedText + ' solved';
-      SRC.forEach(chunk => {
-        if (chunk[1] === 'n' && /^\d+$/.test(chunk[0])) chunk[0] = solvedText;
-      });
-      const typed = codeEl && codeEl.querySelector('.n');
-      if (typed && /^\d+$/.test(typed.textContent)) typed.textContent = solvedText;
-    }
-
-    const detail = $('#practiceDetail');
-    if (detail && days != null && streak != null) {
-      const extra = max && max !== streak ? `, longest ${max}` : '';
-      detail.textContent = `${days} active days, current streak ${streak}${extra}.`;
-    }
-    const cred = ASKS.find(a => a.q === 'Any code cred?');
-    if (cred) {
-      const n = solvedText || '501';
-      const dayBit = days != null
-        ? `${days} active days, current streak ${streak}`
-        : '220 active days, current streak 107';
-      cred.a = `<b>${n} problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. ${dayBit}. All verifiable on <a href="https://codolio.com/profile/soumyadeepdas" target="_blank" rel="noopener">Codolio</a>.`;
-    }
-    if (j.calendar) paintHeat(j.calendar);
-    requestAnimationFrame(measureSpy);
-  }
+  if (tally) tally.textContent = tally.dataset.to || '500';
 
   /* ── Signature: writes itself when the footer arrives ──── */
   const sign = $('.sign');
@@ -403,12 +284,11 @@
   }
 
   /* ── Contact form ──────────────────────────────────────────
-     Same-origin POST /api/contact. The function mails via
-     FormSubmit server-side. Visitors stay here; "thanks" only
-     after the API confirms the send. */
+     endpoint set   -> POST JSON to it (Formspree etc.)
+     endpoint empty -> open the visitor's mail app, pre-filled  */
   const form = $('#contactForm');
   const note = $('#formNote');
-  const MAIL = 'soumyadeepdas044@gmail.com';
+  let token = 0;
 
   const flag = (input, msg) => {
     input.closest('.fld').classList.toggle('bad', !!msg);
@@ -418,18 +298,14 @@
   };
   const say = (msg, kind) => {
     if (!note) return;
-    note.innerHTML = msg;
+    note.innerHTML = msg;                // trusted, author-written strings only
     note.className = 'note__status' + (kind ? ' ' + kind : '');
   };
 
-  if (form && new URLSearchParams(location.search).get('sent') === '1') {
-    say('Thanks — that reached me. I\'ll reply soon.', 'ok');
-    history.replaceState(null, '', location.pathname + '#contact');
-    $('#contact')?.scrollIntoView({ block: 'start' });
-  }
-
   form?.addEventListener('submit', async e => {
     e.preventDefault();
+    const mine = ++token;
+
     const name = $('#name'), email = $('#email'), message = $('#message');
     let ok = true, first = null;
 
@@ -444,50 +320,87 @@
       flag(message, 'A little more detail'); ok = false; first = first || message;
     } else flag(message);
 
-    if (!ok) {
-      say('Please fix the marked fields.', 'bad');
-      first?.focus();
+    if (!ok) { say('Please fix the marked fields.', 'bad'); first?.focus(); return; }
+
+    const data = {
+      name: name.value.trim(),
+      email: email.value.trim(),
+      subject: form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry',
+      message: message.value.trim()
+    };
+
+    const endpoint = form.dataset.endpoint?.trim();
+    const to = form.dataset.fallbackEmail || '';
+
+    // No endpoint configured -> hand off to a mail client. Note this fails
+    // silently on desktops with no mail app registered, which is why the
+    // endpoint above is the default path.
+    if (!endpoint) {
+      const body = `${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
+      say('Opening your mail app…', 'ok');
+      location.href = `mailto:${to}?subject=${encodeURIComponent('[Portfolio] ' + data.subject)}&body=${encodeURIComponent(body)}`;
+      setTimeout(() => {
+        if (mine === token) say('If nothing opened, write to ' + to, '');
+      }, 2500);
       return;
     }
 
-    const subject = form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry';
     const btn = form.querySelector('.send');
-    const label = btn ? btn.innerHTML : '';
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-    say('Sending…', '');
+    const label = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    say('');
 
-    let handedOff = false;
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          name: name.value.trim(),
-          email: email.value.trim(),
-          subject,
-          message: message.value.trim()
+          name:     data.name,
+          email:    data.email,
+          message:  data.message,
+          _subject: `[Portfolio] ${data.subject} — ${data.name}`,
+          _replyto: data.email,     // so replying goes straight to them
+          _template: 'table',
+          _captcha: 'false'
         })
       });
-      let j = {};
-      try { j = await res.json(); } catch {}
-      if (res.ok && j.ok === true) {
-        form.reset();
-        say('Thanks — that reached me. I\'ll reply soon.', 'ok');
-        return;
+
+      let ok = res.ok;
+      let why = '';
+      try {
+        const j = await res.json();
+        // FormSubmit answers 200 with success:"false" for real problems
+        if (j && String(j.success) === 'false') { ok = false; why = j.message || ''; }
+      } catch (_) { /* non-JSON body on success is fine */ }
+
+      if (!ok) {
+        // Owner-facing hint: the most common cause is the one-time activation.
+        if (/activat/i.test(why)) {
+          console.warn(
+            '[contact form] FormSubmit is not activated for ' + location.origin + '\n' +
+            'Activation is PER DOMAIN — activating soumyadeep.space does not\n' +
+            'activate www.soumyadeep.space (or localhost). Submit once from\n' +
+            'THIS domain, then click the "Activate Form" link FormSubmit\n' +
+            'emails to ' + to + ' (check spam).'
+          );
+        } else if (why) {
+          console.warn('[contact form] ' + why);
+        }
+        throw new Error(why || 'HTTP ' + res.status);
       }
-      throw new Error('send');
-    } catch {
-      /* FormSubmit throttles the Vercel IP after a few mails.
-         Hand the same fields to FormSubmit in the browser so a
-         phone / second try still delivers (captcha may appear). */
-      const subj = $('#fsSubject');
-      if (subj) subj.value = `[Portfolio] ${subject} — ${name.value.trim()}`;
-      form.setAttribute('action', 'https://formsubmit.co/' + MAIL);
-      handedOff = true;
-      say('Sending…', '');
-      form.submit();
+
+      form.reset();
+      say('Thanks — that reached me. I\'ll reply soon.', 'ok');
+    } catch (err) {
+      // Never leave them stuck: offer a copyable address and a mail link.
+      say(
+        'That didn\'t send. Email me directly at ' +
+        `<a href="mailto:${to}">${to}</a>`, 'bad'
+      );
     } finally {
-      if (!handedOff && btn) { btn.disabled = false; btn.innerHTML = label; }
+      btn.disabled = false;
+      btn.innerHTML = label;
     }
   });
 
@@ -495,7 +408,7 @@
     const el = $(sel);
     el?.addEventListener('input', () => flag(el));
   });
-
+/*add
 
   /* ── Cat helper ──────────────────────────────────────────
      Scripted, not AI. Every answer is a fact that's already on
@@ -508,19 +421,14 @@
 
   const ASKS = [
     { q: 'Available?', a: "Yes — he's looking for a <b>Summer 2027 internship</b>, and open to interesting collaborations any time. Best route is <a href=\"mailto:soumyadeepdas044@gmail.com\">soumyadeepdas044@gmail.com</a>." },
-    { q: 'What has he built?', a: "Three live products: <b><a href=\"/hushhconnect\">hushhconnect</a></b>, private realtime messaging built around Chat IDs; <b><a href=\"/bookyuniverse\">BookyUniverse</a></b>, a searchable digital library; and <b><a href=\"/tellsgroup\">Tellsgroup</a></b>, one home for eighteen media brands. See <a href=\"/#projects\">Projects</a>." },
+    { q: 'What has he built?', a: "Three live products: <b>hushh</b>, private realtime messaging built around Chat IDs instead of phone numbers or email; <b>BookyUniverse</b>, a searchable digital library with personal collections; and <b>Tellsgroup</b>, one searchable home for eighteen media brands. See <a href=\"#projects\">Projects</a>." },
     { q: 'Tech stack?', a: "Java and C++ for algorithms; JavaScript and React for the web. Also Python, MySQL, MongoDB, Supabase Realtime, Git and AWS. Full list under <a href=\"#skills\">Skills</a>." },
     { q: 'Studying what?', a: "<b>B.Tech in Computer Science</b> at Parul University, Vadodara — specialising in AI &amp; ML, graduating 2028. CGPA 7.17." },
-    { q: 'Any code cred?', a: "<b>501 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 220 active days, current streak 107. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
+    { q: 'Any code cred?', a: "<b>400 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 178 active days, longest streak 69. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
     { q: 'Résumé?', a: "Right here — <a href=\"assets/Soumyadeep_Das_Resume.pdf\" download>download the PDF</a>. One page, no fluff." },
     { q: 'Where is he?', a: "Vadodara, Gujarat, India — that's IST, UTC+5:30. Happy to work remotely." },
     { q: 'Are you a real cat?', a: "I'm a few lines of JavaScript in a trench coat. No API, no training data, just answers Soumyadeep wrote himself. 🐾" }
   ];
-
-  fetch('/data/practice.json', { cache: 'no-cache' })
-    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(applyPractice)
-    .catch(() => {});
 
   function bubble(html, who) {
     const el = document.createElement('div');
