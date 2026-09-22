@@ -403,11 +403,11 @@
   }
 
   /* ── Contact form ──────────────────────────────────────────
-     endpoint set   -> POST JSON to it (Formspree etc.)
-     endpoint empty -> open the visitor's mail app, pre-filled  */
+     Native POST to FormSubmit. AJAX/fetch to /ajax/ is what
+     failed in the browser even when FormSubmit itself worked. */
   const form = $('#contactForm');
   const note = $('#formNote');
-  let token = 0;
+  const to = form?.dataset.fallbackEmail || 'soumyadeepdas044@gmail.com';
 
   const flag = (input, msg) => {
     input.closest('.fld').classList.toggle('bad', !!msg);
@@ -421,9 +421,14 @@
     note.className = 'note__status' + (kind ? ' ' + kind : '');
   };
 
-  form?.addEventListener('submit', async e => {
+  if (form && new URLSearchParams(location.search).get('sent') === '1') {
+    say('Thanks — that reached me. I\'ll reply soon.', 'ok');
+    history.replaceState(null, '', location.pathname + '#contact');
+    $('#contact')?.scrollIntoView({ block: 'start' });
+  }
+
+  form?.addEventListener('submit', e => {
     e.preventDefault();
-    const mine = ++token;
 
     const name = $('#name'), email = $('#email'), message = $('#message');
     let ok = true, first = null;
@@ -441,87 +446,16 @@
 
     if (!ok) { say('Please fix the marked fields.', 'bad'); first?.focus(); return; }
 
-    const data = {
-      name: name.value.trim(),
-      email: email.value.trim(),
-      subject: form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry',
-      message: message.value.trim()
-    };
-
-    const endpoint = form.dataset.endpoint?.trim();
-    const to = form.dataset.fallbackEmail || '';
-
-    // No endpoint configured -> hand off to a mail client. Note this fails
-    // silently on desktops with no mail app registered, which is why the
-    // endpoint above is the default path.
-    if (!endpoint) {
-      const body = `${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
-      say('Opening your mail app…', 'ok');
-      location.href = `mailto:${to}?subject=${encodeURIComponent('[Portfolio] ' + data.subject)}&body=${encodeURIComponent(body)}`;
-      setTimeout(() => {
-        if (mine === token) say('If nothing opened, write to ' + to, '');
-      }, 2500);
-      return;
-    }
+    const subject = form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry';
+    const subj = $('#fsSubject');
+    if (subj) subj.value = `[Portfolio] ${subject} — ${name.value.trim()}`;
+    const next = $('#fsNext');
+    if (next) next.value = `${location.origin}/?sent=1#contact`;
 
     const btn = form.querySelector('.send');
-    const label = btn.innerHTML;
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-    say('');
-
-    try {
-      const body = new FormData();
-      body.append('name', data.name);
-      body.append('email', data.email);
-      body.append('message', data.message);
-      body.append('_subject', `[Portfolio] ${data.subject} — ${data.name}`);
-      body.append('_replyto', data.email);
-      body.append('_template', 'table');
-      body.append('_captcha', 'false');
-
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body
-      });
-
-      let ok = res.ok;
-      let why = '';
-      try {
-        const j = await res.json();
-        // FormSubmit answers 200 with success:"false" for real problems
-        if (j && String(j.success) === 'false') { ok = false; why = j.message || ''; }
-      } catch (_) { /* non-JSON body on success is fine */ }
-
-      if (!ok) {
-        // Owner-facing hint: the most common cause is the one-time activation.
-        if (/activat/i.test(why)) {
-          console.warn(
-            '[contact form] FormSubmit is not activated for ' + location.origin + '\n' +
-            'Activation is PER DOMAIN — activating soumyadeep.space does not\n' +
-            'activate www.soumyadeep.space (or localhost). Submit once from\n' +
-            'THIS domain, then click the "Activate Form" link FormSubmit\n' +
-            'emails to ' + to + ' (check spam).'
-          );
-        } else if (why) {
-          console.warn('[contact form] ' + why);
-        }
-        throw new Error(why || 'HTTP ' + res.status);
-      }
-
-      form.reset();
-      say('Thanks — that reached me. I\'ll reply soon.', 'ok');
-    } catch (err) {
-      // Never leave them stuck: offer a copyable address and a mail link.
-      say(
-        'That didn\'t send. Email me directly at ' +
-        `<a href="mailto:${to}">${to}</a>`, 'bad'
-      );
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = label;
-    }
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+    say('Sending…', '');
+    form.submit();
   });
 
   ['#name', '#email', '#message'].forEach(sel => {

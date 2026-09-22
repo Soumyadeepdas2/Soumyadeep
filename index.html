@@ -31,7 +31,7 @@
 <!-- The two hero faces are local and preloaded: no third-party font chain delays the LCP. -->
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=13">
+<link rel="stylesheet" href="css/styles.css?v=15">
 
 <script>
   (function () {
@@ -417,8 +417,15 @@
          receive asks you to click "Activate Form" once — after that every
          submission lands in your inbox. Swap the address to change where. -->
     <form class="note" id="contactForm" novalidate
-          data-endpoint="https://formsubmit.co/ajax/soumyadeepdas044@gmail.com"
+          action="https://formsubmit.co/soumyadeepdas044@gmail.com"
+          method="POST"
+          accept-charset="UTF-8"
           data-fallback-email="soumyadeepdas044@gmail.com">
+      <input type="hidden" name="_subject" id="fsSubject" value="[Portfolio] enquiry">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" id="fsNext" value="https://www.soumyadeep.space/?sent=1#contact">
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <p class="note__label">Or leave a note</p>
       <div class="note__grid">
         <label class="fld">
@@ -534,6 +541,6 @@
   </div>
 </div>
 
-<script src="js/main.js?v=12"></script>
+<script src="js/main.js?v=15"></script>
 </body>
 </html>
