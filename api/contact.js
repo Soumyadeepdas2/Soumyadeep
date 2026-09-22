@@ -1,9 +1,11 @@
-/* Vercel serverless: the browser never talks to FormSubmit.
-   FormSubmit's own page sometimes skips hCaptcha, says "success",
-   and never mails. This path is the same server POST that did deliver. */
+/* Vercel serverless. Browser posts here; we mail through FormSubmit.
+   Node's fetch() strips Origin (forbidden header). FormSubmit then
+   answers success:false — "open this page through a web server" —
+   and the site shows "didn't send". https.request keeps Origin. */
+
+const https = require('https');
 
 const TO = 'soumyadeepdas044@gmail.com';
-const ENDPOINT = 'https://formsubmit.co/ajax/' + TO;
 const SITE = 'https://www.soumyadeep.space';
 
 function parseBody(req) {
@@ -17,15 +19,48 @@ function parseBody(req) {
   return Object.fromEntries(new URLSearchParams(text));
 }
 
-function siteOrigin(req) {
-  const origin = String(req.headers.origin || '');
-  const referer = String(req.headers.referer || '');
-  if (/^https:\/\/(www\.)?soumyadeep\.space$/i.test(origin)) return origin;
-  try {
-    const u = new URL(referer);
-    if (/^(www\.)?soumyadeep\.space$/i.test(u.hostname)) return u.origin;
-  } catch {}
-  return SITE;
+function postFormSubmit(payload) {
+  const body = JSON.stringify(payload);
+  return new Promise((resolve, reject) => {
+    const req = https.request(
+      {
+        hostname: 'formsubmit.co',
+        path: '/ajax/' + TO,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Origin: SITE,
+          Referer: SITE + '/',
+          'User-Agent': 'Mozilla/5.0 (compatible; soumyadeep.space/1.0)',
+          'Content-Length': Buffer.byteLength(body),
+        },
+      },
+      (res) => {
+        let data = '';
+        res.on('data', (c) => { data += c; });
+        res.on('end', () => resolve({ status: res.statusCode || 0, body: data }));
+      }
+    );
+    req.setTimeout(25000, () => req.destroy(new Error('timeout')));
+    req.on('error', reject);
+    req.write(body);
+    req.end();
+  });
+}
+
+function reply(res, wantsJson, code, payload) {
+  if (wantsJson) {
+    res.status(code).json(payload);
+    return;
+  }
+  if (code === 200) {
+    res.statusCode = 303;
+    res.setHeader('Location', '/?sent=1#contact');
+    res.end();
+    return;
+  }
+  res.status(code).send(payload.message || 'Send failed');
 }
 
 module.exports = async function handler(req, res) {
@@ -47,59 +82,32 @@ module.exports = async function handler(req, res) {
   const wantsJson = String(req.headers.accept || '').includes('application/json');
 
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || message.length < 10) {
-    if (wantsJson) {
-      res.status(400).json({ ok: false, message: 'Please check the fields.' });
-    } else {
-      res.status(400).send('Please check the fields.');
-    }
+    reply(res, wantsJson, 400, { ok: false, message: 'Please check the fields.' });
     return;
   }
 
-  const origin = siteOrigin(req);
-
   try {
-    const r = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Origin: origin,
-        Referer: origin + '/',
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        message,
-        subject,
-        _subject: `[Portfolio] ${subject} — ${name}`,
-        _replyto: email,
-        _template: 'table',
-        _captcha: 'false',
-      }),
+    const r = await postFormSubmit({
+      name,
+      email,
+      message,
+      subject,
+      _subject: `[Portfolio] ${subject} — ${name}`,
+      _replyto: email,
+      _template: 'table',
+      _captcha: 'false',
     });
     let j = {};
-    try { j = await r.json(); } catch {}
-    const sent = r.ok && String(j.success) !== 'false';
+    try { j = JSON.parse(r.body); } catch {}
+    const sent = r.status >= 200 && r.status < 300 && String(j.success) !== 'false';
     if (!sent) {
-      if (wantsJson) {
-        res.status(502).json({ ok: false, message: 'Send failed' });
-      } else {
-        res.status(502).send('Send failed');
-      }
+      console.error('formsubmit', r.status, r.body);
+      reply(res, wantsJson, 502, { ok: false, message: 'Send failed' });
       return;
     }
-    if (wantsJson) {
-      res.status(200).json({ ok: true });
-      return;
-    }
-    res.statusCode = 303;
-    res.setHeader('Location', '/?sent=1#contact');
-    res.end();
-  } catch {
-    if (wantsJson) {
-      res.status(502).json({ ok: false, message: 'Send failed' });
-    } else {
-      res.status(502).send('Send failed');
-    }
+    reply(res, wantsJson, 200, { ok: true });
+  } catch (err) {
+    console.error('formsubmit error', err);
+    reply(res, wantsJson, 502, { ok: false, message: 'Send failed' });
   }
 };
