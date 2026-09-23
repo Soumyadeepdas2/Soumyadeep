@@ -80,6 +80,7 @@
       mast?.classList.toggle('stuck', scrollY > 40);
       // the cat waits until you've started reading
       cat?.classList.toggle('ready', scrollY > innerHeight * 0.55);
+      document.getElementById('toTop')?.classList.toggle('is-on', scrollY > innerHeight * 0.7);
       ticking = false;
     });
   }, { passive: true });
@@ -117,13 +118,15 @@
 
     const line = scrollY + spyLineOffset;
     const atBottom = innerHeight + scrollY >= pageHeight - 2;
-    let id = null;
+    let id = sectionRanges[0]?.id || null;
 
     if (atBottom) {
       id = sectionRanges[sectionRanges.length - 1].id;
     } else {
-      const match = sectionRanges.find(sec => line >= sec.top && line < sec.bottom);
-      id = match?.id || null;
+      for (const sec of sectionRanges) {
+        if (line >= sec.top) id = sec.id;
+        else break;
+      }
     }
 
     if (id === current) return;
@@ -366,26 +369,101 @@
     requestAnimationFrame(measureSpy);
   }
 
-  /* ── Signature: writes itself when the footer arrives ──── */
-  const sign = $('.sign');
+  /* ── Signature: letters sign in when the visitor reaches the end ─ */
+  const sign = $('.close__sign');
   if (sign) {
+    const srcImg = sign.querySelector('img');
+    /* Slices follow the ink of Soumyadeep, then Das. */
+    const BANDS = [
+      [6, 54], [54, 134], [134, 270], [270, 336], [336, 421],
+      [421, 561], [561, 634], [634, 745], [745, 792], [792, 955],
+      [1000, 1044], [1044, 1243], [1243, 1394]
+    ];
+    const SRC_W = 1400;
+
+    const playSign = () => {
+      if (!srcImg || sign.classList.contains('is-live') || sign.classList.contains('written')) return;
+      const cv = document.createElement('canvas');
+      const ctx = cv.getContext('2d');
+      sign.appendChild(cv);
+      sign.classList.remove('is-waiting');
+      sign.classList.add('is-live');
+
+      const fit = () => {
+        const r = sign.getBoundingClientRect();
+        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        cv.width = Math.max(1, Math.round(r.width * dpr));
+        cv.height = Math.max(1, Math.round(r.height * dpr));
+      };
+      fit();
+
+      const glyphs = [];
+      let tAcc = 0;
+      BANDS.forEach(([a, b]) => {
+        const w = b - a;
+        const dur = 105 + w * 1.4;
+        glyphs.push({ a: a, b: b, delay: tAcc, dur: dur });
+        tAcc += dur * 0.84;
+      });
+      const t0 = performance.now();
+
+      const paint = (now) => {
+        const elapsed = now - t0;
+        const cw = cv.width, ch = cv.height;
+        const sx = cw / SRC_W;
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.save();
+        ctx.beginPath();
+        let allDone = true;
+        for (let i = 0; i < glyphs.length; i++) {
+          const g = glyphs[i];
+          let u = (elapsed - g.delay) / g.dur;
+          if (u < 1) allDone = false;
+          if (u <= 0) continue;
+          if (u > 1) u = 1;
+          const e = 1 - Math.pow(1 - u, 2);
+          ctx.rect(g.a * sx, 0, (g.b - g.a) * sx * e, ch);
+        }
+        ctx.clip();
+        ctx.drawImage(srcImg, 0, 0, cw, ch);
+        ctx.restore();
+        if (!allDone) requestAnimationFrame(paint);
+        else {
+          sign.classList.remove('is-live');
+          sign.classList.add('written');
+          cv.remove();
+        }
+      };
+
+      const start = () => requestAnimationFrame(paint);
+      if (srcImg.complete && srcImg.naturalWidth) start();
+      else srcImg.addEventListener('load', start, { once: true });
+    };
+
     if (calm) {
       sign.classList.add('written');
     } else {
-      // Only enhanced pages begin hidden; without JS the full name stays visible.
-      sign.classList.add('enhanced');
+      sign.classList.add('is-waiting');
+      const nearEnd = () => {
+        if (window.scrollY < window.innerHeight * 0.55) return false;
+        const r = sign.getBoundingClientRect();
+        return r.top < window.innerHeight * 0.82 && r.bottom > 48;
+      };
+      const tryPlay = () => {
+        if (!nearEnd()) return;
+        playSign();
+        removeEventListener('scroll', tryPlay);
+      };
+      addEventListener('scroll', tryPlay, { passive: true });
       if ('IntersectionObserver' in window) {
         const signOnce = new IntersectionObserver((es, o) => {
-          es.forEach(en => {
-            if (!en.isIntersecting) return;
-            sign.classList.add('writing');
-            o.disconnect();
-            setTimeout(() => sign.classList.add('written'), 3550);
-          });
-        }, { threshold: 0.9 });
+          if (!es.some(en => en.isIntersecting)) return;
+          if (!nearEnd()) return;
+          playSign();
+          o.disconnect();
+          removeEventListener('scroll', tryPlay);
+        }, { threshold: 0.35, rootMargin: '0px 0px -14% 0px' });
         signOnce.observe(sign);
-      } else {
-        sign.classList.add('written');
       }
     }
   }
@@ -402,7 +480,7 @@
     setInterval(tick, 30000);
   }
 
-  /* ── Contact form ──────────────────────────────────────────
+  /* ── Feedback form ─────────────────────────────────────────
      Web3Forms AJAX (stay on the page). Needs data-access-key.
      No key -> open the visitor's mail app, pre-filled.        */
   const form = $('#contactForm');
@@ -410,7 +488,7 @@
   let token = 0;
 
   const flag = (input, msg) => {
-    input.closest('.fld').classList.toggle('bad', !!msg);
+    input.closest('.fld')?.classList.toggle('bad', !!msg);
     input.setAttribute('aria-invalid', msg ? 'true' : 'false');
     const slot = $(`.err[data-for="${input.id}"]`);
     if (slot) slot.textContent = msg || '';
@@ -426,8 +504,10 @@
     const mine = ++token;
 
     const name = $('#name'), email = $('#email'), message = $('#message');
+    const rating = form.querySelector('input[name="rating"]:checked')?.value;
     let valid = true, first = null;
 
+    if (!rating) { say('Pick a rating.', 'bad'); valid = false; }
     if (!name.value.trim()) { flag(name, 'Required'); valid = false; first = name; }
     else flag(name);
 
@@ -439,12 +519,16 @@
       flag(message, 'A little more detail'); valid = false; first = first || message;
     } else flag(message);
 
-    if (!valid) { say('Please fix the marked fields.', 'bad'); first?.focus(); return; }
+    if (!valid) {
+      if (!note.textContent) say('Please fix the marked fields.', 'bad');
+      first?.focus();
+      return;
+    }
 
     const data = {
       name: name.value.trim(),
       email: email.value.trim(),
-      subject: form.querySelector('input[name="subject"]:checked')?.value || 'Portfolio enquiry',
+      rating: rating,
       message: message.value.trim()
     };
 
@@ -453,9 +537,9 @@
     const to = form.dataset.fallbackEmail || '';
 
     const openMail = () => {
-      const body = `Enquiry: ${data.subject}\n\n${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
+      const body = `Rating: ${data.rating}\n\n${data.message}\n\n—\nFrom: ${data.name}\nEmail: ${data.email}`;
       say('Opening your mail app…', 'ok');
-      location.href = `mailto:${to}?subject=${encodeURIComponent('[Portfolio] ' + data.subject)}&body=${encodeURIComponent(body)}`;
+      location.href = `mailto:${to}?subject=${encodeURIComponent('[Portfolio] Website feedback — ' + data.rating)}&body=${encodeURIComponent(body)}`;
       setTimeout(() => {
         if (mine === token) say('If nothing opened, write to ' + to, '');
       }, 2500);
@@ -481,9 +565,9 @@
           access_key: accessKey,
           name: data.name,
           email: data.email,
-          Enquiry: data.subject,
+          Rating: data.rating,
           message: data.message,
-          subject: `[Portfolio] ${data.subject} — ${data.name}`,
+          subject: `[Portfolio] Website feedback — ${data.rating} — ${data.name}`,
           from_name: 'soumyadeep.space',
           replyto: data.email,
           botcheck: !!(honey && honey.checked)
@@ -500,7 +584,7 @@
       if (!sent) throw new Error('send');
 
       form.reset();
-      say('Thanks — that reached me. I\'ll reply soon.', 'ok');
+      say('Thanks — that reached me.', 'ok');
     } catch (err) {
       say(
         'That didn\'t send. Email me directly at ' +
@@ -526,6 +610,10 @@
   const catBox  = $('#catBox');
   const catLog  = $('#catLog');
   const catAsks = $('#catAsks');
+  const toTop   = $('#toTop');
+  toTop?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: calm ? 'auto' : 'smooth' });
+  });
 
   const ASKS = [
     { q: 'Available?', a: "Yes — he's looking for a <b>Summer 2027 internship</b>, and open to interesting collaborations any time. Best route is <a href=\"mailto:soumyadeepdas044@gmail.com\">soumyadeepdas044@gmail.com</a>." },
@@ -589,7 +677,7 @@
       catStarted = true;
       const hour = new Date().getHours();
       const greet = hour < 5 ? 'Up late?' : hour < 12 ? 'Morning.' : hour < 18 ? 'Afternoon.' : 'Evening.';
-      bubble(greet + " I'm Soumyadeep's cat. Ask me anything below — I only know what's on this page.", 'cat');
+      bubble(greet + " Got doubts? I only know what's on this page.", 'cat');
       drawAsks();
     }
     catBox.querySelector('.ask')?.focus();
@@ -617,6 +705,32 @@
       e.preventDefault(); first?.focus();
     }
   });
+
+  /* ── Copy email ────────────────────────────────────────── */
+  const copyMail = $('#copyMail');
+  if (copyMail) {
+    const address = copyMail.dataset.mail || copyMail.textContent.trim();
+    const label = () => { copyMail.textContent = address; copyMail.classList.remove('is-copied'); };
+    copyMail.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(address);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = address;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch {}
+        ta.remove();
+      }
+      copyMail.textContent = 'copied';
+      copyMail.classList.add('is-copied');
+      clearTimeout(copyMail._t);
+      copyMail._t = setTimeout(label, 1400);
+    });
+  }
 
   /* ── Year ──────────────────────────────────────────────── */
   const yr = $('#year');

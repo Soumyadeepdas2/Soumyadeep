@@ -3,18 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BookyUniverse — Soumyadeep Das</title>
-<meta name="description" content="BookyUniverse is a focused digital library: search, filter and save ebooks, then read them on the page. JavaScript, Supabase, Vercel.">
-<link rel="canonical" href="https://www.soumyadeep.space/bookyuniverse">
+<title>Feedback — Soumyadeep Das</title>
+<meta name="description" content="Leave feedback on soumyadeep.space.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://www.soumyadeep.space/feedback">
 <meta name="author" content="Soumyadeep Das">
 <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#060b16" media="(prefers-color-scheme: dark)">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://www.soumyadeep.space/bookyuniverse">
-<meta property="og:title" content="BookyUniverse — Soumyadeep Das">
-<meta property="og:description" content="A digital library you can search, filter, save and read without leaving the page.">
-<meta property="og:image" content="https://www.soumyadeep.space/assets/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -66,38 +61,56 @@
   <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">Menu</button>
 </header>
 
-<main id="main" class="case">
-  <p class="case__kicker"><span class="tag__dot" aria-hidden="true"></span> Project 02 · 2026</p>
-  <h1 class="case__title">Booky<em>Universe</em></h1>
-  <p class="case__lead">A digital library you can search, save and read without leaving the page.</p>
+<main id="main" class="case leaf">
+  <p class="case__kicker"><span class="tag__dot" aria-hidden="true"></span> A note for Soumyadeep</p>
+  <h1 class="case__title">Feed<em>back</em></h1>
+  <p class="case__lead">How was the site? Pick a rating, then say whatever you want.</p>
 
-  <figure class="case__shot">
-    <img src="assets/bookyuniverse.jpg" width="1600" height="770" alt="BookyUniverse homepage: Read your ebooks in one focused digital library.">
-  </figure>
-
-  <div class="case__grid">
-    <article class="case__block">
-      <h2>The problem</h2>
-      <p>Ebooks usually live in scattered files, folders and tabs. Finding a title, remembering where you stopped, and actually reading it means jumping between apps. A growing shelf gets harder to use, not easier.</p>
-    </article>
-    <article class="case__block">
-      <h2>How it solves it</h2>
-      <p>One shelf. Search by title or author, filter by subject, save a personal collection, and open the book in the same page. The catalogue lives in Supabase so the library can grow without rebuilding the front end.</p>
-    </article>
-    <article class="case__block">
-      <h2>Built with</h2>
-      <ul class="case__tech">
-        <li>JavaScript</li>
-        <li>Supabase</li>
-        <li>Vercel</li>
-      </ul>
-    </article>
-  </div>
+  <form class="note" id="contactForm" novalidate
+        data-endpoint="https://api.web3forms.com/submit"
+        data-access-key="6b8d7823-494c-4d5b-bf8b-b176d7e7460a"
+        data-fallback-email="soumyadeepdas044@gmail.com">
+    <input type="checkbox" name="botcheck" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <fieldset class="fld topic">
+      <legend>How was the site?</legend>
+      <div class="topic__opts">
+        <label class="topic__opt">
+          <input type="radio" name="rating" value="Bad">
+          <span>Bad</span>
+        </label>
+        <label class="topic__opt">
+          <input type="radio" name="rating" value="Ok ok">
+          <span>Ok ok</span>
+        </label>
+        <label class="topic__opt">
+          <input type="radio" name="rating" value="Good">
+          <span>Good</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="note__grid">
+      <label class="fld">
+        <span>Name</span>
+        <input id="name" name="name" type="text" autocomplete="name" required>
+        <small class="err" data-for="name"></small>
+      </label>
+      <label class="fld">
+        <span>Email</span>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+        <small class="err" data-for="email"></small>
+      </label>
+    </div>
+    <label class="fld">
+      <span>Message</span>
+      <textarea id="message" name="message" rows="4" required></textarea>
+      <small class="err" data-for="message"></small>
+    </label>
+    <button type="submit" class="send">Send<span aria-hidden="true"> →</span></button>
+    <p class="note__status" id="formNote" role="status"></p>
+  </form>
 
   <div class="case__actions">
-    <a class="project__link" href="/#projects">Portfolio</a>
-    <a class="project__link" href="https://bookyuniverse.vercel.app/" target="_blank" rel="noopener">Live project<span aria-hidden="true"> ↗</span></a>
-    <a class="project__link" href="https://github.com/Soumyadeepdas2" target="_blank" rel="noopener">Source code<span aria-hidden="true"> ↗</span></a>
+    <a class="project__link" href="/">Return to portfolio</a>
   </div>
 </main>
 
