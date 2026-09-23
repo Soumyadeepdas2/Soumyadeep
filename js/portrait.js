@@ -1,4 +1,4 @@
-/* Pixel portrait — cut-out stays put; a few chips break off the sides. No hover. */
+/* Pixel portrait — cells gather in the hero and stay. No hover, no loose chips. */
 (function () {
   const wrap = document.getElementById('pixPortrait');
   const canvas = document.getElementById('pixCanvas');
@@ -46,147 +46,136 @@
       }
     }
 
-    let seed = 20260922;
-    function rnd() {
-      seed = (seed * 1664525 + 1013904223) >>> 0;
-      return seed / 4294967296;
+    const lede = wrap.closest('.lede');
+    if (!lede) {
+      wrap.classList.add('is-static');
+      canvas.remove();
+      return;
     }
 
-    function besideRGB() {
-      const light = document.documentElement.getAttribute('data-theme') === 'light';
-      return light ? [23, 21, 15] : [242, 238, 230];
+    canvas.classList.add('lede__pix-layer');
+    lede.appendChild(canvas);
+
+    function measure() {
+      const lr = lede.getBoundingClientRect();
+      const wr = wrap.getBoundingClientRect();
+      return {
+        lr: lr, wr: wr,
+        scale: wr.width / sw,
+        left: lr.left, top: lr.top,
+        w: lr.width, h: lr.height,
+        ox: wr.left - lr.left,
+        oy: wr.top - lr.top
+      };
     }
-    const onShirtRGB = [242, 238, 230];
-    const chips = [];
-    const [br, bg, bb] = besideRGB();
-    for (let i = 0; i < parts.length; i++) {
-      const p = parts[i];
-      const nx = p.x / sw, ny = p.y / sh;
-      const head = ny < 0.40;
-      const left = nx < 0.28;
-      const shirtEdge = nx > 0.86 && ny > 0.58;
-      const bottomRight = nx > 0.68 && ny > 0.72;
 
-      if (shirtEdge && rnd() < 0.12) p.hide = true;
+    let M = measure();
+    let dpr = 1;
+    let phase = 'assemble';
 
-      if (shirtEdge && rnd() < 0.20) {
-        chips.push({
-          x: p.x + (rnd() - 0.35) * 3,
-          y: p.y + (rnd() - 0.5) * 3,
-          r: onShirtRGB[0], g: onShirtRGB[1], b: onShirtRGB[2],
-          a: 0.82 + rnd() * 0.18,
-          phase: rnd() * Math.PI * 2,
-          onShirt: true
-        });
+    function applySize(m) {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      const bw = Math.round(m.w * dpr);
+      const bh = Math.round(m.h * dpr);
+      if (canvas.width !== bw || canvas.height !== bh) {
+        canvas.width = bw;
+        canvas.height = bh;
       }
-      if (shirtEdge && rnd() < 0.10) {
-        chips.push({
-          x: p.x + 10 + rnd() * 30,
-          y: p.y + (rnd() - 0.5) * 16,
-          r: br, g: bg, b: bb,
-          a: 0.55 + rnd() * 0.4,
-          phase: rnd() * Math.PI * 2,
-          onShirt: false
-        });
-      }
-      if (bottomRight && rnd() < 0.22) {
-        chips.push({
-          x: p.x + 8 + rnd() * 34,
-          y: p.y + 6 + rnd() * 24,
-          r: br, g: bg, b: bb,
-          a: 0.55 + rnd() * 0.4,
-          phase: rnd() * Math.PI * 2,
-          onShirt: false
-        });
-      } else if (head && rnd() < 0.016) {
-        const side = nx > 0.5 ? 1 : (rnd() < 0.5 ? 1 : -1);
-        chips.push({
-          x: p.x + side * (5 + rnd() * 14),
-          y: p.y + (rnd() - 0.5) * 10 - rnd() * 6,
-          r: br, g: bg, b: bb,
-          a: 0.5 + rnd() * 0.35,
-          phase: rnd() * Math.PI * 2,
-          onShirt: false
-        });
-      } else if (left && rnd() < 0.018) {
-        chips.push({
-          x: p.x - (5 + rnd() * 12),
-          y: p.y + (rnd() - 0.5) * 8,
-          r: br, g: bg, b: bb,
-          a: 0.5 + rnd() * 0.35,
-          phase: rnd() * Math.PI * 2,
-          onShirt: false
-        });
-      }
+      canvas.style.left = (m.left - m.lr.left) + 'px';
+      canvas.style.top = (m.top - m.lr.top) + 'px';
+      canvas.style.width = m.w + 'px';
+      canvas.style.height = m.h + 'px';
     }
 
-    wrap.classList.add('is-live');
+    applySize(M);
 
-    const padL = 18, padR = 48, padY = 36;
-    const fw = sw + padL + padR;
-    const fh = sh + padY;
-
-    function fit() {
-      const cssW = wrap.clientWidth * (fw / sw);
-      const cssH = wrap.clientWidth * (fh / sw);
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
-      canvas.style.width = cssW + 'px';
-      canvas.style.height = cssH + 'px';
-      canvas.style.marginLeft = -(wrap.clientWidth * (padL / sw)) + 'px';
-      canvas.style.marginTop = -(wrap.clientWidth * ((padY / 2) / sw)) + 'px';
-      canvas.width = Math.round(cssW * dpr);
-      canvas.height = Math.round(cssH * dpr);
+    function drawPart(p, x, y, cell, alpha) {
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = 'rgb(' + p.r + ',' + p.g + ',' + p.b + ')';
+      ctx.fillRect(x, y, cell, cell);
     }
-    fit();
-    if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap);
-    else addEventListener('resize', fit);
 
-    function overBody(x, y) {
-      const ix = Math.round(x), iy = Math.round(y);
-      if (ix < 0 || iy < 0 || ix >= sw || iy >= sh) return false;
-      return data[(iy * sw + ix) * 4 + 3] > 40;
-    }
-    const whiteRGB = [242, 238, 230];
-    const inkRGB = [23, 21, 15];
-
-    let t = 0;
-    function tick() {
-      t += 1;
-      const cw = canvas.width, ch = canvas.height;
-      const sx = cw / fw, sy = ch / fh;
-      ctx.clearRect(0, 0, cw, ch);
-      const cell = Math.max(1.2, step * sx * 0.95);
-      const light = document.documentElement.getAttribute('data-theme') === 'light';
-
+    function paintSettled() {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, M.w, M.h);
+      const cell = Math.max(1.2, M.scale * step * 0.95);
       for (let i = 0; i < parts.length; i++) {
         const p = parts[i];
-        if (p.hide) continue;
-        ctx.globalAlpha = Math.max(0.72, p.a);
-        ctx.fillStyle = 'rgb(' + p.r + ',' + p.g + ',' + p.b + ')';
-        ctx.fillRect((p.x + padL) * sx, (p.y + padY / 2) * sy, cell, cell);
-      }
-      for (let i = 0; i < chips.length; i++) {
-        const p = chips[i];
-        const drift = p.onShirt ? 0 : 1;
-        const dx = p.x + Math.sin(t * 0.018 + p.phase) * 1.15 * drift;
-        const dy = p.y + Math.cos(t * 0.014 + p.phase) * 0.9 * drift;
-        let r, g, b;
-        if (p.onShirt) {
-          r = whiteRGB[0]; g = whiteRGB[1]; b = whiteRGB[2];
-        } else if (!light) {
-          r = whiteRGB[0]; g = whiteRGB[1]; b = whiteRGB[2];
-        } else if (overBody(dx, dy)) {
-          r = whiteRGB[0]; g = whiteRGB[1]; b = whiteRGB[2];
-        } else {
-          r = inkRGB[0]; g = inkRGB[1]; b = inkRGB[2];
-        }
-        ctx.globalAlpha = Math.max(0.42, p.a);
-        ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
-        ctx.fillRect((dx + padL) * sx, (dy + padY / 2) * sy, cell, cell);
+        drawPart(p, M.ox + p.x * M.scale, M.oy + p.y * M.scale, cell, Math.max(0.72, p.a));
       }
       ctx.globalAlpha = 1;
-      requestAnimationFrame(tick);
     }
-    tick();
+
+    function settle() {
+      phase = 'idle';
+      wrap.classList.add('is-live');
+      canvas.classList.add('is-live');
+      paintSettled();
+    }
+
+    function onResize() {
+      M = measure();
+      applySize(M);
+      if (phase === 'idle') paintSettled();
+    }
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(onResize);
+      ro.observe(lede);
+      ro.observe(wrap);
+    } else {
+      addEventListener('resize', onResize);
+    }
+
+    if (wrap.clientWidth < 40) {
+      settle();
+      return;
+    }
+
+    const mobile = window.matchMedia('(max-width:900px)').matches;
+    const dur = mobile ? 2700 : 4100;
+    const stagger = mobile ? 850 : 1300;
+
+    const flyers = [];
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i];
+      flyers.push({
+        p: p,
+        sx: Math.random() * M.w,
+        sy: Math.random() * M.h,
+        delay: Math.random() * stagger
+      });
+    }
+
+    const t0 = performance.now();
+
+    function tick(now) {
+      if (phase !== 'assemble') return;
+      const elapsed = now - t0;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, M.w, M.h);
+      const cell = Math.max(1.2, M.scale * step * 0.95);
+      let allDone = true;
+      for (let i = 0; i < flyers.length; i++) {
+        const f = flyers[i];
+        const hx = M.ox + f.p.x * M.scale;
+        const hy = M.oy + f.p.y * M.scale;
+        let u = (elapsed - f.delay) / dur;
+        if (u < 1) allDone = false;
+        if (u < 0) u = 0;
+        else if (u > 1) u = 1;
+        const e = 1 - Math.pow(1 - u, 4);
+        drawPart(
+          f.p,
+          f.sx + (hx - f.sx) * e,
+          f.sy + (hy - f.sy) * e,
+          cell,
+          Math.max(0.72, f.p.a) * Math.min(1, 0.2 + u)
+        );
+      }
+      ctx.globalAlpha = 1;
+      if (allDone) settle();
+      else requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 })();

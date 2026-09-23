@@ -274,9 +274,17 @@ ul,ol{ list-style:none; }
 .lede__pix canvas{
   position:relative; z-index:1;
   width:100%; height:auto; display:block;
+}
+.lede__pix-layer{
+  position:absolute;
+  pointer-events:none;
+  z-index:4;
+  display:block;
+}
+.lede__pix-layer.is-live{
   filter:drop-shadow(10px 26px 28px rgba(18,14,10,.42));
 }
-[data-theme="dark"] .lede__pix canvas{
+[data-theme="dark"] .lede__pix-layer.is-live{
   filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));
 }
 /* Source photo stays invisible unless JS is off or motion is reduced. */
