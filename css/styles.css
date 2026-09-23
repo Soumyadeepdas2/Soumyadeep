@@ -269,20 +269,31 @@ ul,ol{ list-style:none; }
   justify-self:end;
   isolation:isolate;
   overflow:visible;
+  aspect-ratio:720 / 980; /* hold space so the photo never flashes in */
 }
-.lede__pix canvas,
-.lede__pix-fallback{
+.lede__pix canvas{
   position:relative; z-index:1;
   width:100%; height:auto; display:block;
   filter:drop-shadow(10px 26px 28px rgba(18,14,10,.42));
 }
-[data-theme="dark"] .lede__pix canvas,
-[data-theme="dark"] .lede__pix-fallback{
+[data-theme="dark"] .lede__pix canvas{
   filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));
 }
-.lede__pix.is-live .lede__pix-fallback{
+/* Source photo stays invisible unless JS is off or motion is reduced. */
+.lede__pix-fallback{
   position:absolute; width:1px; height:1px;
   overflow:hidden; clip:rect(0,0,0,0);
+}
+.lede__pix.is-static{
+  aspect-ratio:auto;
+}
+.lede__pix.is-static .lede__pix-fallback{
+  position:relative; width:100%; height:auto;
+  clip:auto; overflow:visible;
+  filter:drop-shadow(10px 26px 28px rgba(18,14,10,.42));
+}
+[data-theme="dark"] .lede__pix.is-static .lede__pix-fallback{
+  filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));
 }
 .lede__pix:not(.is-live) canvas{ display:none; }
 

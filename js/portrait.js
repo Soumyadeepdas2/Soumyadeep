@@ -6,6 +6,7 @@
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) {
+    wrap.classList.add('is-static');
     canvas.remove();
     return;
   }
@@ -17,6 +18,7 @@
   img.onerror = function () {
     img.src = 'assets/portrait.png';
     img.onload = function () { boot(img); };
+    img.onerror = function () { wrap.classList.add('is-static'); };
   };
 
   function boot(image) {
@@ -50,35 +52,77 @@
       return seed / 4294967296;
     }
 
-    function chipColor() {
+    function besideRGB() {
       const light = document.documentElement.getAttribute('data-theme') === 'light';
-      return light ? [28, 24, 20] : [242, 238, 230];
+      return light ? [23, 21, 15] : [242, 238, 230];
     }
-
-    const [cr, cg, cb] = chipColor();
+    const onShirtRGB = [242, 238, 230];
     const chips = [];
+    const [br, bg, bb] = besideRGB();
     for (let i = 0; i < parts.length; i++) {
       const p = parts[i];
       const nx = p.x / sw, ny = p.y / sh;
-      let side = 0, odds = 0;
-      if (nx > 0.58) { side = 1; odds = 0.09; }
-      else if (nx < 0.16) { side = -1; odds = 0.045; }
-      if (ny < 0.22 && nx > 0.42) { side = 1; odds = Math.max(odds, 0.07); }
-      if (rnd() >= odds) continue;
-      const dist = 10 + rnd() * 34;
-      const jitter = (rnd() - 0.5) * 22;
-      chips.push({
-        x: p.x + side * dist,
-        y: p.y + jitter - (ny < 0.25 ? rnd() * 10 : 0),
-        r: cr, g: cg, b: cb,
-        a: 0.42 + rnd() * 0.5,
-        phase: rnd() * Math.PI * 2
-      });
+      const head = ny < 0.40;
+      const left = nx < 0.28;
+      const shirtEdge = nx > 0.86 && ny > 0.58;
+      const bottomRight = nx > 0.68 && ny > 0.72;
+
+      if (shirtEdge && rnd() < 0.12) p.hide = true;
+
+      if (shirtEdge && rnd() < 0.20) {
+        chips.push({
+          x: p.x + (rnd() - 0.35) * 3,
+          y: p.y + (rnd() - 0.5) * 3,
+          r: onShirtRGB[0], g: onShirtRGB[1], b: onShirtRGB[2],
+          a: 0.82 + rnd() * 0.18,
+          phase: rnd() * Math.PI * 2,
+          onShirt: true
+        });
+      }
+      if (shirtEdge && rnd() < 0.10) {
+        chips.push({
+          x: p.x + 10 + rnd() * 30,
+          y: p.y + (rnd() - 0.5) * 16,
+          r: br, g: bg, b: bb,
+          a: 0.55 + rnd() * 0.4,
+          phase: rnd() * Math.PI * 2,
+          onShirt: false
+        });
+      }
+      if (bottomRight && rnd() < 0.22) {
+        chips.push({
+          x: p.x + 8 + rnd() * 34,
+          y: p.y + 6 + rnd() * 24,
+          r: br, g: bg, b: bb,
+          a: 0.55 + rnd() * 0.4,
+          phase: rnd() * Math.PI * 2,
+          onShirt: false
+        });
+      } else if (head && rnd() < 0.016) {
+        const side = nx > 0.5 ? 1 : (rnd() < 0.5 ? 1 : -1);
+        chips.push({
+          x: p.x + side * (5 + rnd() * 14),
+          y: p.y + (rnd() - 0.5) * 10 - rnd() * 6,
+          r: br, g: bg, b: bb,
+          a: 0.5 + rnd() * 0.35,
+          phase: rnd() * Math.PI * 2,
+          onShirt: false
+        });
+      } else if (left && rnd() < 0.018) {
+        chips.push({
+          x: p.x - (5 + rnd() * 12),
+          y: p.y + (rnd() - 0.5) * 8,
+          r: br, g: bg, b: bb,
+          a: 0.5 + rnd() * 0.35,
+          phase: rnd() * Math.PI * 2,
+          onShirt: false
+        });
+      }
     }
 
     wrap.classList.add('is-live');
 
-    const padL = 18, padR = 40, padY = 14;
+    const padL = 18, padR = 48, padY = 36;
     const fw = sw + padL + padR;
     const fh = sh + padY;
 
@@ -97,12 +141,13 @@
     if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap);
     else addEventListener('resize', fit);
 
-    new MutationObserver(function () {
-      const c = chipColor();
-      for (let i = 0; i < chips.length; i++) {
-        chips[i].r = c[0]; chips[i].g = c[1]; chips[i].b = c[2];
-      }
-    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    function overBody(x, y) {
+      const ix = Math.round(x), iy = Math.round(y);
+      if (ix < 0 || iy < 0 || ix >= sw || iy >= sh) return false;
+      return data[(iy * sw + ix) * 4 + 3] > 40;
+    }
+    const whiteRGB = [242, 238, 230];
+    const inkRGB = [23, 21, 15];
 
     let t = 0;
     function tick() {
@@ -111,19 +156,32 @@
       const sx = cw / fw, sy = ch / fh;
       ctx.clearRect(0, 0, cw, ch);
       const cell = Math.max(1.2, step * sx * 0.95);
+      const light = document.documentElement.getAttribute('data-theme') === 'light';
 
       for (let i = 0; i < parts.length; i++) {
         const p = parts[i];
+        if (p.hide) continue;
         ctx.globalAlpha = Math.max(0.72, p.a);
         ctx.fillStyle = 'rgb(' + p.r + ',' + p.g + ',' + p.b + ')';
         ctx.fillRect((p.x + padL) * sx, (p.y + padY / 2) * sy, cell, cell);
       }
       for (let i = 0; i < chips.length; i++) {
         const p = chips[i];
-        const dx = p.x + Math.sin(t * 0.018 + p.phase) * 1.15;
-        const dy = p.y + Math.cos(t * 0.014 + p.phase) * 0.9;
+        const drift = p.onShirt ? 0 : 1;
+        const dx = p.x + Math.sin(t * 0.018 + p.phase) * 1.15 * drift;
+        const dy = p.y + Math.cos(t * 0.014 + p.phase) * 0.9 * drift;
+        let r, g, b;
+        if (p.onShirt) {
+          r = whiteRGB[0]; g = whiteRGB[1]; b = whiteRGB[2];
+        } else if (!light) {
+          r = whiteRGB[0]; g = whiteRGB[1]; b = whiteRGB[2];
+        } else if (overBody(dx, dy)) {
+          r = whiteRGB[0]; g = whiteRGB[1]; b = whiteRGB[2];
+        } else {
+          r = inkRGB[0]; g = inkRGB[1]; b = inkRGB[2];
+        }
         ctx.globalAlpha = Math.max(0.42, p.a);
-        ctx.fillStyle = 'rgb(' + p.r + ',' + p.g + ',' + p.b + ')';
+        ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
         ctx.fillRect((dx + padL) * sx, (dy + padY / 2) * sy, cell, cell);
       }
       ctx.globalAlpha = 1;
