@@ -11,24 +11,65 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-practice
+  cancel-in-progress: false
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Sync with latest main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Fetch Codolio stats
         run: python3 scripts/fetch_codolio.py
-      - name: Commit if the grid changed
+
+      - name: Commit and push if the grid changed
         run: |
+          set -euo pipefail
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add data/practice.json
+
           if git diff --staged --quiet; then
             echo "No change"
             exit 0
           fi
+
           git commit -m "chore: refresh Codolio practice stats"
-          git push
+
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Pushed Codolio stats"
+              exit 0
+            fi
+
+            echo "Push rejected (attempt ${attempt}/3). Syncing with latest main..."
+
+            git fetch origin main
+
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "Rebase failed (conflict with origin/main)" >&2
+              exit 1
+            fi
+
+            sleep 3
+          done
+
+          echo "Failed to push after 3 attempts" >&2
+          exit 1
