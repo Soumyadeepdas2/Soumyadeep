@@ -1043,32 +1043,6 @@ ul,ol{ list-style:none; }
 .colophon__end{
   justify-self:end; display:flex; align-items:center; gap:16px; flex-wrap:wrap;
 }
-.connect__social .like{
-  display:inline-flex; align-items:center; justify-content:center; gap:5px;
-  width:auto; min-width:48px; height:48px; padding:0 10px;
-  color:var(--fg); background:none;
-  border:1px solid var(--rule); border-radius:2px;
-  font-family:var(--mono); font-size:12px; letter-spacing:.04em;
-  cursor:pointer;
-  transition:color .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
-}
-.connect__social .like svg{
-  width:22px; height:22px; display:block;
-  color:currentColor;
-  transition:color .35s var(--ease);
-}
-.connect__social .like:hover,
-.connect__social .like:focus-visible{
-  background:#fff; border-color:#fff; color:#17150f;
-}
-.connect__social .like:hover svg,
-.connect__social .like:focus-visible svg{ color:#E31B23; }
-[data-theme="light"] .connect__social .like:hover,
-[data-theme="light"] .connect__social .like:focus-visible{
-  background:#17150f; border-color:#17150f; color:#fff;
-}
-[data-theme="light"] .connect__social .like:hover svg,
-[data-theme="light"] .connect__social .like:focus-visible svg{ color:#E31B23; }
 .dmca-badge{
   display:inline-flex; align-items:center; line-height:0;
   text-transform:none; letter-spacing:0;

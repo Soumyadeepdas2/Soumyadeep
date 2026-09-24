@@ -152,13 +152,19 @@
     }
     const viewTop = spyLineOffset;
     const viewBot = innerHeight;
+    const phone = innerWidth <= 720;
     const end = viewTop + (viewBot - viewTop) * 0.42;
     const span = Math.max(viewBot - end, 1);
     fillLabels.forEach(el => {
       const y = el.getBoundingClientRect().top;
-      let p = (viewBot - y) / span;
-      if (p < 0) p = 0;
-      else if (p > 1) p = 1;
+      let p;
+      if (phone) {
+        p = y < viewBot - 24 ? 1 : 0;
+      } else {
+        p = (viewBot - y) / span;
+        if (p < 0) p = 0;
+        else if (p > 1) p = 1;
+      }
       el.style.setProperty('--fill', (p * 100).toFixed(2) + '%');
     });
   }
@@ -508,28 +514,6 @@
     };
     tick();
     setInterval(tick, 1000);
-  }
-
-  /* ── Like: count persists; look returns to rest when the pointer leaves ─ */
-  const likeBtn = $('#likeBtn');
-  const likeN = $('#likeCount');
-  if (likeBtn && likeN) {
-    const LIKE_KEY = 'sd-likes';
-    const read = () => {
-      const n = parseInt(localStorage.getItem(LIKE_KEY) || '0', 10);
-      return Number.isFinite(n) && n > 0 ? n : 0;
-    };
-    const paint = n => { likeN.textContent = String(n); };
-    paint(read());
-    let liked = false;
-    likeBtn.addEventListener('click', () => {
-      if (liked) return;
-      liked = true;
-      const n = read() + 1;
-      try { localStorage.setItem(LIKE_KEY, String(n)); } catch (_) {}
-      paint(n);
-      likeBtn.setAttribute('aria-pressed', 'true');
-    });
   }
 
   /* ── Feedback form ─────────────────────────────────────────
