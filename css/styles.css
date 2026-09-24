@@ -392,6 +392,14 @@ ul,ol{ list-style:none; }
   border-top:0;
   position:relative;
 }
+.band__end{
+  grid-column:1 / -1;
+  height:0;
+  border:0;
+  border-bottom:1px solid var(--rule);
+  margin:clamp(36px, 5vw, 56px) 0 0;
+  pointer-events:none;
+}
 .band__head{
   display:flex; align-items:baseline; justify-content:space-between;
   gap:20px;

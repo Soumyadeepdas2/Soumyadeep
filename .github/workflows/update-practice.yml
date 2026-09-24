@@ -61,7 +61,6 @@ jobs:
             echo "Push rejected (attempt ${attempt}/3). Syncing with latest main..."
 
             git fetch origin main
-
             if ! git rebase origin/main; then
               git rebase --abort || true
               echo "Rebase failed (conflict with origin/main)" >&2

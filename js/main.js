@@ -114,6 +114,8 @@
     syncSpy();
   }
 
+  const endMarks = $$('.band__end');
+
   function syncSpy() {
     if (!spied.length) return;
 
@@ -123,11 +125,15 @@
 
     if (atBottom) {
       id = spied[spied.length - 1].id;
-    } else {
-      for (const sec of spied) {
-        const r = sec.getBoundingClientRect();
-        if (r.top <= line) id = sec.id;
-        else break;
+    } else if (spied[0].getBoundingClientRect().top <= line) {
+      id = spied[0].id;
+      for (let i = 0; i < endMarks.length; i++) {
+        if (endMarks[i].getBoundingClientRect().top <= line) {
+          const next = spied[i + 1];
+          if (next) id = next.id;
+        } else {
+          break;
+        }
       }
     }
 
