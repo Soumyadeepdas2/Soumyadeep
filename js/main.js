@@ -77,6 +77,7 @@
     ticking = true;
     requestAnimationFrame(() => {
       syncSpy();
+      syncFills();
       mast?.classList.toggle('stuck', scrollY > 40);
       // the cat waits until you've started reading
       cat?.classList.toggle('ready', scrollY > innerHeight * 0.55);
@@ -114,17 +115,18 @@
   }
 
   function syncSpy() {
-    if (!sectionRanges.length) return;
+    if (!spied.length) return;
 
-    const line = scrollY + spyLineOffset;
+    const line = spyLineOffset;
     const atBottom = innerHeight + scrollY >= pageHeight - 2;
-    let id = sectionRanges[0]?.id || null;
+    let id = null;
 
     if (atBottom) {
-      id = sectionRanges[sectionRanges.length - 1].id;
+      id = spied[spied.length - 1].id;
     } else {
-      for (const sec of sectionRanges) {
-        if (line >= sec.top) id = sec.id;
+      for (const sec of spied) {
+        const r = sec.getBoundingClientRect();
+        if (r.top <= line) id = sec.id;
         else break;
       }
     }
@@ -135,9 +137,30 @@
     if (id) navLinks.get(id)?.classList.add('on');
   }
 
+  const fillLabels = $$('.band__label');
+  function syncFills() {
+    if (!fillLabels.length) return;
+    if (calm) {
+      fillLabels.forEach(el => el.style.setProperty('--fill', '100%'));
+      return;
+    }
+    const viewTop = spyLineOffset;
+    const viewBot = innerHeight;
+    const end = viewTop + (viewBot - viewTop) * 0.42;
+    const span = Math.max(viewBot - end, 1);
+    fillLabels.forEach(el => {
+      const y = el.getBoundingClientRect().top;
+      let p = (viewBot - y) / span;
+      if (p < 0) p = 0;
+      else if (p > 1) p = 1;
+      el.style.setProperty('--fill', (p * 100).toFixed(2) + '%');
+    });
+  }
+
   measureSpy();
-  addEventListener('resize', () => requestAnimationFrame(measureSpy), { passive: true });
-  document.fonts?.ready?.then(measureSpy);
+  syncFills();
+  addEventListener('resize', () => requestAnimationFrame(() => { measureSpy(); syncFills(); }), { passive: true });
+  document.fonts?.ready?.then(() => { measureSpy(); syncFills(); });
 
   /* ── Hero: what I do, typed and cycled ─────────────────── */
   const doing = $('#doing');
@@ -473,11 +496,34 @@
   if (clock) {
     const tick = () => {
       clock.textContent = new Intl.DateTimeFormat('en-GB', {
-        hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata'
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hourCycle: 'h23', timeZone: 'Asia/Kolkata'
       }).format(new Date());
     };
     tick();
-    setInterval(tick, 30000);
+    setInterval(tick, 1000);
+  }
+
+  /* ── Like: count persists; look returns to rest when the pointer leaves ─ */
+  const likeBtn = $('#likeBtn');
+  const likeN = $('#likeCount');
+  if (likeBtn && likeN) {
+    const LIKE_KEY = 'sd-likes';
+    const read = () => {
+      const n = parseInt(localStorage.getItem(LIKE_KEY) || '0', 10);
+      return Number.isFinite(n) && n > 0 ? n : 0;
+    };
+    const paint = n => { likeN.textContent = String(n); };
+    paint(read());
+    let liked = false;
+    likeBtn.addEventListener('click', () => {
+      if (liked) return;
+      liked = true;
+      const n = read() + 1;
+      try { localStorage.setItem(LIKE_KEY, String(n)); } catch (_) {}
+      paint(n);
+      likeBtn.setAttribute('aria-pressed', 'true');
+    });
   }
 
   /* ── Feedback form ─────────────────────────────────────────
@@ -730,6 +776,31 @@
       clearTimeout(copyMail._t);
       copyMail._t = setTimeout(label, 1400);
     });
+  }
+
+  /* ── Greeting belt: exact half-width so the loop doesn’t hitch ─ */
+  const greetTrack = $('#greetTrack');
+  function lockGreet() {
+    if (!greetTrack || calm) return;
+    const bits = [...greetTrack.children];
+    if (bits.length < 2) return;
+    const half = bits.length / 2;
+    let w = 0;
+    for (let i = 0; i < half; i++) w += bits[i].getBoundingClientRect().width;
+    if (w < 8) return;
+    greetTrack.style.setProperty('--greet-x', w + 'px');
+    greetTrack.classList.remove('is-on');
+    void greetTrack.offsetWidth;
+    greetTrack.classList.add('is-on');
+  }
+  if (greetTrack && !calm) {
+    const startGreet = () => lockGreet();
+    if (document.fonts?.ready) document.fonts.ready.then(startGreet);
+    else startGreet();
+    addEventListener('resize', () => {
+      clearTimeout(lockGreet._t);
+      lockGreet._t = setTimeout(lockGreet, 120);
+    }, { passive: true });
   }
 
   /* ── Year ──────────────────────────────────────────────── */
