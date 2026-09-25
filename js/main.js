@@ -81,7 +81,7 @@
       mast?.classList.toggle('stuck', scrollY > 40);
       // the cat waits until you've started reading
       cat?.classList.toggle('ready', scrollY > innerHeight * 0.55);
-      document.getElementById('toTop')?.classList.toggle('is-on', scrollY > innerHeight * 0.7);
+      document.getElementById('rise')?.classList.toggle('is-on', scrollY > innerHeight * 0.7);
       ticking = false;
     });
   }, { passive: true });
@@ -646,7 +646,7 @@
   const catBox  = $('#catBox');
   const catLog  = $('#catLog');
   const catAsks = $('#catAsks');
-  const toTop   = $('#toTop');
+  const toTop   = $('#rise');
   toTop?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: calm ? 'auto' : 'smooth' });
   });
