@@ -288,7 +288,7 @@ ul,ol{ list-style:none; }
   gap:clamp(20px, 3.2vw, 48px);
   align-items:center;
 }
-.lede__copy{ min-width:0; }
+.lede__copy{ min-width:0; position:relative; z-index:2; }
 .lede__pix{
   position:relative;
   width:100%;
@@ -1171,15 +1171,23 @@ ul,ol{ list-style:none; }
   .doing{ font-size:clamp(20px,2.6vw,32px); margin:-14px 0 32px; }
   .lede{ padding-bottom:38px; }
   .lede__bio{ font-size:16.5px; }
+  .lede__pix{ max-width:380px; }
 }
 @media (min-width:721px) and (max-height:700px){
   .display{ font-size:clamp(52px,11vw,120px); }
   .doing{ font-size:clamp(18px,2.2vw,26px); margin:-10px 0 24px; }
-  .lede__pix{ max-width:300px; }
+  .lede__pix{ max-width:380px; }
 }
 @media (min-width:901px){
   .display{ font-size:clamp(64px, 10vw, 200px); margin-bottom:28px; }
   .doing{ margin:-12px 0 0; }
+}
+/* Tall windows (Chrome’s extra chrome often leaves height > 820): let the
+   portrait fill the right column instead of sitting in a 520px box. Short
+   laptops keep 380px above so the name is not covered. */
+@media (min-width:901px) and (min-height:821px){
+  .lede__hero{ grid-template-columns:minmax(0,1fr) minmax(300px, 46vw); }
+  .lede__pix{ max-width:680px; }
 }
 @media (max-width:900px){
   .lede__hero{ grid-template-columns:1fr; gap:22px; }
