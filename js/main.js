@@ -767,31 +767,6 @@
     });
   }
 
-  /* ── Greeting belt: exact half-width so the loop doesn’t hitch ─ */
-  const greetTrack = $('#greetTrack');
-  function lockGreet() {
-    if (!greetTrack || calm) return;
-    const bits = [...greetTrack.children];
-    if (bits.length < 2) return;
-    const half = bits.length / 2;
-    let w = 0;
-    for (let i = 0; i < half; i++) w += bits[i].getBoundingClientRect().width;
-    if (w < 8) return;
-    greetTrack.style.setProperty('--greet-x', w + 'px');
-    greetTrack.classList.remove('is-on');
-    void greetTrack.offsetWidth;
-    greetTrack.classList.add('is-on');
-  }
-  if (greetTrack && !calm) {
-    const startGreet = () => lockGreet();
-    if (document.fonts?.ready) document.fonts.ready.then(startGreet);
-    else startGreet();
-    addEventListener('resize', () => {
-      clearTimeout(lockGreet._t);
-      lockGreet._t = setTimeout(lockGreet, 120);
-    }, { passive: true });
-  }
-
   /* ── Year ──────────────────────────────────────────────── */
   const yr = $('#year');
   if (yr) yr.textContent = new Date().getFullYear();

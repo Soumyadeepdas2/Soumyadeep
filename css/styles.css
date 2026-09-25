@@ -31,33 +31,6 @@
   font-family:"JetBrains Mono"; font-style:normal; font-weight:400 500;
   font-display:swap; src:url("../assets/fonts/jetbrains-mono-latin-normal.woff2") format("woff2");
 }
-@font-face{
-  font-family:"Greet"; font-style:normal; font-weight:400;
-  font-display:swap; unicode-range:U+0980-09FF;
-  src:url("../assets/fonts/noto-serif-bengali.woff2") format("woff2");
-}
-@font-face{
-  font-family:"Greet"; font-style:normal; font-weight:400;
-  font-display:swap; unicode-range:U+0900-097F,U+A8E0-A8FF;
-  src:url("../assets/fonts/noto-serif-devanagari.woff2") format("woff2");
-}
-@font-face{
-  font-family:"Greet"; font-style:normal; font-weight:400;
-  font-display:swap; unicode-range:U+0A80-0AFF;
-  src:url("../assets/fonts/noto-serif-gujarati.woff2") format("woff2");
-}
-@font-face{
-  font-family:"Greet"; font-style:normal; font-weight:400;
-  font-display:swap; unicode-range:U+0B80-0BFF;
-  src:url("../assets/fonts/noto-serif-tamil.woff2") format("woff2");
-}
-@font-face{
-  font-family:"Greet"; font-style:normal; font-weight:400;
-  font-display:swap; unicode-range:U+0D00-0D7F;
-  src:url("../assets/fonts/noto-serif-malayalam.woff2") format("woff2");
-}
-
-
 
 :root{
   /* Midnight navy + paper, with a repeating plaster grain (BubbleUp-style tile). */
@@ -651,36 +624,6 @@ ul,ol{ list-style:none; }
 /* ── Contact ────────────────────────────────────────────── */
 .band--end{ padding-bottom:clamp(28px,4vw,48px); }
 
-.greet{
-  margin-top:clamp(28px, 5vw, 56px);
-  overflow:hidden;
-  pointer-events:none;
-  user-select:none;
-}
-.greet__track{
-  display:flex; width:max-content; gap:0;
-  font-family:"Greet", var(--serif);
-  font-weight:400; font-style:normal;
-  font-size:clamp(26px, 4.2vw, 48px); line-height:1.35;
-  color:var(--fg-faint); opacity:.55;
-  will-change:transform;
-  animation:none;
-}
-.greet__track.is-on{
-  animation:greetMarquee 52s linear infinite;
-}
-.greet__track span{
-  flex:none; white-space:nowrap;
-  padding:0 1.7em;
-}
-@keyframes greetMarquee{
-  from{ transform:translate3d(0,0,0); }
-  to{ transform:translate3d(calc(-1 * var(--greet-x, 50%)), 0, 0); }
-}
-@media (prefers-reduced-motion:reduce){
-  .greet__track, .greet__track.is-on{ animation:none; }
-}
-
 /* ── Close / acknowledgement ─────────────────────────────── */
 .connect__line{
   font-family:var(--serif); font-weight:300;
@@ -1253,7 +1196,7 @@ ul,ol{ list-style:none; }
 }
 
 @media print{
-  .masthead,.note,.toggle,.cat,.hero-actions,.fb,.fb-open,.dock,.rise,.greet,.ink{ display:none!important; }
+  .masthead,.note,.toggle,.cat,.hero-actions,.fb,.fb-open,.dock,.rise,.ink{ display:none!important; }
   html,body{ background:#fff; color:#000; }
   .band{ padding:20px 0; border-color:#ccc; page-break-inside:avoid; }
 }
