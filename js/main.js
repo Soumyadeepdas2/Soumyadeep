@@ -818,6 +818,19 @@
     }
   } catch (_) {}
 
+  /* ── Architecture flow: play the diagram when it scrolls in ── */
+  $$('.case__archfig').forEach(fig => {
+    if (!fig.querySelector('svg')) return;
+    fig.classList.add('arch-anim');
+    if (calm) { fig.classList.add('is-live'); return; }
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { fig.classList.add('is-live'); io.disconnect(); }
+      });
+    }, { threshold: 0.3 });
+    io.observe(fig);
+  });
+
   /* ── Year ──────────────────────────────────────────────── */
   const yr = $('#year');
   if (yr) yr.textContent = new Date().getFullYear();
