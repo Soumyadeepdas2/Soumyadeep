@@ -1,127 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feedback — Soumyadeep Das</title>
-<meta name="description" content="Leave feedback on soumyadeep.space.">
 <meta name="robots" content="noindex">
-<link rel="canonical" href="https://www.soumyadeep.space/feedback">
-<meta name="author" content="Soumyadeep Das">
-<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#060b16" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=68">
-<script>
-  (function () {
-    try {
-      var s = localStorage.getItem('theme');
-      document.documentElement.setAttribute('data-theme', s || 'dark');
-    } catch (e) {}
-  })();
-</script>
+<meta http-equiv="refresh" content="0; url=/?feedback=1">
+<link rel="canonical" href="https://www.soumyadeep.space/">
+<title>Feedback — Soumyadeep Das</title>
+<script>location.replace('/?feedback=1');</script>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-
-<header class="masthead">
-  <a class="masthead__name" href="/">Soumyadeep&nbsp;Das</a>
-  <nav class="masthead__nav" id="nav" aria-label="Sections">
-    <a href="/#projects">Projects</a>
-    <a href="/#skills">Skills</a>
-    <a href="/#education">Education</a>
-    <a href="/#achievements">Achievements</a>
-    <a href="/#contact">Contact</a>
-  </nav>
-  <button class="toggle" id="themeToggle" aria-label="Switch theme" aria-pressed="false" title="Switch theme">
-    <svg class="toggle__svg" viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <mask id="moonCut">
-          <rect width="24" height="24" fill="#fff"/>
-          <circle class="toggle__cut" cx="12" cy="12" r="5.6" fill="#000"/>
-        </mask>
-      </defs>
-      <circle class="toggle__disc" cx="12" cy="12" r="5.6" mask="url(#moonCut)"/>
-      <g class="toggle__rays">
-        <line x1="12" y1="3.8" x2="12" y2="1.4"/>
-        <line x1="17.80" y1="6.20" x2="19.50" y2="4.51"/>
-        <line x1="20.20" y1="12" x2="22.60" y2="12"/>
-        <line x1="17.80" y1="17.80" x2="19.50" y2="19.50"/>
-        <line x1="12" y1="20.20" x2="12" y2="22.60"/>
-        <line x1="6.20" y1="17.80" x2="4.51" y2="19.50"/>
-        <line x1="3.80" y1="12" x2="1.40" y2="12"/>
-        <line x1="6.20" y1="6.20" x2="4.51" y2="4.51"/>
-      </g>
-    </svg>
-  </button>
-  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">Menu</button>
-</header>
-
-<main id="main" class="case leaf">
-  <p class="case__kicker"><span class="tag__dot" aria-hidden="true"></span> A note for Soumyadeep</p>
-  <h1 class="case__title">Feed<em>back</em></h1>
-  <p class="case__lead">How was the site? Pick a rating, then say whatever you want.</p>
-
-  <form class="note" id="contactForm" novalidate
-        data-endpoint="https://api.web3forms.com/submit"
-        data-access-key="6b8d7823-494c-4d5b-bf8b-b176d7e7460a"
-        data-fallback-email="soumyadeepdas044@gmail.com">
-    <input type="checkbox" name="botcheck" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <fieldset class="fld topic">
-      <legend>How was the site?</legend>
-      <div class="topic__opts">
-        <label class="topic__opt">
-          <input type="radio" name="rating" value="Bad">
-          <span>Bad</span>
-        </label>
-        <label class="topic__opt">
-          <input type="radio" name="rating" value="Ok ok">
-          <span>Ok ok</span>
-        </label>
-        <label class="topic__opt">
-          <input type="radio" name="rating" value="Good">
-          <span>Good</span>
-        </label>
-      </div>
-    </fieldset>
-    <div class="note__grid">
-      <label class="fld">
-        <span>Name</span>
-        <input id="name" name="name" type="text" autocomplete="name" required>
-        <small class="err" data-for="name"></small>
-      </label>
-      <label class="fld">
-        <span>Email</span>
-        <input id="email" name="email" type="email" autocomplete="email" required>
-        <small class="err" data-for="email"></small>
-      </label>
-    </div>
-    <label class="fld">
-      <span>Message</span>
-      <textarea id="message" name="message" rows="4" required></textarea>
-      <small class="err" data-for="message"></small>
-    </label>
-    <button type="submit" class="send">Send<span aria-hidden="true"> →</span></button>
-    <p class="note__status" id="formNote" role="status"></p>
-  </form>
-
-  <div class="case__actions">
-    <a class="project__link" href="/#contact">Return to portfolio</a>
-  </div>
-</main>
-
-<footer class="colophon">
-  <span>© <span id="year"></span> Soumyadeep Das</span>
-  <span>Vadodara, Gujarat · <span id="clock"></span> IST</span>
-  <a href="https://www.dmca.com/Protection/Status.aspx?ID=c96278ac-1254-48d6-b82b-701844642bdf" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopener">
-    <img src="assets/dmca-badge.png" alt="DMCA.com Protection Status" width="100" height="20">
-  </a>
-</footer>
-
-<script src="js/main.js?v=47"></script>
+<p><a href="/?feedback=1">Open feedback</a></p>
 </body>
 </html>

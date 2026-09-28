@@ -217,7 +217,7 @@
     ['  String', 'k'], [' campus = ', ''], ['"Parul University"', 's'], [';\n', ''],
     ['  String', 'k'], ['[] stack = { ', ''], ['"Java"', 's'], [', ', ''], ['"C++"', 's'], [',\n', ''],
     ['                     ', ''], ['"Python"', 's'], [', ', ''], ['"JS"', 's'], [' };\n', ''],
-    ['  int', 'k'], [' problemsSolved = ', ''], ['508', 'n'], [';\n\n', ''],
+    ['  int', 'k'], [' problemsSolved = ', ''], ['529', 'n'], [';\n\n', ''],
     ['  void', 'k'], [' ', ''], ['build', 'f'], ['(Idea idea) {\n', ''],
     ['    while', 'k'], [' (!idea.', ''], ['works', 'f'], ['()) {\n', ''],
     ['      idea.', ''], ['debug', 'f'], ['();  ', ''], ['// this is the job\n', 'c'],
@@ -284,7 +284,7 @@
      caused crawlers to index the wrong number. The live figure is
      Codolio’s total, hydrated from data/practice.json. */
   const tally = $('#tally');
-  if (tally) tally.textContent = tally.dataset.to || '508';
+  if (tally) tally.textContent = tally.dataset.to || '529';
 
   /* ── Practice heatmap ───────────────────────────────────
      data/practice.json is written once a day by GitHub Actions
@@ -394,7 +394,7 @@
     }
     const cred = ASKS.find(a => a.q === 'Any code cred?');
     if (cred) {
-      const n = solvedText || '508';
+      const n = solvedText || '529';
       const dayBit = days != null
         ? `${days} active days, current streak ${streak}`
         : '220 active days, current streak 107';
@@ -656,7 +656,7 @@
     { q: 'What has he built?', a: "Three live products: <b><a href=\"/hushhconnect\">hushhconnect</a></b>, private realtime messaging built around Chat IDs; <b><a href=\"/bookyuniverse\">BookyUniverse</a></b>, a searchable digital library; and <b><a href=\"/tellsgroup\">Tellsgroup</a></b>, one home for eighteen media brands. See <a href=\"/#projects\">Projects</a>." },
     { q: 'Tech stack?', a: "Java and C++ for algorithms; JavaScript and React for the web. Also Python, MySQL, MongoDB, Supabase Realtime, Git and AWS. Full list under <a href=\"#skills\">Skills</a>." },
     { q: 'Studying what?', a: "<b>B.Tech in Computer Science</b> at Parul University, Vadodara — specialising in AI &amp; ML, graduating 2028. CGPA 7.17." },
-    { q: 'Any code cred?', a: "<b>508 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 223 active days, current streak 110. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
+    { q: 'Any code cred?', a: "<b>529 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 226 active days, current streak 113. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
     { q: 'Résumé?', a: "Right here — <a href=\"assets/Soumyadeep_Das_Resume.pdf\" download>download the PDF</a>. One page, no fluff." },
     { q: 'Where is he?', a: "Vadodara, Gujarat, India — that's IST, UTC+5:30. Happy to work remotely." }
   ];
@@ -766,6 +766,57 @@
       copyMail._t = setTimeout(label, 1400);
     });
   }
+
+  /* ── Feedback window ───────────────────────────────────── */
+  const pane = $('#feedbackPane');
+  const paneWin = pane?.querySelector('.pane__win');
+  const paneOpenBtn = $('#openFeedback');
+  let paneFocus = null;
+
+  const paneFocusable = () => {
+    if (!paneWin) return [];
+    return $$('a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])', paneWin)
+      .filter(el => !el.hidden && !el.closest('.sr') && el.getClientRects().length);
+  };
+
+  function openPane() {
+    if (!pane) return;
+    paneFocus = document.activeElement;
+    if (cat?.classList.contains('open')) closeCat();
+    pane.hidden = false;
+    document.documentElement.classList.add('pane-on');
+    (pane.querySelector('#paneClose') || paneWin)?.focus();
+  }
+  function closePane() {
+    if (!pane || pane.hidden) return;
+    pane.hidden = true;
+    document.documentElement.classList.remove('pane-on');
+    (paneFocus?.isConnected ? paneFocus : paneOpenBtn)?.focus();
+  }
+
+  paneOpenBtn?.addEventListener('click', openPane);
+  $('#paneClose')?.addEventListener('click', closePane);
+  pane?.querySelector('[data-pane-close]')?.addEventListener('click', closePane);
+  addEventListener('keydown', e => {
+    if (!pane || pane.hidden) return;
+    if (e.key === 'Escape') { e.preventDefault(); closePane(); return; }
+    if (e.key !== 'Tab') return;
+    const items = paneFocusable();
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last?.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first?.focus();
+    }
+  });
+  try {
+    const q = new URLSearchParams(location.search);
+    if (q.get('feedback') === '1' || location.hash === '#feedback') {
+      openPane();
+      history.replaceState(null, '', location.pathname + (location.hash === '#feedback' ? '' : location.hash));
+    }
+  } catch (_) {}
 
   /* ── Year ──────────────────────────────────────────────── */
   const yr = $('#year');

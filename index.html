@@ -13,14 +13,14 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.soumyadeep.space/">
 <meta property="og:title" content="Soumyadeep Das — Developer, Vadodara">
-<meta property="og:description" content="Computer science student building web products. hushhconnect, BookyUniverse, Tellsgroup and 508 algorithm problems.">
+<meta property="og:description" content="Computer science student building web products. hushhconnect, BookyUniverse, Tellsgroup and 529 algorithm problems.">
 <meta property="og:image" content="https://www.soumyadeep.space/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Soumyadeep Das — computer science student available for internships">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Soumyadeep Das — Developer, Vadodara">
-<meta name="twitter:description" content="Computer science student building web products. hushhconnect, BookyUniverse, Tellsgroup and 508 algorithm problems.">
+<meta name="twitter:description" content="Computer science student building web products. hushhconnect, BookyUniverse, Tellsgroup and 529 algorithm problems.">
 <meta name="twitter:image" content="https://www.soumyadeep.space/assets/og-image.png">
 <meta name="twitter:image:alt" content="Soumyadeep Das — computer science student available for internships">
 
@@ -31,7 +31,7 @@
 <!-- The two hero faces are local and preloaded: no third-party font chain delays the LCP. -->
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=68">
+<link rel="stylesheet" href="css/styles.css?v=69">
 
 <script>
   (function () {
@@ -258,7 +258,7 @@
 
   <div class="stack">
     <div class="editor-wrap">
-      <span class="chip chip--a" id="solvedChip">508 solved</span>
+      <span class="chip chip--a" id="solvedChip">529 solved</span>
       <span class="chip chip--b">3 live products</span>
 
       <figure class="editor" aria-label="A Java class describing Soumyadeep Das">
@@ -271,7 +271,7 @@
   String campus = "Parul University";
   String[] stack = { "Java", "C++",
                      "Python", "JS" };
-  int problemsSolved = 508;
+  int problemsSolved = 529;
 
   void build(Idea idea) {
     while (!idea.works()) {
@@ -413,7 +413,7 @@
     <div class="ledger__row">
       <span class="ledger__k">Practice</span>
       <span class="ledger__v">
-        <strong><span class="tally" id="tally" data-to="508">508</span> problems solved</strong>
+        <strong><span class="tally" id="tally" data-to="529">529</span> problems solved</strong>
         LeetCode, GeeksforGeeks, CodeChef, Codeforces, HackerRank, InterviewBit, AtCoder.
         <span id="practiceDetail">220 active days, current streak 107.</span>
       </span>
@@ -456,9 +456,9 @@
       <a class="is-wa" href="https://wa.me/6285716917164" target="_blank" rel="noopener" aria-label="WhatsApp">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.15 6.43 2.15 11.89c0 1.74.46 3.44 1.32 4.94L2 22l5.31-1.39a9.86 9.86 0 0 0 4.73 1.2h.01c5.46 0 9.89-4.43 9.89-9.89C21.94 6.43 17.5 2 12.04 2Zm5.75 14.01c-.24.68-1.4 1.25-1.94 1.33-.5.07-1.13.1-1.83-.12-.42-.13-.97-.32-1.67-.62-2.94-1.27-4.85-4.23-5-4.42-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.14.32-.28.49-.14.17-.3.37-.42.5-.14.14-.29.3-.12.58.16.29.73 1.2 1.56 1.95 1.08.96 1.98 1.26 2.26 1.4.28.14.45.12.61-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.62-.14.26.1 1.63.77 1.91.91.28.14.47.21.54.32.07.12.07.68-.17 1.36Z"/></svg>
       </a>
-      <a class="is-fb" href="/feedback" aria-label="Feedback">
+      <button type="button" class="is-fb" id="openFeedback" aria-label="Feedback" aria-haspopup="dialog" aria-controls="feedbackPane">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 3.5h16A2.5 2.5 0 0 1 22.5 6v9A2.5 2.5 0 0 1 20 17.5H8.2L3.5 21.2V6A2.5 2.5 0 0 1 6 3.5H4Zm2 0h14A1.5 1.5 0 0 1 21.5 6v9a1.5 1.5 0 0 1-1.5 1.5H7.6L4.5 18.8V6A1.5 1.5 0 0 1 6 4.5H6Z"/></svg>
-      </a>
+      </button>
     </nav>
 
     <div class="connect__mark">
@@ -512,7 +512,60 @@
   </div>
 </div>
 
-<script src="js/main.js?v=47"></script>
+
+<div class="pane" id="feedbackPane" hidden>
+  <div class="pane__dim" data-pane-close></div>
+  <div class="pane__win leaf" role="dialog" aria-modal="true" aria-labelledby="paneTitle" tabindex="-1">
+    <button type="button" class="pane__x" id="paneClose" aria-label="Close">✕</button>
+    <p class="pane__kicker"><span class="tag__dot" aria-hidden="true"></span> A note for Soumyadeep</p>
+    <h2 class="pane__title" id="paneTitle">Feed<em>back</em></h2>
+    <p class="pane__lead">How was the site? Pick a rating, then say whatever you want.</p>
+    <form class="note" id="contactForm" novalidate
+          data-endpoint="https://api.web3forms.com/submit"
+          data-access-key="6b8d7823-494c-4d5b-bf8b-b176d7e7460a"
+          data-fallback-email="soumyadeepdas044@gmail.com">
+      <input type="checkbox" name="botcheck" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <fieldset class="fld topic">
+        <legend>How was the site?</legend>
+        <div class="topic__opts">
+          <label class="topic__opt">
+            <input type="radio" name="rating" value="Bad">
+            <span>Bad</span>
+          </label>
+          <label class="topic__opt">
+            <input type="radio" name="rating" value="Ok ok">
+            <span>Ok ok</span>
+          </label>
+          <label class="topic__opt">
+            <input type="radio" name="rating" value="Good">
+            <span>Good</span>
+          </label>
+        </div>
+      </fieldset>
+      <div class="note__grid">
+        <label class="fld">
+          <span>Name</span>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+          <small class="err" data-for="name"></small>
+        </label>
+        <label class="fld">
+          <span>Email</span>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+          <small class="err" data-for="email"></small>
+        </label>
+      </div>
+      <label class="fld">
+        <span>Message</span>
+        <textarea id="message" name="message" rows="4" required></textarea>
+        <small class="err" data-for="message"></small>
+      </label>
+      <button type="submit" class="send">Send<span aria-hidden="true"> →</span></button>
+      <p class="note__status" id="formNote" role="status"></p>
+    </form>
+  </div>
+</div>
+
+<script src="js/main.js?v=49"></script>
 <script src="js/portrait.js?v=18"></script>
 </body>
 </html>

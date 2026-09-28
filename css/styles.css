@@ -675,14 +675,17 @@ ul,ol{ list-style:none; }
 .connect__cv:focus-visible{
   color:var(--accent); border-color:var(--accent);
 }
-.connect__social a{
+.connect__social a,
+.connect__social button{
   display:grid; place-items:center;
-  width:48px; height:48px;
-  color:var(--fg);
+  width:48px; height:48px; padding:0;
+  color:var(--fg); background:transparent;
   border:1px solid var(--rule); border-radius:2px;
+  cursor:pointer;
   transition:color .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
 }
-.connect__social a svg{ width:22px; height:22px; display:block; }
+.connect__social a svg,
+.connect__social button svg{ width:22px; height:22px; display:block; }
 .connect__social a.is-mail:hover,
 .connect__social a.is-mail:focus-visible{
   background:#EA4335; border-color:#EA4335; color:#fff;
@@ -704,7 +707,9 @@ ul,ol{ list-style:none; }
   background:#25D366; border-color:#25D366; color:#fff;
 }
 .connect__social a.is-fb:hover,
-.connect__social a.is-fb:focus-visible{
+.connect__social a.is-fb:focus-visible,
+.connect__social button.is-fb:hover,
+.connect__social button.is-fb:focus-visible{
   background:var(--accent); border-color:var(--accent); color:var(--bg);
 }
 .close__sign{
@@ -1062,6 +1067,59 @@ ul,ol{ list-style:none; }
 .leaf .send[disabled]{ opacity:.45; cursor:wait; }
 .leaf .case__title{ font-size:clamp(42px, 8vw, 88px); }
 
+/* ── Feedback window ─────────────────────────────────────── */
+html.pane-on, html.pane-on body{ overflow:hidden; }
+.pane{
+  position:fixed; inset:0; z-index:220;
+  display:grid; place-items:center;
+  padding:max(16px, var(--gut));
+}
+.pane[hidden]{ display:none !important; }
+.pane__dim{
+  position:absolute; inset:0;
+  background:color-mix(in srgb, var(--ink) 58%, transparent);
+}
+.pane__win{
+  position:relative; z-index:1;
+  width:min(640px, 100%);
+  max-height:min(92vh, 880px);
+  overflow:auto;
+  background:var(--bg);
+  border:1px solid var(--rule); border-radius:2px;
+  padding:clamp(28px, 4vw, 44px) clamp(22px, 4vw, 40px) clamp(24px, 3vw, 36px);
+  box-shadow:0 28px 72px rgba(0,0,0,.48);
+}
+[data-theme="light"] .pane__win{ box-shadow:0 28px 72px rgba(23,21,15,.18); }
+.pane__x{
+  position:absolute; top:12px; right:12px;
+  width:36px; height:36px; padding:0;
+  display:grid; place-items:center;
+  background:transparent; border:0; border-radius:2px;
+  color:var(--fg); font-size:22px; line-height:1; cursor:pointer;
+}
+.pane__x:hover,
+.pane__x:focus-visible{ color:var(--accent); }
+.pane__kicker{
+  font-family:var(--mono); font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--fg-dim);
+  display:flex; align-items:center; gap:9px; margin:0 28px 16px 0;
+}
+.pane__title{
+  font-family:var(--serif); font-weight:300;
+  font-size:clamp(36px, 7vw, 64px); line-height:.9;
+  letter-spacing:-.02em; margin:0 0 10px;
+}
+.pane__title em{ font-style:italic; color:var(--accent); }
+.pane__lead{
+  font-family:var(--read); font-weight:300;
+  font-size:16px; line-height:1.55; color:var(--fg-dim);
+  margin:0 0 8px; max-width:42ch;
+}
+.pane .note{
+  margin-top:18px; max-width:none;
+  padding:0; border:0; background:transparent;
+}
+
 /* Real signature, traced from ink to vector. Inherits currentColor,
    so it works in both themes with no second asset.
 
@@ -1196,7 +1254,7 @@ ul,ol{ list-style:none; }
 }
 
 @media print{
-  .masthead,.note,.toggle,.cat,.hero-actions,.fb,.fb-open,.dock,.rise,.ink{ display:none!important; }
+  .masthead,.note,.toggle,.cat,.hero-actions,.fb,.fb-open,.dock,.rise,.ink,.pane{ display:none!important; }
   html,body{ background:#fff; color:#000; }
   .band{ padding:20px 0; border-color:#ccc; page-break-inside:avoid; }
 }
