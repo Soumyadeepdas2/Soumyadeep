@@ -24,6 +24,7 @@ CLEAN = {
     "/hushh": "/hushhconnect.html",
     "/bookyuniverse": "/bookyuniverse.html",
     "/tellsgroup": "/tellsgroup.html",
+    "/openrail": "/openrail.html",
     "/feedback": "/feedback.html",
 }
 
