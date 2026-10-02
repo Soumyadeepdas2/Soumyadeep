@@ -37,6 +37,11 @@
       "source": "/openrail.html",
       "destination": "/openrail",
       "permanent": true
+    },
+    {
+      "source": "/meow.html",
+      "destination": "/openrail",
+      "permanent": true
     }
   ],
   "headers": [

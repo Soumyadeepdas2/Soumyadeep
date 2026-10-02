@@ -429,6 +429,13 @@ ul,ol{ list-style:none; }
   display:grid; grid-template-columns:56px minmax(0,1fr) 84px;
   align-items:baseline; gap:20px;
 }
+.plogo{
+  display:inline-block; height:.72em; width:auto;
+  vertical-align:baseline; margin-right:.26em;
+}
+.plogo--light{ display:none; }
+[data-theme="light"] .plogo{ display:none; }
+[data-theme="light"] .plogo--light{ display:inline-block; }
 .project__no,
 .project__year{
   font-family:var(--mono); font-size:11px; color:var(--fg-faint);
@@ -998,6 +1005,7 @@ ul,ol{ list-style:none; }
   text-transform:uppercase; color:var(--fg-dim);
   display:flex; align-items:center; gap:9px; margin-bottom:22px;
 }
+
 .case__title{
   font-family:var(--serif); font-weight:300;
   font-size:clamp(56px,12vw,148px); line-height:.88;

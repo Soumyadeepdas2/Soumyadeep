@@ -25,6 +25,7 @@ CLEAN = {
     "/bookyuniverse": "/bookyuniverse.html",
     "/tellsgroup": "/tellsgroup.html",
     "/openrail": "/openrail.html",
+    "/meow": "/meow.html",
     "/feedback": "/feedback.html",
 }
 

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meow Reminder — Soumyadeep Das</title>
+<meta name="description" content="Meow Reminder is a personal reminder service with no app and no login: type “call father tomorrow 9am” and your own Telegram bot replies on time.">
+<link rel="canonical" href="https://www.soumyadeep.space/meow">
+<meta name="author" content="Soumyadeep Das">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060b16" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.soumyadeep.space/meow">
+<meta property="og:title" content="Meow Reminder — Soumyadeep Das">
+<meta property="og:description" content="Type it or tap it — your own Telegram bot meows back at the right time.">
+<meta property="og:image" content="https://www.soumyadeep.space/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=96">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', s || 'dark');
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <a class="masthead__name" href="/">Soumyadeep&nbsp;Das</a>
+  <nav class="masthead__nav" id="nav" aria-label="Sections">
+    <a href="/#projects">Projects</a>
+    <a href="/#skills">Skills &amp; About</a>
+    <a href="/#education">Education</a>
+    <a href="/#achievements">Achievements</a>
+    <a href="/#contact">Contact</a>
+  </nav>
+  <button class="toggle" id="themeToggle" aria-label="Switch theme" aria-pressed="false" title="Switch theme">
+    <svg class="toggle__svg" viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <mask id="moonCut">
+          <rect width="24" height="24" fill="#fff"/>
+          <circle class="toggle__cut" cx="12" cy="12" r="5.6" fill="#000"/>
+        </mask>
+      </defs>
+      <circle class="toggle__disc" cx="12" cy="12" r="5.6" mask="url(#moonCut)"/>
+      <g class="toggle__rays">
+        <line x1="12" y1="3.8" x2="12" y2="1.4"/>
+        <line x1="17.80" y1="6.20" x2="19.50" y2="4.51"/>
+        <line x1="20.20" y1="12" x2="22.60" y2="12"/>
+        <line x1="17.80" y1="17.80" x2="19.50" y2="19.50"/>
+        <line x1="12" y1="20.20" x2="12" y2="22.60"/>
+        <line x1="6.20" y1="17.80" x2="4.51" y2="19.50"/>
+        <line x1="3.80" y1="12" x2="1.40" y2="12"/>
+        <line x1="6.20" y1="6.20" x2="4.51" y2="4.51"/>
+      </g>
+    </svg>
+  </button>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">Menu</button>
+</header>
+
+<main id="main" class="case">
+  <p class="case__kicker"><span class="tag__dot" aria-hidden="true"></span> Project 03 · 2026</p>
+  <h1 class="case__title"><img class="plogo" src="assets/logos/meow.png?v=2" alt="" width="174" height="124"><img class="plogo plogo--light" src="assets/logos/meow-light.png?v=2" alt="" width="194" height="144">Meow <em>Reminder</em></h1>
+  <p class="case__lead">You heard me — type it here, your Telegram bot says it back on time.</p>
+
+  <figure class="case__shot">
+    <img src="assets/meow.jpg" width="1600" height="791" alt="Meow Reminder homepage: one browser, one meow, with a countdown, a get-the-meow button and a how-to list.">
+  </figure>
+
+  <section class="case__detail">
+    <h2>Project details</h2>
+
+    <dl class="case__meta">
+      <div><dt>Type</dt><dd>Telegram reminder service</dd></div>
+      <div><dt>Role</dt><dd>Full stack — bot, scheduler, parser</dd></div>
+      <div><dt>Proven</dt><dd>64 / 64 tests across 3 suites</dd></div>
+    </dl>
+
+    <p class="case__about">Meow Reminder is a single-container Node.js app where your Telegram account is the login. Press the paw, send <em>/start</em> with a one-time code, and that browser becomes yours — reminders, agenda, nobody else’s. “Call father tomorrow 9am” is parsed into a due date by chrono-node; “every day 9am” gets its own repeat rules with one <em>nextOccurrence()</em> truth shared by the scheduler, the panel and manual done. A 15-second tick fires due reminders through Telegram, email or the demo channel; the Telegram poller long-polls for enrollments; every write goes straight into MongoDB Atlas with local JSON as the fallback. The admin page manages bots, users and the public LEDGER — and 64 tests prove the sync, the repeats and the ledger.</p>
+
+    <div class="case__builtwith">
+      <h3>Built with</h3>
+      <ul class="case__tech">
+        <li>Node.js</li>
+        <li>Express</li>
+        <li>Telegram Bot API</li>
+        <li>MongoDB Atlas</li>
+      </ul>
+    </div>
+
+    <div class="case__maps">
+      <div>
+        <h3>The problem, in structure</h3>
+        <ol class="case__steps">
+          <li><strong>Reminders demand an app.</strong> Stores, sign-ups, notification permissions — all before a single reminder exists.
+            <ul>
+              <li>and you still type the time by hand</li>
+            </ul>
+          </li>
+          <li><strong>“Tomorrow 9am” becomes a form.</strong> Date pickers bury natural language under taps.</li>
+          <li><strong>Accounts fragment the list.</strong> Phone and laptop show two different tomorrows.</li>
+          <li><strong>Free hosts punish daemons.</strong> Sleep, 30-second caps and read-only disks kill schedulers.</li>
+          <li><strong>A crash forgets you.</strong> In-memory to-do lists die with the process.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>How it answers each one</h3>
+        <ol class="case__steps">
+          <li><strong>Telegram is the app.</strong> You already have it — <em>/start</em> plus a 15-minute code enrolls you; the bot is the notification channel too.</li>
+          <li><strong>Type it like you’d say it.</strong> chrono-node reads “tomorrow 9am”; “every day 9am” maps to four recurrence shapes with one next-occurrence truth.</li>
+          <li><strong>Identity is your chat id.</strong> A signed per-browser cookie (HMAC, 90 days) means every linked browser shows the same owner-scoped list — others see nothing.</li>
+          <li><strong>One thin container.</strong> Express, a 15-second tick and a long-poll loop — nothing a host punishes. Deplexo keeps it always-on; a health check keeps it honest.</li>
+          <li><strong>Write-through from tick one.</strong> Every change lands in MongoDB Atlas (local JSON fallback); a rebuilt container reloads from the cloud. 64/64 tests agree.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="case__arch">
+      <h3>Architecture</h3>
+      <figure class="case__archfig">
+<svg viewBox="0 0 660 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Meow architecture: you to a Telegram-linked Express container on Deplexo, with the scheduler and poller delivering reminders and MongoDB Atlas persisting them">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8L8.6 5L0 9.2" fill="none" class="archEdge" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="1" y="1" width="658" height="618" rx="18" stroke-width="1.5" class="archPanel" style="--d:0.00s"/>
+<circle cx="280" cy="95" r="42" stroke-width="1.4" class="archNode aN" style="--d:0.92s"/>
+<text x="280" y="100" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:0.92s">You</text>
+<path d="M280 137 L280 205" fill="none" stroke-width="1.3" pathLength="1" class="archEdge aD" style="--d:1.84s"/><path d="M280 137 L280 205" fill="none" stroke-width="1.3" stroke-dasharray="0" marker-end="url(#arr)" class="archEdge aF" style="--d:2.19s"/>
+<rect x="165.2" y="155" width="229.6" height="22" rx="4" stroke-width="1" class="archChip aF" style="--d:2.46s"/><text x="280" y="170" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="11" font-weight="400" class="archChipInk aF" style="--d:2.46s">1. Types “tomorrow 9am”</text>
+<path d="M280 205 L415 290 L280 375 L145 290 Z" stroke-width="1.4" class="archNode aN" style="--d:3.01s"/>
+<text x="280" y="285" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:3.01s">Telegram Is</text>
+<text x="280" y="303" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:3.01s">the Login</text>
+<path d="M320 76 C 452 118, 452 300, 372 424" fill="none" stroke-width="1.3" pathLength="1" class="archEdge aD" style="--d:3.29s"/>
+<path d="M320 76 C 452 118, 452 300, 372 424" fill="none" stroke-width="1.3" stroke-dasharray="0" marker-end="url(#arr)" class="archEdge aF" style="--d:3.52s"/>
+<rect x="392.6" y="239" width="146.8" height="22" rx="4" stroke-width="1" class="archChip aF" style="--d:3.57s"/><text x="466" y="254" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="11" font-weight="400" class="archChipInk aF" style="--d:3.57s">3. Bot Replies</text>
+<path d="M280 375 L280 430" fill="none" stroke-width="1.3" pathLength="1" class="archEdge aD" style="--d:4.49s"/><path d="M280 375 L280 430" fill="none" stroke-width="1.3" stroke-dasharray="0" marker-end="url(#arr)" class="archEdge aF" style="--d:4.72s"/>
+<rect x="179.0" y="392" width="202.0" height="22" rx="4" stroke-width="1" class="archChip aF" style="--d:5.11s"/><text x="280" y="407" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="11" font-weight="400" class="archChipInk aF" style="--d:5.11s">2. Links With a Code</text>
+<rect x="163" y="430" width="234" height="62" rx="6" stroke-width="1.4" class="archNode aN" style="--d:5.66s"/>
+<text x="280" y="456" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:5.66s">Express on Deplexo</text>
+<text x="280" y="475" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:5.66s">(one container, /data)</text>
+<path d="M397 461 L450 461" fill="none" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arr)" class="archEdge aF" style="--d:5.93s"/>
+<rect x="450" y="430" width="192" height="68" rx="6" stroke-width="1.4" class="archNode aN" style="--d:5.93s"/>
+<text x="546" y="455" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:5.93s">scheduler · poller</text>
+<text x="546" y="472" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:6.10s">(15 s tick)</text>
+<text x="546" y="489" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:6.21s">— parser · channels</text>
+<path d="M280 492 L280 512 L168 512 L168 531" fill="none" stroke-width="1.3" pathLength="1" class="archEdge aD" style="--d:6.62s"/><path d="M280 492 L280 512 L168 512 L168 531" fill="none" stroke-width="1.3" stroke-dasharray="0" marker-end="url(#arr)" class="archEdge aF" style="--d:6.76s"/>
+<rect x="90.2" y="501" width="183.6" height="22" rx="4" stroke-width="1" class="archChip aF" style="--d:7.13s"/><text x="182" y="516" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="11" font-weight="400" class="archChipInk aF" style="--d:7.13s">4. Fires Reminders</text>
+<path d="M280 492 L280 512 L392 512 L392 531" fill="none" stroke-width="1.3" pathLength="1" class="archEdge aD" style="--d:7.36s"/><path d="M280 492 L280 512 L392 512 L392 531" fill="none" stroke-width="1.3" stroke-dasharray="0" marker-end="url(#arr)" class="archEdge aF" style="--d:7.49s"/>
+<rect x="295.4" y="501" width="165.2" height="22" rx="4" stroke-width="1" class="archChip aF" style="--d:7.68s"/><text x="378" y="516" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="11" font-weight="400" class="archChipInk aF" style="--d:7.68s">5. Write-Through</text>
+<path d="M102 546 L102 588 A66 11 0 0 0 234 588 L234 546" stroke-width="1.4" class="archNode aN" style="--d:8.05s"/>
+<ellipse cx="168" cy="546" rx="66" ry="11" stroke-width="1.4" class="archNode aN" style="--d:8.05s"/>
+<text x="168" y="575" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:8.05s">Telegram / Email</text>
+<text x="168" y="592" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="600" class="archInk aF" style="--d:8.05s">(+ demo channel)</text>
+<path d="M326 546 L326 588 A66 11 0 0 0 458 588 L458 546" stroke-width="1.4" class="archNode aN" style="--d:8.40s"/>
+<ellipse cx="392" cy="546" rx="66" ry="11" stroke-width="1.4" class="archNode aN" style="--d:8.40s"/>
+<text x="392" y="575" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12.5" font-weight="600" class="archInk aF" style="--d:8.40s">MongoDB Atlas</text>
+<text x="392" y="592" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="600" class="archInk aF" style="--d:8.40s">(local JSON fallback)</text>
+</svg>
+      </figure>
+    </div>
+
+    <div class="case__next">
+      <h3>Next phase</h3>
+      <ul class="case__road">
+        <li>A WhatsApp channel beside Telegram.</li>
+        <li>Quiet hours, respected by the scheduler.</li>
+        <li>Voice notes parsed straight into reminders.</li>
+        <li>An offline composer that syncs on reconnect.</li>
+        <li>Natural-language edits: “move dad’s call to 6pm”.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="case__actions">
+    <a class="project__link" href="/#projects"><span aria-hidden="true">&#8592; </span>Portfolio</a>
+    <a class="project__link" href="https://meowreminder.de.deplexo.com/" target="_blank" rel="noopener">Live project<span aria-hidden="true"> ↗</span></a>
+    <a class="project__link" href="https://github.com/Soumyadeepdas2/meowreminder" target="_blank" rel="noopener">Source code<span aria-hidden="true"> ↗</span></a>
+  </div>
+</main>
+
+<footer class="colophon">
+  <span>© <span id="year"></span> Soumyadeep Das</span>
+  <span><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
+</footer>
+
+<div class="dock">
+  <button class="rise" id="rise" type="button" aria-label="Return to opening">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+
+<script src="js/main.js?v=56"></script>
+</body>
+</html>
