@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-02",
+  "updated": "2026-10-03",
   "profile": "https://codolio.com/profile/soumyadeepdas",
   "solved": 546,
   "activeDays": 230,
   "maxStreak": 117,
-  "currentStreak": 117,
+  "currentStreak": 0,
   "platforms": [
     "leetcode",
     "geeksforgeeks",

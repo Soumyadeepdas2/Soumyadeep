@@ -37,9 +37,9 @@
   --ink:      #060b16;
   --paper:    #f4f1ea;
 
-  --bg:       #060b16;
+  --bg:       #060f26;
   --plaster:  url("../assets/plaster.png");
-  --plaster-wash: rgba(6, 11, 22, .90); /* dark: keep only a hint of grain */
+  --plaster-wash: rgba(6, 15, 38, .90); /* dark: keep only a hint of grain */
   --fg:       #e8e4dc;
   --fg-dim:   #8f8a82;
   --fg-faint: #8b847b;   /* AA on dark (4.6:1) — was 2.08:1, unreadable */
@@ -430,8 +430,11 @@ ul,ol{ list-style:none; }
   align-items:baseline; gap:20px;
 }
 .plogo{
-  display:inline-block; height:.72em; width:auto;
-  vertical-align:baseline; margin-right:.26em;
+  display:inline-block;
+  height:.92em; width:auto;
+  max-width:3.2em;
+  object-fit:contain; object-position:left center;
+  vertical-align:-.08em; margin-right:.3em;
 }
 .plogo--light{ display:none; }
 [data-theme="light"] .plogo{ display:none; }
@@ -1239,12 +1242,38 @@ ul,ol{ list-style:none; }
   .colophon{
     grid-template-columns:minmax(0,1fr) auto;
     gap:3px;
-    padding:20px var(--gut) 122px;
+    padding:20px var(--gut);
     font-size:8.5px; letter-spacing:normal;
     white-space:nowrap;
   }
   .colophon > *{ min-width:0; }
+  /* The wordmark now fills the space the floating dock needs, so the
+     colophon no longer has to reserve 122px of empty padding below it. */
+  .bleed{ height:118px; }
 }
+/* ── Bleed wordmark ─────────────────────────────────────
+   The name set oversized and clipped by the bottom edge of the page.
+   Purely decorative: no pointer target, no text selection, hidden
+   from assistive tech (the colophon above already carries the name). */
+.bleed{
+  position:relative; overflow:hidden;
+  height:clamp(56px, 11vw, 148px);
+  z-index:1; pointer-events:none;
+}
+.bleed span{
+  position:absolute; left:50%; bottom:-.28em;
+  transform:translateX(-50%);
+  white-space:nowrap; user-select:none;
+  font-family:var(--serif); font-weight:300;
+  font-size:clamp(76px, 18vw, 248px); line-height:.8;
+  letter-spacing:-.015em;
+  color:var(--fg); opacity:.07;
+}
+[data-theme="light"] .bleed span{ opacity:.09; }
+@media (prefers-reduced-motion:no-preference){
+  .bleed span{ transition:opacity .6s var(--ease); }
+}
+
 @media (max-width:360px){
   .colophon{ font-size:8px; }
 }
@@ -1638,4 +1667,93 @@ html.pane-on, html.pane-on body{ overflow:hidden; }
 
 @media (max-width:520px){
   .cat__tab{ padding:9px 14px; }
+}
+
+/* ── Travelling full stop ───────────────────────────────
+   The stop that closes "Not the end of the story." leaves the sentence,
+   drops onto the social row, bounces left along it and settles as the
+   "let's connect" line.
+
+   The page's default state is the finished design: the sentence and the
+   sub-line are both fully rendered. The script adds .fx-on to <html> only
+   after every precondition passes (support, motion preference, viewport,
+   single-row icons, enough fall). Any failure and the class is never added
+   — or is removed — so nothing can ever go missing. */
+.sub-stop{ display:none; }
+.fullstop{ display:none; }
+
+html.fx-on .sub-stop{ display:inline; }
+html.fx-on .stop-ghost{ opacity:0; }        /* holds the sentence metrics */
+html.fx-on .connect__sub{ opacity:0; }      /* opacity, not visibility:
+                                               stays in the a11y tree */
+html.fx-on .fullstop{
+  display:inline-block;
+  position:absolute; left:0; top:0; z-index:3;
+  visibility:hidden;                        /* shown once measured */
+  white-space:nowrap;
+  font-family:var(--serif); font-weight:300; font-style:italic;
+  line-height:1;
+  color:var(--fg);
+  transform-origin:100% 78%;                /* pivot on the stop itself */
+  will-change:transform;
+  pointer-events:none;
+  transition:color .5s var(--ease);
+}
+html.fx-on .fullstop.is-text{ color:var(--fg-dim); }
+.fullstop__w{ display:inline-block; }
+.fullstop__w i{
+  display:inline-block; white-space:pre;
+  opacity:0; transform:translateY(.3em) scale(.82);
+  transform-origin:50% 90%;
+  transition:opacity .42s var(--ease), transform .42s var(--ease);
+}
+.fullstop.is-text .fullstop__w i{ opacity:1; transform:none; }
+.fullstop.no-anim .fullstop__w i{ transition:none !important; }
+.fullstop__p{ display:inline-block; }
+
+.connect__social a,
+.connect__social button{ transition:transform .28s var(--ease), color .35s var(--ease), border-color .35s var(--ease); }
+.connect__social .pang{ animation:pang .4s var(--ease); }
+@keyframes pang{
+  0%{ transform:translateY(0) scale(1); }
+  24%{ transform:translateY(4px) scaleY(.9) scaleX(1.05); }
+  62%{ transform:translateY(-2px) scale(1.02); }
+  100%{ transform:none; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.fx-on .fullstop{ display:none !important; }
+  html.fx-on .stop-ghost{ opacity:1; }
+  html.fx-on .connect__sub{ opacity:1; }
+  html.fx-on .sub-stop{ display:none; }
+}
+@media print{
+  .fullstop{ display:none !important; }
+  .stop-ghost{ opacity:1 !important; }
+  .connect__sub{ opacity:1 !important; }
+  .sub-stop{ display:none !important; }
+}
+
+/* ── Dock in flow (home) ────────────────────────────────
+   On the home page the back-to-top button and the "doubts?" tab live in
+   the empty cell of the .connect grid — the open space under the signature
+   — instead of floating over the colophon and the clock. In normal flow
+   they cannot cover anything, on any screen size. */
+.connect .dock{
+  position:static;
+  grid-column:2; grid-row:2;
+  justify-self:end; align-self:end;
+  z-index:5;
+}
+.connect .dock .cat{ position:relative; }
+.connect .dock .cat__box{ position:absolute; right:0; bottom:calc(100% + 10px); }
+@media (max-width:720px){
+  /* single-column layout: still in flow under the signature, kept to the
+     right edge so the pair reads as one cluster, as on desktop */
+  .connect .dock{
+    grid-column:1; grid-row:4;
+    justify-self:end; align-items:flex-end;
+  }
+  .connect .dock .cat__box{ right:0; left:auto; }
+  .connect{ grid-template-rows:auto auto auto auto; }
 }

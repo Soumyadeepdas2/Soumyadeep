@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://www.soumyadeep.space/">
 <meta name="author" content="Soumyadeep Das">
 <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#060b16" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#060f26" media="(prefers-color-scheme: dark)">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.soumyadeep.space/">
@@ -31,7 +31,7 @@
 <!-- The two hero faces are local and preloaded: no third-party font chain delays the LCP. -->
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=96">
+<link rel="stylesheet" href="css/styles.css?v=103">
 
 <script>
   (function () {
@@ -162,7 +162,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">01</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/hushh.png" alt="" width="759" height="219"><img class="plogo plogo--light" src="assets/logos/hushh-light.png" alt="" width="759" height="219"><a href="/hushhconnect">hushhconnect</a>
+          <img class="plogo" src="assets/logos/hushh.png?v=7" alt="" width="759" height="219"><img class="plogo plogo--light" src="assets/logos/hushh-light.png?v=7" alt="" width="759" height="219"><a href="/hushhconnect">hushhconnect</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -185,7 +185,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">02</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/openrail.png?v=2" alt="" width="204" height="173"><img class="plogo plogo--light" src="assets/logos/openrail-light.png" alt="" width="742" height="636"><a href="/openrail">OpenRail</a>
+          <img class="plogo" src="assets/logos/openrail.png?v=7" alt="" width="204" height="173"><img class="plogo plogo--light" src="assets/logos/openrail-light.png?v=7" alt="" width="742" height="636"><a href="/openrail">OpenRail</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -208,7 +208,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">03</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/meow.png?v=2" alt="" width="174" height="124"><img class="plogo plogo--light" src="assets/logos/meow-light.png?v=2" alt="" width="194" height="144"><a href="/meow">Meow Reminder</a>
+          <img class="plogo" src="assets/logos/meow.png?v=7" alt="" width="174" height="124"><img class="plogo plogo--light" src="assets/logos/meow-light.png?v=10" alt="" width="420" height="275"><a href="/meow">Meow Reminder</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -234,7 +234,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">04</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/booky.png" alt="" width="104" height="74"><img class="plogo plogo--light" src="assets/logos/booky-light.png?v=2" alt="" width="132" height="102"><a href="/bookyuniverse">BookyUniverse</a>
+          <img class="plogo" src="assets/logos/booky.png?v=7" alt="" width="104" height="74"><img class="plogo plogo--light" src="assets/logos/booky-light.png?v=7" alt="" width="229" height="147"><a href="/bookyuniverse">BookyUniverse</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -258,7 +258,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">05</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/tells.png?v=3" alt="" width="834" height="825"><img class="plogo plogo--light" src="assets/logos/tells-light.png?v=3" alt="" width="834" height="825"><a href="/tellsgroup">Tellsgroup</a>
+          <img class="plogo" src="assets/logos/tells.png?v=9" alt="" width="760" height="367"><img class="plogo plogo--light" src="assets/logos/tells-light.png?v=9" alt="" width="760" height="367"><a href="/tellsgroup">Tellsgroup</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -306,9 +306,6 @@
 
   <div class="stack">
     <div class="editor-wrap">
-      <span class="chip chip--a" id="solvedChip">540 solved</span>
-      <span class="chip chip--b">3 live products</span>
-
       <figure class="editor" aria-label="A Java class describing Soumyadeep Das">
         <figcaption class="editor__bar">
           <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -506,8 +503,8 @@
 <section class="band band--end" id="contact">
   <h2 class="band__head"><span class="band__label">Contact<span class="band__fill" aria-hidden="true">Contact</span></span><span class="band__no" aria-hidden="true">( 05 )</span></h2>
 
-  <p class="connect__line">End of page.<br>Not the end of the story.</p>
-  <p class="connect__sub">let's connect</p>
+  <p class="connect__line">End of page.<br>Not the end of the story<span class="stop-ghost" id="storyStop">.</span></p>
+  <p class="connect__sub" id="connectSub">let's connect<span class="sub-stop" id="connectStop">.</span></p>
 
   <div class="connect">
     <nav class="connect__social" aria-label="Get in touch">
@@ -538,7 +535,38 @@
       <button type="button" class="connect__mail" id="copyMail" data-mail="soumyadeepdas044@gmail.com">soumyadeepdas044@gmail.com</button>
       <a class="connect__cv" href="assets/Soumyadeep_Das_Resume.pdf" download>Résumé</a>
     </div>
+
+    <!-- CAT · a scripted helper, not an AI. Sits in the open cell of the
+         connect grid, under the signature, so it never covers the colophon. -->
+    <div class="dock">
+  <button class="rise" id="rise" type="button" aria-label="Return to opening">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="cat" id="cat">
+    <button class="cat__tab" id="catTab" aria-label="doubts?" aria-expanded="false" aria-controls="catBox">
+      <span class="cat__hi" id="catHi">doubts?</span>
+    </button>
+
+    <div class="cat__box" id="catBox" role="dialog" aria-modal="true" aria-label="doubts?" hidden>
+      <header class="cat__bar">
+        <span class="cat__title">doubts</span>
+        <button class="cat__x" id="catClose" aria-label="Close">✕</button>
+      </header>
+
+      <div class="cat__log" id="catLog" role="log" aria-live="polite"></div>
+
+      <div class="cat__asks" id="catAsks"></div>
+    </div>
   </div>
+</div>
+  </div>
+
+  <!-- The full stop that leaves the sentence, bounces along the social row and
+       settles as the "let's connect" line. Decorative: the real line above is
+       always present in the DOM for assistive tech. -->
+  <span class="fullstop" id="fullstop" aria-hidden="true"><span class="fullstop__w" id="fullstopWords"></span><span class="fullstop__p">.</span></span>
 
 </section>
 
@@ -595,32 +623,13 @@
   <span><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
 </footer>
 
-<!-- ─────────────  CAT  ─────────────
-     A scripted helper, not an AI. It answers the handful of things
-     people actually ask. No network calls, nothing to break. -->
-<div class="dock">
-  <button class="rise" id="rise" type="button" aria-label="Return to opening">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-  <div class="cat" id="cat">
-    <button class="cat__tab" id="catTab" aria-label="doubts?" aria-expanded="false" aria-controls="catBox">
-      <span class="cat__hi" id="catHi">doubts?</span>
-    </button>
+<!-- ─────────────  BLEED WORDMARK  ─────────────
+     Decorative close. Clipped by the page edge, so the page ends
+     on the name rather than just stopping. aria-hidden: the name is
+     already announced in the colophon above. -->
+<div class="bleed" aria-hidden="true"><span>Soumyadeep</span></div>
 
-    <div class="cat__box" id="catBox" role="dialog" aria-modal="true" aria-label="doubts?" hidden>
-      <header class="cat__bar">
-        <span class="cat__title">doubts</span>
-        <button class="cat__x" id="catClose" aria-label="Close">✕</button>
-      </header>
 
-      <div class="cat__log" id="catLog" role="log" aria-live="polite"></div>
-
-      <div class="cat__asks" id="catAsks"></div>
-    </div>
-  </div>
-</div>
 
 
 <div class="pane" id="feedbackPane" hidden>
@@ -675,7 +684,7 @@
   </div>
 </div>
 
-<script src="js/main.js?v=56"></script>
+<script src="js/main.js?v=59"></script>
 <script src="js/portrait.js?v=18"></script>
 </body>
 </html>

@@ -416,6 +416,19 @@
     ];
     const SRC_W = 1400;
 
+    /* The signature is the last beat of the page: if the travelling full
+       stop is going to run, let it finish first, then sign. A safety timer
+       means the signature still appears even if that effect never reports
+       back. */
+    let signQueued = false;
+    const requestSign = () => {
+      if (window.__fullstopActive !== true || window.__fullstopDone === true) { playSign(); return; }
+      if (signQueued) return;
+      signQueued = true;
+      document.addEventListener('fullstop:done', () => playSign(), { once: true });
+      setTimeout(() => playSign(), 9000);
+    };
+
     const playSign = () => {
       if (!srcImg || sign.classList.contains('is-live') || sign.classList.contains('written')) return;
       const cv = document.createElement('canvas');
@@ -486,7 +499,7 @@
       };
       const tryPlay = () => {
         if (!nearEnd()) return;
-        playSign();
+        requestSign();
         removeEventListener('scroll', tryPlay);
       };
       addEventListener('scroll', tryPlay, { passive: true });
@@ -494,7 +507,7 @@
         const signOnce = new IntersectionObserver((es, o) => {
           if (!es.some(en => en.isIntersecting)) return;
           if (!nearEnd()) return;
-          playSign();
+          requestSign();
           o.disconnect();
           removeEventListener('scroll', tryPlay);
         }, { threshold: 0.35, rootMargin: '0px 0px -14% 0px' });
@@ -888,4 +901,258 @@
   /* ── Year ──────────────────────────────────────────────── */
   const yr = $('#year');
   if (yr) yr.textContent = new Date().getFullYear();
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   Travelling full stop (Contact)
+   Fires once per page load, when the Contact section scrolls into view.
+   Fails safe: if any precondition is unmet the page stays exactly as
+   designed — the effect is opt-in via the .fx-on class on <html>.
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+  var root  = document.documentElement;
+  var sec   = document.getElementById('contact');
+  var dot   = document.getElementById('fullstop');
+  var ghost = document.getElementById('storyStop');
+  var sub   = document.getElementById('connectSub');
+  var stop  = document.getElementById('connectStop');
+  if (!sec || !dot || !ghost || !sub || !stop) return;
+
+  var words  = document.getElementById('fullstopWords');
+  var period = dot.querySelector('.fullstop__p');
+  var line   = sec.querySelector('.connect__line');
+  if (!words || !period || !line) return;
+
+  var running = false, armed = false;
+  var K = 1, cBig = null, cSmall = null, letters = null;
+
+  /* Claimed synchronously so the signature knows to wait. Released by
+     done() the moment this effect finishes, aborts or bails out. */
+  window.__fullstopActive = true;
+  window.__fullstopDone = false;
+  function done(){
+    if (window.__fullstopDone) return;
+    window.__fullstopDone = true;
+    try{ document.dispatchEvent(new Event('fullstop:done')); }
+    catch(e){
+      var ev = document.createEvent('Event');
+      ev.initEvent('fullstop:done', true, true);
+      document.dispatchEvent(ev);
+    }
+  }
+
+  function rel(el){
+    var a = el.getBoundingClientRect(), b = sec.getBoundingClientRect();
+    return { x:a.left-b.left, y:a.top-b.top, w:a.width, h:a.height,
+             cx:a.left-b.left+a.width/2, cy:a.top-b.top+a.height/2 };
+  }
+
+  function buildWords(){
+    if (letters) return;
+    var label = (sub.textContent || "let's connect").replace(/\.\s*$/, '').trim();
+    words.innerHTML = label.split('').map(function(c){
+      return '<i>' + (c === ' ' ? '&nbsp;' : c) + '</i>';
+    }).join('');
+    letters = words.querySelectorAll('i');
+  }
+
+  /* Measure the stop's real centre at both sizes, then drive every frame
+     from those numbers — no assumptions about how scale and origin interact. */
+  function calibrate(){
+    var csL = getComputedStyle(line), csS = getComputedStyle(sub);
+    dot.style.fontSize = csS.fontSize;
+    K = parseFloat(csL.fontSize) / parseFloat(csS.fontSize);
+    dot.style.left = '0px'; dot.style.top = '0px';
+    dot.style.transform = 'translate3d(0,0,0) scale(' + K + ')';
+    cBig = rel(period);
+    dot.style.transform = 'translate3d(0,0,0) scale(1)';
+    cSmall = rel(period);
+    dot.style.visibility = 'visible';
+  }
+
+  function put(tx, ty, k, sx, sy){
+    var cx = cBig.cx + (cSmall.cx - cBig.cx) * k;
+    var cy = cBig.cy + (cSmall.cy - cBig.cy) * k;
+    var s  = K + (1 - K) * k;
+    dot.style.transform =
+      'translate3d(' + (tx - cx).toFixed(2) + 'px,' + (ty - cy).toFixed(2) + 'px,0) ' +
+      'scale(' + (s * (sx || 1)).toFixed(3) + ',' + (s * (sy || 1)).toFixed(3) + ')';
+  }
+
+  function tween(ms, step, done){
+    var t0 = null;
+    function f(ts){
+      if (t0 === null) t0 = ts;
+      var t = Math.min(1, (ts - t0) / ms);
+      step(t);
+      if (t < 1) requestAnimationFrame(f); else if (done) done();
+    }
+    requestAnimationFrame(f);
+  }
+  function hop(p0, p1, lift, t){
+    return { x:p0.x+(p1.x-p0.x)*t, y:p0.y+(p1.y-p0.y)*t - 4*lift*t*(1-t) };
+  }
+  function easeInQuad(t){ return t*t; }
+  function pang(el){ el.classList.remove('pang'); void el.offsetWidth; el.classList.add('pang'); }
+
+  function home(){
+    buildWords();
+    calibrate();
+    dot.classList.add('no-anim');
+    dot.classList.remove('is-text');
+    for (var n = 0; n < letters.length; n++) letters[n].style.transitionDelay = '';
+    void dot.offsetWidth;
+    dot.classList.remove('no-anim');
+    var g = rel(ghost);
+    put(g.cx, g.cy, 0);
+  }
+
+  function settle(){                       /* finished state, no replay */
+    buildWords();
+    calibrate();
+    var s = rel(stop);
+    put(s.cx, s.cy, 1);
+    for (var n = 0; n < letters.length; n++) letters[n].style.transitionDelay = '';
+    dot.classList.add('is-text');
+    done();
+  }
+
+  function giveUp(){
+    try{ root.classList.remove('fx-on'); }catch(e){}
+    running = false;
+    window.__fullstopActive = false;
+    done();
+  }
+
+  function supported(){
+    if (!('IntersectionObserver' in window)) return false;
+    if (!('requestAnimationFrame' in window)) return false;
+    if (!(window.CSS && CSS.supports && CSS.supports('transform','scale(1)'))) return false;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    /* No arbitrary desktop cut-off: the only things that actually matter
+       are that the icons sit on ONE row and that there is enough height
+       between the stop and that row for the fall to read. Both are
+       measured below, so phones run it whenever the layout allows. */
+    if (window.innerWidth < 320) return false;
+    var row = sec.querySelectorAll('.connect__social a, .connect__social button');
+    if (row.length < 2) return false;
+    var top0 = row[0].getBoundingClientRect().top;
+    for (var n = 1; n < row.length; n++){
+      if (Math.abs(row[n].getBoundingClientRect().top - top0) > 2) return false;
+    }
+    if (rel(row[0]).y - rel(ghost).cy < 44) return false;
+    return true;
+  }
+
+  function run(){
+    if (running || !root.classList.contains('fx-on')) return;
+    running = true;
+    try{ home(); }catch(e){ return giveUp(); }
+
+    var g  = rel(ghost);
+    var pr = rel(period).h / 2 || 5;
+
+    var all = Array.prototype.slice.call(
+      sec.querySelectorAll('.connect__social a, .connect__social button')
+    ).map(function(el){ var a = rel(el); return { x:a.cx, y:a.y - pr, el:el }; });
+
+    /* land on the icon directly beneath the stop, then walk left */
+    var hit = 0, best = Infinity;
+    all.forEach(function(p, n){
+      var d = Math.abs(p.x - g.cx);
+      if (d < best){ best = d; hit = n; }
+    });
+    var pts = all.slice(0, hit + 1).reverse();
+    var S   = rel(stop);
+    var END = { x:S.cx, y:S.cy };
+
+    var REST  = 0.6;
+    var gap   = pts[1] ? Math.abs(pts[1].x - pts[0].x) : 90;
+    var APEX0 = Math.max(64, gap * 0.9);
+    var i = 0;
+
+    function squash(p, ms, amt, next){
+      tween(ms, function(t){
+        var w = Math.sin(t * Math.PI);
+        put(p.x, p.y, 0, 1 + amt*w, 1 - amt*0.85*w);
+      }, next);
+    }
+
+    tween(620, function(t){                                  /* 1 · the fall */
+      var e = easeInQuad(t);
+      put(g.cx + (pts[0].x - g.cx) * t, g.cy + (pts[0].y - g.cy) * e, 0, 1 - .12*e, 1 + .18*e);
+    }, function(){
+      if (!running) return;
+      pang(pts[0].el);
+      squash(pts[0], 105, .32, bounce);
+    });
+
+    function bounce(){                                       /* 2 · leftward hops */
+      if (!running) return;
+      i++;
+      if (i >= pts.length) return finish();
+      var from = pts[i-1], to = pts[i];
+      var apex = APEX0 * Math.pow(REST, i-1);
+      var ms   = 300 + 440 * Math.sqrt(apex / APEX0);
+      tween(ms, function(t){ var p = hop(from, to, apex, t); put(p.x, p.y, 0); }, function(){
+        if (!running) return;
+        pang(to.el);
+        squash(to, 100, .28 * Math.pow(REST, i-1) + .07, bounce);
+      });
+    }
+
+    function finish(){                                       /* 3 · rise and become the line */
+      var last = pts[pts.length-1];
+      tween(880, function(t){
+        var p = hop(last, END, 150, t);
+        put(p.x, p.y, t);
+      }, function(){
+        if (!running) return;
+        for (var n = 0; n < letters.length; n++) letters[n].style.transitionDelay = (n*32) + 'ms';
+        dot.classList.add('is-text');
+        setTimeout(function(){ running = false; done(); }, 420 + letters.length * 32);
+      });
+    }
+  }
+
+  var io = null;
+  function boot(){
+    try{
+      if (!supported()) return giveUp();
+      root.classList.add('fx-on');
+      home();
+      io = new IntersectionObserver(function(es){
+        for (var n = 0; n < es.length; n++){
+          if (es[n].isIntersecting && !armed){ armed = true; run(); }
+        }
+      }, { threshold:.3 });
+      io.observe(sec);
+    }catch(e){ giveUp(); }
+  }
+
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot, boot);
+  else if (document.readyState === 'complete') boot();
+  else window.addEventListener('load', boot);
+
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      if (!running && !armed && root.classList.contains('fx-on')){ try{ home(); }catch(e){} }
+    }, 300);
+  });
+
+  var rt;
+  function onResize(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){
+      try{
+        if (!root.classList.contains('fx-on')) return;
+        if (!supported()) return giveUp();
+        if (running){ running = false; settle(); }
+        else if (armed) settle();
+        else home();
+      }catch(e){ giveUp(); }
+    }, 160);
+  }
+  window.addEventListener('resize', onResize);
+  window.addEventListener('orientationchange', onResize);
 })();
