@@ -72,19 +72,48 @@
   /* ── Masthead backdrop on scroll ───────────────────────── */
   const mast = document.querySelector('.masthead');
   let ticking = false;
-  addEventListener('scroll', () => {
+  const onScroll = () => {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
       syncSpy();
       syncFills();
       mast?.classList.toggle('stuck', scrollY > 40);
-      // the cat waits until you've started reading
-      cat?.classList.toggle('ready', scrollY > innerHeight * 0.55);
-      document.getElementById('rise')?.classList.toggle('is-on', scrollY > innerHeight * 0.7);
+      // The dock wakes when the projects section starts and travels with
+      // the page from there; scrolled back up past it, it tucks away.
+      // Pages without a #projects section (the case studies) fall back to
+      // a plain scroll distance past the opening.
+      const projects = document.getElementById('projects');
+      // 2px tolerance: the browser's anchor scroll (#projects links) can
+      // stop a fraction of a pixel short of the section.
+      const underway = projects
+        ? projects.getBoundingClientRect().top <= 2
+        : scrollY > innerHeight * 0.7;
+      document.getElementById('cat')?.classList.toggle('ready', underway);
+      document.getElementById('rise')?.classList.toggle('is-on', underway);
+      parkDock();
       ticking = false;
     });
-  }, { passive: true });
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+
+  /* ── Dock parking ─────────────────────────────────────────
+     While you scroll, the dock floats at its corner. As the page
+     end (the bleed wordmark) rises into view, the dock rides up
+     with it and comes to rest in the footer's parking band —
+     between the colophon line (timer) and the wordmark — so the
+     buttons cover neither. Scrolling back up lowers it again. */
+  const dockEl  = document.querySelector('.dock');
+  const bleedEl = document.querySelector('.bleed');
+  function parkDock() {
+    if (!dockEl || !bleedEl) return;
+    // mirrors .dock's bottom clamp() in styles.css
+    const rest = Math.min(28, Math.max(16, innerHeight * 0.026));
+    const wordmarkTop = bleedEl.getBoundingClientRect().top;
+    // wanted bottom offset: dock's lower edge 16px above the wordmark top
+    const wanted = (innerHeight - wordmarkTop) + 16;
+    dockEl.style.setProperty('--park', Math.max(0, wanted - rest) + 'px');
+  }
 
   /* ── Scrollspy ───────────────────────────────────────────
      Position-based rather than IntersectionObserver: a section is
@@ -171,7 +200,7 @@
 
   measureSpy();
   syncFills();
-  addEventListener('resize', () => requestAnimationFrame(() => { measureSpy(); syncFills(); }), { passive: true });
+  addEventListener('resize', () => requestAnimationFrame(() => { measureSpy(); syncFills(); parkDock(); }), { passive: true });
   document.fonts?.ready?.then(() => { measureSpy(); syncFills(); });
 
   /* ── Hero: what I do, typed and cycled ─────────────────── */
@@ -901,6 +930,10 @@
   /* ── Year ──────────────────────────────────────────────── */
   const yr = $('#year');
   if (yr) yr.textContent = new Date().getFullYear();
+
+  /* Initial sync: covers anchor loads (#projects, #skills…) and restored
+     scroll positions, where no scroll event ever fires. */
+  onScroll();
 })();
 
 /* ═══════════════════════════════════════════════════════════

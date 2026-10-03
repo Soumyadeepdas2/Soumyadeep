@@ -1228,7 +1228,10 @@ ul,ol{ list-style:none; }
 /* ── Colophon ───────────────────────────────────────────── */
 .colophon{
   max-width:var(--maxw); margin:0 auto;
-  padding:22px var(--gut);
+  /* the tall bottom pad is the dock's parking band: when the page end
+     arrives the floating buttons rise into it and rest between this
+     line (the timer) and the bleed wordmark — never on top of either */
+  padding:22px var(--gut) 140px;
   border-top:1px solid var(--rule);
   display:grid; grid-template-columns:minmax(0,1fr) auto;
   align-items:center; gap:10px 24px;
@@ -1238,17 +1241,34 @@ ul,ol{ list-style:none; }
 }
 .colophon > :nth-child(1){ justify-self:start; }
 .colophon > :nth-child(2){ justify-self:end; text-align:right; }
+
+/* Soumyadeep's Universe — shares the dock's shelf: pinned to the same
+   16px line above the wordmark as the parked top/doubts buttons, on the
+   opposite side, so the footer closes as one aligned row. */
+.colophon__universe{
+  /* the colophon is position:relative and its box ends at the wordmark,
+     so bottom:16px matches the parked dock's lower edge exactly */
+  position:absolute; left:var(--gut); bottom:16px;
+  display:inline-flex; align-items:center;
+  padding:6px 11px;
+  font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent); text-decoration:none;
+  border:1px solid var(--accent); border-radius:2px;
+  transition:background .3s var(--ease), color .3s var(--ease);
+}
+.colophon__universe:hover,
+.colophon__universe:focus-visible{ background:var(--accent); color:var(--bg); }
 @media (max-width:720px){
   .colophon{
     grid-template-columns:minmax(0,1fr) auto;
     gap:3px;
-    padding:20px var(--gut);
+    /* keep the 140px parking band: the dock rises above the wordmark
+       and rests here, between this line (timer) and the wordmark */
+    padding:20px var(--gut) 140px;
     font-size:8.5px; letter-spacing:normal;
     white-space:nowrap;
   }
   .colophon > *{ min-width:0; }
-  /* The wordmark now fills the space the floating dock needs, so the
-     colophon no longer has to reserve 122px of empty padding below it. */
   .bleed{ height:118px; }
 }
 /* ── Bleed wordmark ─────────────────────────────────────
@@ -1531,15 +1551,21 @@ html.pane-on, html.pane-on body{ overflow:hidden; }
   .masthead,.note,.toggle,.cat,.hero-actions,.fb,.fb-open,.dock,.rise,.ink,.pane{ display:none!important; }
   html,body{ background:#fff; color:#000; }
   .band{ padding:20px 0; border-color:#ccc; page-break-inside:avoid; }
+  .colophon{ padding-bottom:22px; }   /* no parking band on paper */
 }
 
-/* ── Cat helper ─────────────────────────────────────────── */
+/* ── Cat helper ───────────────────────────────────────────
+   The dock floats in the bottom-right corner of the viewport and
+   travels with the page: on the home page both buttons wake when
+   the projects section starts and tuck away again once you scroll
+   back up past it (main.js drives .ready/.is-on).
+   --park is a lift main.js adds as the page end arrives, so the
+   buttons come to rest in the footer's parking band — between the
+   colophon (timer) and the bleed wordmark — covering neither. */
 .dock{
-  position:fixed; right:clamp(16px,2.4vw,30px); bottom:clamp(16px,2.6vh,28px);
+  position:fixed; right:clamp(16px,2.4vw,30px);
+  bottom:calc(clamp(16px,2.6vh,28px) + var(--park, 0px));
   z-index:120; display:flex; flex-direction:column; align-items:flex-end; gap:10px;
-}
-@media (min-width:721px) and (max-width:1180px){
-  .dock{ bottom:clamp(72px, 11vh, 110px); }
 }
 .rise{
   width:42px; height:42px; padding:0;
@@ -1597,7 +1623,8 @@ html.pane-on, html.pane-on body{ overflow:hidden; }
 .cat__tab:focus-visible .cat__hi{ color:var(--bg); }
 .cat.open .cat__tab{ display:none; }
 
-/* the panel */
+/* the panel — in flow under the tab; the fixed dock grows upward
+   from its pinned bottom edge, so nothing is ever covered */
 .cat__box{
   width:min(330px, calc(100vw - 32px));
   background:color-mix(in srgb, var(--bg) 90%, transparent); border:1px solid var(--rule); border-radius:4px;
@@ -1734,26 +1761,8 @@ html.fx-on .fullstop.is-text{ color:var(--fg-dim); }
   .sub-stop{ display:none !important; }
 }
 
-/* ── Dock in flow (home) ────────────────────────────────
-   On the home page the back-to-top button and the "doubts?" tab live in
-   the empty cell of the .connect grid — the open space under the signature
-   — instead of floating over the colophon and the clock. In normal flow
-   they cannot cover anything, on any screen size. */
-.connect .dock{
-  position:static;
-  grid-column:2; grid-row:2;
-  justify-self:end; align-self:end;
-  z-index:5;
-}
-.connect .dock .cat{ position:relative; }
-.connect .dock .cat__box{ position:absolute; right:0; bottom:calc(100% + 10px); }
-@media (max-width:720px){
-  /* single-column layout: still in flow under the signature, kept to the
-     right edge so the pair reads as one cluster, as on desktop */
-  .connect .dock{
-    grid-column:1; grid-row:4;
-    justify-self:end; align-items:flex-end;
-  }
-  .connect .dock .cat__box{ right:0; left:auto; }
-  .connect{ grid-template-rows:auto auto auto auto; }
-}
+/* ── Floating dock ───────────────────────────────────────
+   The dock is out of the connect grid and floats over the page on
+   every screen size (mobile included). When it is fixed, an
+   out-of-flow grid child no longer occupies the cell, so the
+   connect grid collapses to its three in-flow items. */
