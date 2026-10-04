@@ -12,6 +12,17 @@
 
   /* ── Theme ─────────────────────────────────────────────── */
   const toggle = $('#themeToggle');
+
+  /* Theme-aware logos: each slot carries both variants in data
+     attributes and only the active theme's file is ever fetched —
+     the unused colourway never leaves the server. */
+  function syncLogos() {
+    const light = root.getAttribute('data-theme') === 'light';
+    $$('.plogo[data-dark]').forEach(im => {
+      im.src = light ? im.dataset.light : im.dataset.dark;
+    });
+  }
+
   const setTheme = (mode, save) => {
     root.setAttribute('data-theme', mode);
     if (save) localStorage.setItem('theme', mode);
@@ -19,6 +30,7 @@
     const next = mode === 'light' ? 'dark' : 'light';
     toggle?.setAttribute('aria-label', `Switch to ${next} theme`);
     toggle?.setAttribute('title', `Switch to ${next} theme`);
+    syncLogos();
   };
   setTheme(root.getAttribute('data-theme') || 'dark', false);
 
@@ -246,7 +258,7 @@
     ['  String', 'k'], [' campus = ', ''], ['"Parul University"', 's'], [';\n', ''],
     ['  String', 'k'], ['[] stack = { ', ''], ['"Java"', 's'], [', ', ''], ['"C++"', 's'], [',\n', ''],
     ['                     ', ''], ['"Python"', 's'], [', ', ''], ['"JS"', 's'], [' };\n', ''],
-    ['  int', 'k'], [' problemsSolved = ', ''], ['540', 'n'], [';\n\n', ''],
+    ['  int', 'k'], [' problemsSolved = ', ''], ['551', 'n'], [';\n\n', ''],
     ['  void', 'k'], [' ', ''], ['build', 'f'], ['(Idea idea) {\n', ''],
     ['    while', 'k'], [' (!idea.', ''], ['works', 'f'], ['()) {\n', ''],
     ['      idea.', ''], ['debug', 'f'], ['();  ', ''], ['// this is the job\n', 'c'],
@@ -313,7 +325,7 @@
      caused crawlers to index the wrong number. The live figure is
      Codolio’s total, hydrated from data/practice.json. */
   const tally = $('#tally');
-  if (tally) tally.textContent = tally.dataset.to || '540';
+  if (tally) tally.textContent = tally.dataset.to || '551';
 
   /* ── Practice heatmap ───────────────────────────────────
      data/practice.json is written once a day by GitHub Actions
@@ -423,10 +435,10 @@
     }
     const cred = ASKS.find(a => a.q === 'Any code cred?');
     if (cred) {
-      const n = solvedText || '540';
+      const n = solvedText || '551';
       const dayBit = days != null
         ? `${days} active days, current streak ${streak}`
-        : '228 active days, current streak 115';
+        : '232 active days, current streak 119';
       cred.a = `<b>${n} problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. ${dayBit}. All verifiable on <a href="https://codolio.com/profile/soumyadeepdas" target="_blank" rel="noopener">Codolio</a>.`;
     }
     if (j.calendar) paintHeat(j.calendar);
@@ -698,8 +710,8 @@
     { q: 'What has he built?', a: "Five live products: <b><a href=\"/hushhconnect\">hushhconnect</a></b>, private realtime messaging built around Chat IDs; <b><a href=\"/bookyuniverse\">BookyUniverse</a></b>, a searchable digital library; <b><a href=\"/tellsgroup\">Tellsgroup</a></b>, one home for eighteen media brands; <b><a href=\/meow\>Meow Reminder</a></b>, Telegram reminders with no app; <b><a href=\/openrail\>OpenRail</a></b>, unreserved train discovery. See <a href=\"/#projects\">Projects</a>." },
     { q: 'Tech stack?', a: "Java and C++ for algorithms; JavaScript and React for the web. Also Python, MySQL, MongoDB, Supabase Realtime, Git and AWS. Full list under <a href=\"#skills\">Skills</a>." },
     { q: 'Studying what?', a: "<b>B.Tech in Computer Science</b> at Parul University, Vadodara — specialising in AI &amp; ML, graduating 2028. CGPA 7.17." },
-    { q: 'Any code cred?', a: "<b>540 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 228 active days, current streak 115. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
-    { q: 'Résumé?', a: "Right here — <a href=\"assets/Soumyadeep_Das_Resume.pdf\" download>download the PDF</a>. One page, no fluff." },
+    { q: 'Any code cred?', a: "<b>551 problems solved</b> across seven platforms — LeetCode, GeeksforGeeks, CodeChef, Codeforces and more. 232 active days, current streak 119. All verifiable on <a href=\"https://codolio.com/profile/soumyadeepdas\" target=\"_blank\" rel=\"noopener\">Codolio</a>." },
+    { q: 'Résumé?', a: "Right here — <a href=\"assets/Soumyadeep_Das_Resume.pdf?v=2\" download>download the PDF</a>. One page, no fluff." },
     { q: 'Where is he?', a: "Vadodara, Gujarat, India — that's IST, UTC+5:30. Happy to work remotely." }
   ];
 
@@ -1156,7 +1168,22 @@
       home();
       io = new IntersectionObserver(function(es){
         for (var n = 0; n < es.length; n++){
-          if (es[n].isIntersecting && !armed){ armed = true; run(); }
+          if (es[n].isIntersecting && !armed){
+            armed = true;
+            /* Hold the beat: the drop waits 3s after the reader arrives,
+               so the section is read before the full stop travels. If the
+               tab is hidden when the timer fires, it waits for them to
+               come back. */
+            setTimeout(function(){
+              if (document.hidden){
+                document.addEventListener('visibilitychange', function v(){
+                  if (document.hidden) return;
+                  document.removeEventListener('visibilitychange', v);
+                  run();
+                });
+              } else { run(); }
+            }, 3000);
+          }
         }
       }, { threshold:.3 });
       io.observe(sec);

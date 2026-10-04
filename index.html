@@ -13,31 +13,32 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.soumyadeep.space/">
 <meta property="og:title" content="Soumyadeep Das — Developer, Vadodara">
-<meta property="og:description" content="Computer science student building web products. hushhconnect, OpenRail, Meow Reminder, BookyUniverse, Tellsgroup and 540 algorithm problems.">
+<meta property="og:description" content="Computer science student building web products. hushhconnect, OpenRail, Meow Reminder, BookyUniverse, Tellsgroup and 500+ algorithm problems.">
 <meta property="og:image" content="https://www.soumyadeep.space/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Soumyadeep Das — computer science student available for internships">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Soumyadeep Das — Developer, Vadodara">
-<meta name="twitter:description" content="Computer science student building web products. hushhconnect, OpenRail, Meow Reminder, BookyUniverse, Tellsgroup and 540 algorithm problems.">
+<meta name="twitter:description" content="Computer science student building web products. hushhconnect, OpenRail, Meow Reminder, BookyUniverse, Tellsgroup and 500+ algorithm problems.">
 <meta name="twitter:image" content="https://www.soumyadeep.space/assets/og-image.png">
 <meta name="twitter:image:alt" content="Soumyadeep Das — computer science student available for internships">
 
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="icon" href="/assets/favicon.svg?v=1" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=1" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=1">
 
 <!-- The two hero faces are local and preloaded: no third-party font chain delays the LCP. -->
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=108">
+<link rel="stylesheet" href="css/styles.css?v=115">
 
 <script>
   (function () {
     try {
       var s = localStorage.getItem('theme');
-      document.documentElement.setAttribute('data-theme', s || 'dark');
+      if (!s) s = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', s);
     } catch (e) {}
   })();
 </script>
@@ -106,6 +107,7 @@
         <span class="sr">build web products, solve algorithms, and ship projects that work.</span>
       </p>
 
+
       <div class="lede__intro">
         <p class="lede__bio">
           Hi, I’m a Computer Science &amp; AI/ML undergraduate in my third year, exploring deep learning. I like learning on my own, getting my hands dirty with new ideas, and spending far too much time solving problems that probably had easier solutions. I’m still figuring things out, but that’s probably my favourite part.
@@ -120,7 +122,7 @@
           <a class="is-li" href="https://www.linkedin.com/in/soumyadeep-das2/" target="_blank" rel="noopener" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.8v2h.05c.53-1 1.84-2.05 3.78-2.05 4.04 0 4.79 2.66 4.79 6.12V23h-4v-6.5c0-1.55-.03-3.54-2.16-3.54-2.16 0-2.49 1.69-2.49 3.43V23h-4V8.5z"/></svg>
           </a>
-          <a class="is-cv" href="assets/Soumyadeep_Das_Resume.pdf" download aria-label="Download résumé">
+          <a class="is-cv" href="assets/Soumyadeep_Das_Resume.pdf?v=2" download aria-label="Download résumé">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h8l5 5v13.2A1.8 1.8 0 0 1 18.2 22H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm7 1.8V8h4.2L14 3.8zM8.2 11.2h7.6v1.4H8.2v-1.4zm0 3.2h7.6v1.4H8.2V14.4zm0 3.2h5.2V19H8.2v-1.4z"/></svg>
           </a>
         </nav>
@@ -136,7 +138,7 @@
 
     <div class="lede__pix" id="pixPortrait">
       <canvas id="pixCanvas" aria-hidden="true"></canvas>
-      <img class="lede__pix-fallback" src="assets/portrait.webp" width="720" height="980" alt="Soumyadeep Das" decoding="async" fetchpriority="low">
+      <img class="lede__pix-fallback" src="assets/portrait.webp?v=1" width="720" height="980" alt="Soumyadeep Das" decoding="async" fetchpriority="low">
       <noscript>
         <style>
           .lede__pix{aspect-ratio:auto}
@@ -162,7 +164,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">01</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/hushh.png?v=7" alt="" width="759" height="219"><img class="plogo plogo--light" src="assets/logos/hushh-light.png?v=7" alt="" width="759" height="219"><a href="/hushhconnect">hushhconnect</a>
+          <img class="plogo" data-dark="assets/logos/hushh.webp?v=1" data-light="assets/logos/hushh-light.webp?v=1" alt="" width="759" height="219" loading="lazy" decoding="async"><a href="/hushhconnect">hushhconnect</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -178,6 +180,7 @@
         <div class="project__actions">
           <a class="project__link" href="/hushhconnect" aria-label="Read the hushhconnect case study">Case study</a>
           <a class="project__link" href="https://hushh.buzz/" target="_blank" rel="noopener" aria-label="Open hushhconnect live project in a new tab">Live project<span aria-hidden="true"> ↗</span></a>
+          <a class="project__link" href="https://github.com/Soumyadeepdas2/hushh" target="_blank" rel="noopener" aria-label="View hushhconnect source code in a new tab">Code<span aria-hidden="true"> ↗</span></a>
         </div>
       </div>
     </article>
@@ -185,7 +188,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">02</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/openrail.png?v=7" alt="" width="204" height="173"><img class="plogo plogo--light" src="assets/logos/openrail-light.png?v=7" alt="" width="742" height="636"><a href="/openrail">OpenRail</a>
+          <img class="plogo" data-dark="assets/logos/openrail.webp?v=1" data-light="assets/logos/openrail-light.webp?v=1" alt="" width="204" height="173" loading="lazy" decoding="async"><a href="/openrail">OpenRail</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -201,6 +204,7 @@
         <div class="project__actions">
           <a class="project__link" href="/openrail" aria-label="Read the OpenRail case study">Case study</a>
           <a class="project__link" href="https://openrailway.vercel.app/" target="_blank" rel="noopener" aria-label="Open OpenRail live project in a new tab">Live project<span aria-hidden="true"> ↗</span></a>
+          <a class="project__link" href="https://github.com/Soumyadeepdas2/openrailway" target="_blank" rel="noopener" aria-label="View OpenRail source code in a new tab">Code<span aria-hidden="true"> ↗</span></a>
         </div>
       </div>
     </article>
@@ -208,7 +212,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">03</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/meow.png?v=7" alt="" width="174" height="124"><img class="plogo plogo--light" src="assets/logos/meow-light.png?v=10" alt="" width="420" height="275"><a href="/meow">Meow Reminder</a>
+          <img class="plogo" data-dark="assets/logos/meow.webp?v=1" data-light="assets/logos/meow-light.webp?v=1" alt="" width="174" height="124" loading="lazy" decoding="async"><a href="/meow">Meow Reminder</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -224,6 +228,7 @@
         <div class="project__actions">
           <a class="project__link" href="/meow" aria-label="Read the Meow Reminder case study">Case study</a>
           <a class="project__link" href="https://meowreminder.de.deplexo.com/" target="_blank" rel="noopener" aria-label="Open Meow live project in a new tab">Live project<span aria-hidden="true"> ↗</span></a>
+          <a class="project__link" href="https://github.com/Soumyadeepdas2/meowreminder" target="_blank" rel="noopener" aria-label="View Meow Reminder source code in a new tab">Code<span aria-hidden="true"> ↗</span></a>
         </div>
       </div>
     </article>
@@ -234,7 +239,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">04</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/booky.png?v=7" alt="" width="104" height="74"><img class="plogo plogo--light" src="assets/logos/booky-light.png?v=7" alt="" width="229" height="147"><a href="/bookyuniverse">BookyUniverse</a>
+          <img class="plogo" data-dark="assets/logos/booky.webp?v=1" data-light="assets/logos/booky-light.webp?v=1" alt="" width="104" height="74" loading="lazy" decoding="async"><a href="/bookyuniverse">BookyUniverse</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -250,6 +255,7 @@
         <div class="project__actions">
           <a class="project__link" href="/bookyuniverse" aria-label="Read the BookyUniverse case study">Case study</a>
           <a class="project__link" href="https://bookyuniverse.vercel.app/" target="_blank" rel="noopener" aria-label="Open BookyUniverse live project in a new tab">Live project<span aria-hidden="true"> ↗</span></a>
+          <a class="project__link" href="https://github.com/Soumyadeepdas2" target="_blank" rel="noopener" aria-label="View BookyUniverse source code in a new tab">Code<span aria-hidden="true"> ↗</span></a>
         </div>
       </div>
     </article>
@@ -258,7 +264,7 @@
       <header class="project__head">
         <span class="project__no" aria-hidden="true">05</span>
         <h3 class="project__title">
-          <img class="plogo" src="assets/logos/tells.png?v=9" alt="" width="760" height="367"><img class="plogo plogo--light" src="assets/logos/tells-light.png?v=9" alt="" width="760" height="367"><a href="/tellsgroup">Tellsgroup</a>
+          <img class="plogo" data-dark="assets/logos/tells.webp?v=1" data-light="assets/logos/tells-light.webp?v=1" alt="" width="795" height="414" loading="lazy" decoding="async"><a href="/tellsgroup">Tellsgroup</a>
         </h3>
         <span class="project__year">2026</span>
       </header>
@@ -274,6 +280,7 @@
         <div class="project__actions">
           <a class="project__link" href="/tellsgroup" aria-label="Read the Tellsgroup case study">Case study</a>
           <a class="project__link" href="https://tellsgroup.vercel.app/" target="_blank" rel="noopener" aria-label="Open Tellsgroup live project in a new tab">Live project<span aria-hidden="true"> ↗</span></a>
+          <a class="project__link" href="https://github.com/Soumyadeepdas2/tellsgroup" target="_blank" rel="noopener" aria-label="View Tellsgroup source code in a new tab">Code<span aria-hidden="true"> ↗</span></a>
         </div>
       </div>
     </article>
@@ -316,7 +323,7 @@
   String campus = "Parul University";
   String[] stack = { "Java", "C++",
                      "Python", "JS" };
-  int problemsSolved = 540;
+  int problemsSolved = 551;
 
   void build(Idea idea) {
     while (!idea.works()) {
@@ -375,13 +382,13 @@
       <span class="ledger__k">School</span>
       <span class="ledger__v">
         <strong>Higher Secondary</strong>
-        Khejuri Adarsha Vidyapith — 90.42% (X), 67.80% (XII).
+        Khejuri Adarsha Vidyapith — 90.42% (X).
       </span>
       <span class="ledger__t">2020 – 2024</span>
     </div>
   </div>
 
-  <a class="cv" href="assets/Soumyadeep_Das_Resume.pdf" download>
+  <a class="cv" href="assets/Soumyadeep_Das_Resume.pdf?v=2" download>
     <span>Download résumé</span>
     <span class="cv__ext">PDF, 114 KB</span>
   </a>
@@ -395,7 +402,7 @@
   <div class="certs">
     <figure class="cert">
       <a class="cert__img" href="https://www.credly.com/badges/319505ea-b5f7-4d71-96d8-dd075491b111/public_url" target="_blank" rel="noopener" title="Verify this certificate">
-        <img src="assets/certs/its-html-css.webp" width="800" height="600" loading="lazy" decoding="async" alt="Certiport IT Specialist certificate for HTML and CSS, Soumyadeep Das, February 10 2025">
+        <img src="assets/certs/its-html-css.webp?v=1" width="800" height="600" loading="lazy" decoding="async" alt="Certiport IT Specialist certificate for HTML and CSS, Soumyadeep Das, February 10 2025">
       </a>
       <figcaption class="cert__body">
         <h3 class="cert__name">IT Specialist — HTML and CSS</h3>
@@ -410,7 +417,7 @@
     </figure>
     <figure class="cert">
       <a class="cert__img" href="https://www.credly.com/badges/d54c9ea1-04cc-4eb9-9884-7bda975b5e5a/public_url" target="_blank" rel="noopener" title="Verify this certificate">
-        <img src="assets/certs/its-javascript.webp" width="800" height="600" loading="lazy" decoding="async" alt="Certiport IT Specialist certificate for JavaScript, Soumyadeep Das, April 11 2025">
+        <img src="assets/certs/its-javascript.webp?v=1" width="800" height="600" loading="lazy" decoding="async" alt="Certiport IT Specialist certificate for JavaScript, Soumyadeep Das, April 11 2025">
       </a>
       <figcaption class="cert__body">
         <h3 class="cert__name">IT Specialist — JavaScript</h3>
@@ -425,7 +432,7 @@
     </figure>
     <figure class="cert">
       <a class="cert__img" href="https://courses.etrain.skillsnetwork.site/certificates/1bc015389d95434b923e6e99cac5985c" target="_blank" rel="noopener" title="Verify this certificate">
-        <img src="assets/certs/ibm-python.webp" width="800" height="600" loading="lazy" decoding="async" alt="IBM Python course certificate of completion, Soumyadeep Das, July 22 2025">
+        <img src="assets/certs/ibm-python.webp?v=1" width="800" height="600" loading="lazy" decoding="async" alt="IBM Python course certificate of completion, Soumyadeep Das, July 22 2025">
       </a>
       <figcaption class="cert__body">
         <h3 class="cert__name">Python for Data Science</h3>
@@ -440,7 +447,7 @@
     </figure>
     <figure class="cert">
       <a class="cert__img" href="https://www.credly.com/badges/7132b302-922d-46b0-91bd-dd0e15bd0601/public_url" target="_blank" rel="noopener" title="Verify this certificate">
-        <img src="assets/certs/aws-data-engineering.webp" width="800" height="600" loading="lazy" decoding="async" alt="AWS Academy Graduate Data Engineering training badge, Soumyadeep Das, March 14 2026">
+        <img src="assets/certs/aws-data-engineering.webp?v=1" width="800" height="600" loading="lazy" decoding="async" alt="AWS Academy Graduate Data Engineering training badge, Soumyadeep Das, March 14 2026">
       </a>
       <figcaption class="cert__body">
         <h3 class="cert__name">AWS Academy — Data Engineering</h3>
@@ -455,7 +462,7 @@
     </figure>
     <figure class="cert">
       <a class="cert__img" href="https://www.credly.com/badges/8b658f3c-b49b-497d-acb0-29b9d8334f9c/public_url" target="_blank" rel="noopener" title="Verify this certificate">
-        <img src="assets/certs/aws-cloud-foundations.webp" width="800" height="600" loading="lazy" decoding="async" alt="AWS Academy Graduate Cloud Foundations training badge, Soumyadeep Das, September 23 2026">
+        <img src="assets/certs/aws-cloud-foundations.webp?v=1" width="800" height="600" loading="lazy" decoding="async" alt="AWS Academy Graduate Cloud Foundations training badge, Soumyadeep Das, September 23 2026">
       </a>
       <figcaption class="cert__body">
         <h3 class="cert__name">AWS Academy — Cloud Foundations</h3>
@@ -477,7 +484,7 @@
     <div class="ledger__row">
       <span class="ledger__k">Practice</span>
       <span class="ledger__v">
-        <strong><span class="tally" id="tally" data-to="540">540</span> problems solved</strong>
+        <strong><span class="tally" id="tally" data-to="551">551</span> problems solved</strong>
         LeetCode, GeeksforGeeks, CodeChef, Codeforces, HackerRank, InterviewBit, AtCoder.
         <span id="practiceDetail">228 active days, current streak 115.</span>
       </span>
@@ -527,13 +534,13 @@
 
     <div class="connect__mark">
       <div class="close__sign" role="img" aria-label="Soumyadeep Das, signed">
-        <img src="assets/signature.png" width="1400" height="325" alt="" decoding="async">
+        <img src="assets/signature.png?v=1" width="1400" height="325" alt="" decoding="async">
       </div>
     </div>
 
     <div class="connect__links">
       <button type="button" class="connect__mail" id="copyMail" data-mail="soumyadeepdas044@gmail.com">soumyadeepdas044@gmail.com</button>
-      <a class="connect__cv" href="assets/Soumyadeep_Das_Resume.pdf" download>Résumé</a>
+      <a class="connect__cv" href="assets/Soumyadeep_Das_Resume.pdf?v=2" download>Résumé</a>
     </div>
 
     <!-- CAT · a scripted helper, not an AI. The dock floats over the page,
@@ -586,17 +593,17 @@
 
     <div class="certs certs--mini">
       <figure class="cert">
-        <div class="cert__img"><img src="assets/certs/nptel-networks.webp" width="800" height="600" loading="lazy" decoding="async" alt="NPTEL online certification for Computer Networks and Internet Protocol, IIT Kharagpur, Jan–Apr 2026"></div>
+        <div class="cert__img"><img src="assets/certs/nptel-networks.webp?v=1" width="800" height="600" loading="lazy" decoding="async" alt="NPTEL online certification for Computer Networks and Internet Protocol, IIT Kharagpur, Jan–Apr 2026"></div>
         <figcaption class="cert__body">
           <h3 class="cert__name">Computer Networks and Internet Protocol</h3>
           <div class="cert__row"><div class="cert__metas">
             <p class="cert__meta">NPTEL · IIT KHARAGPUR</p>
-            <p class="cert__meta">JAN–APR 2026 · 12 WEEKS · SCORE 55%</p>
+            <p class="cert__meta">JAN–APR 2026 · 12 WEEKS</p>
           </div></div>
         </figcaption>
       </figure>
       <figure class="cert">
-        <div class="cert__img"><img src="assets/certs/aws-practitioner.webp" width="800" height="600" loading="lazy" decoding="async" alt="AWS Cloud Practitioner Essentials completion certificate, September 28 2026"></div>
+        <div class="cert__img"><img src="assets/certs/aws-practitioner.webp?v=1" width="800" height="600" loading="lazy" decoding="async" alt="AWS Cloud Practitioner Essentials completion certificate, September 28 2026"></div>
         <figcaption class="cert__body">
           <h3 class="cert__name">AWS Cloud Practitioner Essentials</h3>
           <div class="cert__row"><div class="cert__metas">
@@ -606,7 +613,7 @@
         </figcaption>
       </figure>
       <figure class="cert">
-        <div class="cert__img"><img src="assets/certs/hackathon-vadodara.webp" width="800" height="600" loading="lazy" decoding="async" alt="Vadodara Hackathon 6.0 certificate of participation, Parul University, September 2025"></div>
+        <div class="cert__img"><img src="assets/certs/hackathon-vadodara.webp?v=1" width="800" height="600" loading="lazy" decoding="async" alt="Vadodara Hackathon 6.0 certificate of participation, Parul University, September 2025"></div>
         <figcaption class="cert__body">
           <h3 class="cert__name">Vadodara Hackathon 6.0</h3>
           <div class="cert__row"><div class="cert__metas">
@@ -620,11 +627,16 @@
 </div>
 
 <footer class="colophon">
-  <span>Soumyadeep Das © <span id="year">2026</span></span>
-  <span><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
+  <!-- Availability — centred closing line at the top of the colophon.
+       (The hero badge was retired when this moved into the footer.) -->
+  <p class="lede__avail colophon__avail"><span class="lede__avail-dot" aria-hidden="true"></span>Open to Summer 2027 internships and collaborations</p>
+  <span class="colophon__credit">Soumyadeep Das © <span id="year">2026</span></span>
+  <span class="colophon__clock"><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
 
   <!-- Soumyadeep's Universe — below the credit line, on the left of the
        parking band (the floating dock rests on the right side of it). -->
+  <!-- A quiet signpost for the door below: the personal site. -->
+  <p class="colophon__hint">Optional. If you&#8217;re curious about <br class="hb-p">the person behind <br class="hb-t">the work, <br class="hb-p">step into Soumyadeep&#8217;s Universe.</p>
   <a class="colophon__universe" href="https://soumyadeepuniverse.vercel.app/" target="_blank" rel="noopener">Soumyadeep&#8217;s Universe<span aria-hidden="true"> &#8599;</span></a>
 </footer>
 
@@ -689,7 +701,7 @@
   </div>
 </div>
 
-<script src="js/main.js?v=61"></script>
-<script src="js/portrait.js?v=18"></script>
+<script src="js/main.js?v=64"></script>
+<script src="js/portrait.js?v=19"></script>
 </body>
 </html>

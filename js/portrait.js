@@ -13,13 +13,9 @@
 
   const img = new Image();
   img.decoding = 'async';
-  img.src = 'assets/portrait.webp';
+  img.src = document.querySelector('.lede__pix-fallback')?.getAttribute('src') || 'assets/portrait.webp?v=1';
   img.onload = function () { boot(img); };
-  img.onerror = function () {
-    img.src = 'assets/portrait.png';
-    img.onload = function () { boot(img); };
-    img.onerror = function () { wrap.classList.add('is-static'); };
-  };
+  img.onerror = function () { wrap.classList.add('is-static'); };
 
   function boot(image) {
     const ctx = canvas.getContext('2d', { alpha: true });

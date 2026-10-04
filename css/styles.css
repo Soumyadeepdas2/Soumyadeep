@@ -260,6 +260,23 @@ ul,ol{ list-style:none; }
   margin:-24px 0 46px;
   min-height:1.3em;
 }
+
+/* Availability line — quiet mono badge under the typed intro */
+.lede__avail{
+  display:flex; align-items:center; gap:9px;
+  margin:0 0 26px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--accent);
+}
+.lede__avail-dot{
+  width:8px; height:8px; border-radius:50%; background:var(--accent);
+  animation:avail 2.8s var(--ease) infinite;
+}
+@keyframes avail{
+  0%   { box-shadow:0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent); }
+  70%  { box-shadow:0 0 0 9px transparent; }
+  100% { box-shadow:0 0 0 0 transparent; }
+}
 .doing__type{ color:var(--accent); font-style:italic; }
 .doing__caret{
   display:inline-block; width:2px; height:.82em;
@@ -436,9 +453,6 @@ ul,ol{ list-style:none; }
   object-fit:contain; object-position:left center;
   vertical-align:-.08em; margin-right:.3em;
 }
-.plogo--light{ display:none; }
-[data-theme="light"] .plogo{ display:none; }
-[data-theme="light"] .plogo--light{ display:inline-block; }
 .project__no,
 .project__year{
   font-family:var(--mono); font-size:11px; color:var(--fg-faint);
@@ -1239,8 +1253,8 @@ ul,ol{ list-style:none; }
   color:var(--fg-faint); text-transform:uppercase;
   position:relative; z-index:2;
 }
-.colophon > :nth-child(1){ justify-self:start; }
-.colophon > :nth-child(2){ justify-self:end; text-align:right; }
+.colophon__credit{ justify-self:start; }
+.colophon__clock{ justify-self:end; text-align:right; }
 
 /* Soumyadeep's Universe — shares the dock's shelf: pinned to the same
    16px line above the wordmark as the parked top/doubts buttons, on the
@@ -1258,6 +1272,30 @@ ul,ol{ list-style:none; }
 }
 .colophon__universe:hover,
 .colophon__universe:focus-visible{ background:var(--accent); color:var(--bg); }
+
+/* Availability — centred closing line at the top of the colophon.
+   Same badge as the retired hero line: mono, accent, pulsing dot. */
+.colophon__avail{
+  grid-column:1/-1; justify-self:center;
+  margin:0 0 14px;
+}
+
+/* Signpost above the Universe button — the colophon's own quiet mono,
+   pointing at the door below it. */
+.colophon__hint{
+  position:absolute; left:var(--gut); bottom:58px;
+  margin:0; font-size:9.5px; line-height:1.75; letter-spacing:.07em;
+  color:var(--fg-faint);
+  white-space:nowrap;           /* laptop: one quiet line */
+}
+.colophon__hint br{ display:none; }
+
+/* Below 820px the one-liner would crowd the parked dock — break it
+   in two instead (laptops keep the single quiet line). */
+@media (max-width:819px){
+  .colophon__hint{ white-space:normal; }
+  .colophon__hint .hb-t{ display:inline; }   /* tablet: two lines */
+}
 @media (max-width:720px){
   .colophon{
     grid-template-columns:minmax(0,1fr) auto;
@@ -1269,6 +1307,10 @@ ul,ol{ list-style:none; }
     white-space:nowrap;
   }
   .colophon > *{ min-width:0; }
+  .colophon__avail{ font-size:8px; letter-spacing:.04em; margin-bottom:10px; }
+  .colophon__hint{ font-size:8px; bottom:64px; white-space:normal; }   /* raised clear of the dock's top edge */
+  .colophon__hint .hb-p{ display:inline; }   /* phone: three short lines, clear of the stacked dock */
+  .colophon__hint .hb-t{ display:none; }    /* phone keeps its own shorter breaks */
   .bleed{ height:118px; }
 }
 /* ── Bleed wordmark ─────────────────────────────────────
@@ -1552,6 +1594,7 @@ html.pane-on, html.pane-on body{ overflow:hidden; }
   html,body{ background:#fff; color:#000; }
   .band{ padding:20px 0; border-color:#ccc; page-break-inside:avoid; }
   .colophon{ padding-bottom:22px; }   /* no parking band on paper */
+  .colophon__hint{ display:none; }            /* paper needs no signpost */
 }
 
 /* ── Cat helper ───────────────────────────────────────────

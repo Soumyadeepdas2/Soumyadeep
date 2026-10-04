@@ -15,17 +15,18 @@
 <meta property="og:description" content="Eighteen media publications, one consistent, searchable home.">
 <meta property="og:image" content="https://www.soumyadeep.space/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="icon" href="/assets/favicon.svg?v=1" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=1" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=1">
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=108">
+<link rel="stylesheet" href="css/styles.css?v=115">
 <script>
   (function () {
     try {
       var s = localStorage.getItem('theme');
-      document.documentElement.setAttribute('data-theme', s || 'dark');
+      if (!s) s = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', s);
     } catch (e) {}
   })();
 </script>
@@ -68,11 +69,11 @@
 
 <main id="main" class="case">
   <p class="case__kicker"><span class="tag__dot" aria-hidden="true"></span> Project 05 · 2026</p>
-  <h1 class="case__title"><img class="plogo" src="assets/logos/tells.png?v=9" alt="" width="760" height="367"><img class="plogo plogo--light" src="assets/logos/tells-light.png?v=9" alt="" width="760" height="367">Tells<em>group</em></h1>
+  <h1 class="case__title"><img class="plogo" data-dark="assets/logos/tells.webp?v=1" data-light="assets/logos/tells-light.webp?v=1" alt="" width="795" height="414" decoding="async">Tells<em>group</em></h1>
   <p class="case__lead">Eighteen media brands, one parent system, no eighteen stylesheets.</p>
 
   <figure class="case__shot">
-    <img src="assets/tellsgroup.png" width="1848" height="887" alt="Tellsgroup homepage: Media sparring for stories, with a cartoon editor at a laptop.">
+    <img src="assets/tellsgroup.png?v=1" width="1848" height="887" alt="Tellsgroup homepage: Media sparring for stories, with a cartoon editor at a laptop.">
   </figure>
 
   <section class="case__detail">
@@ -189,11 +190,16 @@
 </main>
 
 <footer class="colophon">
-  <span>© <span id="year"></span> Soumyadeep Das</span>
-  <span><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
+  <!-- Availability — centred closing line at the top of the colophon.
+       (The hero badge was retired when this moved into the footer.) -->
+  <p class="lede__avail colophon__avail"><span class="lede__avail-dot" aria-hidden="true"></span>Open to Summer 2027 internships and collaborations</p>
+  <span class="colophon__credit">© <span id="year"></span> Soumyadeep Das</span>
+  <span class="colophon__clock"><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
 
   <!-- Soumyadeep's Universe — below the credit line, on the left of the
        parking band (the floating dock rests on the right side of it). -->
+  <!-- A quiet signpost for the door below: the personal site. -->
+  <p class="colophon__hint">Optional. If you&#8217;re curious about <br class="hb-p">the person behind <br class="hb-t">the work, <br class="hb-p">step into Soumyadeep&#8217;s Universe.</p>
   <a class="colophon__universe" href="https://soumyadeepuniverse.vercel.app/" target="_blank" rel="noopener">Soumyadeep&#8217;s Universe<span aria-hidden="true"> &#8599;</span></a>
 </footer>
 
@@ -208,6 +214,6 @@
   </button>
 </div>
 
-<script src="js/main.js?v=61"></script>
+<script src="js/main.js?v=64"></script>
 </body>
 </html>
