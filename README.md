@@ -1,49 +1,78 @@
 # Soumyadeep Das — Portfolio
 
-A static, responsive personal portfolio built with **HTML, CSS, and vanilla JavaScript**.
+Personal developer portfolio showcasing my projects, experiments, technical work, and practice.
 
-**Live:** [www.soumyadeep.space](https://www.soumyadeep.space)
+**Live:** [soumyadeep.space](https://www.soumyadeep.space)
 
----
-
-## Deploy
-
-This is a static website and can be deployed easily with **Vercel**.
-
-1. Push the project to GitHub.
-2. Import the repository into Vercel.
-3. Set the project root to the folder containing `index.html`.
-4. Connect your custom domain.
-
-The primary domain is:
-
-**https://www.soumyadeep.space**
+Built as a lightweight static site using **HTML, CSS, and vanilla JavaScript**, with no frontend framework.
 
 ---
 
 ## Projects
 
-The portfolio currently features four projects:
-
-| # | Project | Case Study | Live Site |
+| # | Project | Description | Live |
 |---|---|---|---|
-| 01 | hushhconnect | [`hushhconnect.html`](hushhconnect.html) | [hushh.buzz](https://hushh.buzz/) |
-| 02 | BookyUniverse | [`bookyuniverse.html`](bookyuniverse.html) | [bookyuniverse.vercel.app](https://bookyuniverse.vercel.app/) |
-| 03 | Tellsgroup | [`tellsgroup.html`](tellsgroup.html) | [tellsgroup.vercel.app](https://tellsgroup.vercel.app/) |
-
-> Add new projects to the top of the list so the newest project always appears first.
+| 01 | **Meow Reminder** | Telegram-based reminder application for creating and managing personal reminders. | [meowreminder.de.deplexo.com](https://meowreminder.de.deplexo.com/) |
+| 02 | **OpenRail** | Train-focused web application for exploring railway information and related functionality. | [openrailway.vercel.app](https://openrailway.vercel.app/) |
+| 03 | **hushhconnect** | Private real-time chat application built around Chat IDs instead of email-based accounts. | [hushh.buzz](https://hushh.buzz/) |
+| 04 | **BookyUniverse** | Online e-library platform for discovering and accessing books. | [bookyuniverse.vercel.app](https://bookyuniverse.vercel.app/) |
+| 05 | **Tellsgroup** | A digital media ecosystem built around multiple topic-focused publishing brands. | [tellsgroup.vercel.app](https://tellsgroup.vercel.app/) |
 
 ---
 
-## Project Structure
+## Tech Stack
+
+### Core
+
+- HTML5
+- CSS3
+- JavaScript
+- Python
+- Java
+- C
+- C++
+
+### Web & Backend
+
+- Vanilla JavaScript
+- Node.js
+- REST APIs
+- Supabase
+- Firebase
+- MongoDB
+
+### AI / Data
+
+- Python
+- Deep Learning
+- Machine Learning
+- Data Engineering
+- Ollama
+- Local LLMs
+
+### Infrastructure
+
+- Git & GitHub
+- GitHub Actions
+- Vercel
+- Deplexo
+- Supabase
+- ImageKit
+
+---
+
+## Portfolio Architecture
+
+The portfolio is intentionally kept lightweight and dependency-free on the frontend.
 
 ```text
-.
+portfolio/
+│
 ├── index.html
 ├── 404.html
-├── hushhconnect.html
-├── bookyuniverse.html
-├── tellsgroup.html
+│
+├── *.html
+│   └── Project case studies
 │
 ├── css/
 │   └── styles.css
@@ -52,11 +81,10 @@ The portfolio currently features four projects:
 │   └── main.js
 │
 ├── assets/
-│   ├── résumé
-│   ├── favicons
-│   ├── fonts
-│   ├── plaster
-│   └── project screenshots
+│   ├── fonts/
+│   ├── favicons/
+│   ├── screenshots/
+│   └── resume/
 │
 ├── data/
 │   └── practice.json
@@ -73,270 +101,98 @@ The portfolio currently features four projects:
 └── sitemap.xml
 ```
 
-**Do not upload the `uploads/` folder** if it is still present in your local project.
+---
+
+## Practice Heatmap
+
+The portfolio includes an automatically updated coding-practice heatmap.
+
+Codolio data is fetched server-side through a GitHub Actions workflow and stored as:
+
+```text
+data/practice.json
+```
+
+The browser only reads the generated JSON file; it does not directly request data from Codolio.
+
+### Workflow
+
+```text
+Codolio
+   ↓
+fetch_codolio.py
+   ↓
+data/practice.json
+   ↓
+GitHub Actions
+   ↓
+Git commit
+   ↓
+Vercel deployment
+   ↓
+Portfolio heatmap
+```
+
+The workflow runs twice daily to keep the practice statistics updated.
 
 ---
 
-# Adding a New Project
+## Project Case Studies
 
-Adding another project is straightforward. The existing CSS can be reused.
+Each major project has a dedicated case-study page containing:
 
-## 1. Create the Case Study
-
-Copy an existing case-study page:
-
-```bash
-cp tellsgroup.html myproject.html
-```
-
-Then update the following in `myproject.html`:
-
-- Page title
-- Meta description
-- Canonical URL
-- Project number and year
-- Project title
-- One-line project description
-- Project screenshot
-- Problem
+- Project overview
+- Problem statement
 - Solution
-- Technologies used
+- Technology stack
+- Project screenshot
+- Live project
+- Source code
+- Portfolio navigation
 
-Save the homepage screenshot as:
-
-```text
-assets/myproject.jpg
-```
-
-Then use:
-
-```html
-<figure class="case__shot">
-  <img
-    src="assets/myproject.jpg"
-    width="1600"
-    height="900"
-    alt="My project homepage"
-  >
-</figure>
-```
-
-The case-study page should have three buttons:
-
-- **Portfolio** → `index.html#projects`
-- **Live project** → the project's real URL
-- **Source code** → the project's GitHub repository
-
-If the project does not have its own repository yet, use:
+Project pages use clean URLs such as:
 
 ```text
-https://github.com/Soumyadeepdas2
+/myproject
 ```
 
----
-
-## 2. Add It to the Home Page
-
-Open `index.html` and find:
-
-```html
-<section id="projects">
-```
-
-Duplicate an existing:
-
-```html
-<article class="project">
-```
-
-Add the new project **at the top** of the list.
-
-For example:
+instead of:
 
 ```text
-01  New Project
-02  hushhconnect
-03  BookyUniverse
-04  Tellsgroup
+/myproject.html
 ```
-
-Make sure:
-
-- The project title links to `/myproject`
-- **Case study** links to `/myproject`
-- **Live project** links to the actual project
-- There is **no Source Code button** on the home-page project card
 
 ---
 
-## 3. Update the Sitemap
+## Deployment
 
-Add the new project to `sitemap.xml`:
-
-```xml
-<url>
-  <loc>https://www.soumyadeep.space/myproject</loc>
-  <lastmod>2026-09-21</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.8</priority>
-</url>
-```
-
-Update the `lastmod` date when appropriate.
-
----
-
-## 4. Update Project Counts and Text
-
-Whenever a new project is added, search the site for references to the old project count.
-
-For example:
+The portfolio is deployed on **Vercel** with the primary domain:
 
 ```text
-3 live products
+https://www.soumyadeep.space
 ```
 
-should become:
-
-```text
-4 live products
-```
-
-Also check:
-
-- Hero section
-- Skills/about text
-- SEO description
-- `og:description`
-- `twitter:description`
-- `js/main.js`
-- The cat assistant's **"What has he built?"** response
+The project is completely static on the frontend, with external services used where required by individual features.
 
 ---
 
-## 5. Optional Updates
+## Contact
 
-You can also update:
-
-- Résumé PDF in `assets/`
-- Project screenshots
-- Project favicon
-- `serve.py` if you use the local server
-
-For clean local URLs, add the new route to the `CLEAN` map:
-
-```python
-"/myproject": "/myproject.html",
-```
+The portfolio includes a contact form powered by **Web3Forms**.
 
 ---
 
-## 6. Commit and Deploy
+## Author
 
-After adding the project:
+**Soumyadeep Das**
 
-```bash
-git add myproject.html index.html sitemap.xml js/main.js assets/myproject.jpg
-git commit -m "Add myproject"
-git push
-```
+Computer Science & AI/ML undergraduate focused on software development, AI/ML, and building practical products.
 
-Vercel will automatically deploy the updated site.
-
-The project should be accessible as:
-
-```text
-https://www.soumyadeep.space/myproject
-```
-
-rather than:
-
-```text
-https://www.soumyadeep.space/myproject.html
-```
+- Portfolio: [soumyadeep.space](https://www.soumyadeep.space)
+- GitHub: [github.com/Soumyadeepdas2](https://github.com/Soumyadeepdas2)
 
 ---
 
-# Practice Heatmap
+## License
 
-The portfolio does not request Codolio data directly from the browser.
-
-Instead:
-
-1. A GitHub Action runs periodically.
-2. `scripts/fetch_codolio.py` fetches the practice data.
-3. The result is saved to `data/practice.json`.
-4. Vercel deploys the updated file.
-5. The portfolio reads the local JSON file.
-
-The heatmap, solved count, active days, and streak are all generated from `data/practice.json`.
-
-### GitHub Actions
-
-Make sure:
-
-- GitHub Actions are enabled.
-- Workflow permissions are set to **Read and write**.
-- The **Update practice heatmap** workflow has been run successfully at least once.
-
-The workflow is currently scheduled to run at:
-
-- **06:00 IST**
-- **09:00 IST**
-
-The second run helps catch practice activity that was added overnight.
-
-### Refresh Locally
-
-```bash
-python3 scripts/fetch_codolio.py
-```
-
----
-
-# Contact Form
-
-The contact form uses **Web3Forms**.
-
-Before publishing:
-
-1. Create a free Web3Forms access key at [web3forms.com](https://web3forms.com).
-2. Use `soumyadeepdas044@gmail.com` when setting up the form.
-3. Add the access key to the `data-access-key` attribute in `index.html`.
-4. Send a real test message from the live portfolio.
-5. Confirm that the message arrives in Gmail.
-6. Verify that the WhatsApp number shown on the website is correct.
-
----
-
-# Before Publishing
-
-Use this checklist before deploying changes:
-
-- [ ] Test the homepage
-- [ ] Test every project page
-- [ ] Test all live-project links
-- [ ] Test Source Code links
-- [ ] Test the contact form
-- [ ] Confirm WhatsApp number
-- [ ] Check the 404 page
-- [ ] Check mobile responsiveness
-- [ ] Check the sitemap
-- [ ] Check SEO/Open Graph metadata
-- [ ] Make sure no `uploads/` folder is accidentally committed
-- [ ] Push to GitHub
-- [ ] Confirm the Vercel deployment
-- [ ] Test the live domain
-
----
-
-## Tech Stack
-
-- **HTML5**
-- **CSS3**
-- **Vanilla JavaScript**
-- **Python** — Codolio data updater
-- **GitHub Actions** — automated practice-data updates
-- **Vercel** — deployment
-- **Web3Forms** — contact form
-- **Codolio** — practice statistics
+This repository contains the source code for my personal portfolio.
