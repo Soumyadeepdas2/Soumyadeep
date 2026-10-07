@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-06",
+  "updated": "2026-10-07",
   "profile": "https://codolio.com/profile/soumyadeepdas",
-  "solved": 559,
-  "activeDays": 234,
-  "maxStreak": 121,
-  "currentStreak": 121,
+  "solved": 562,
+  "activeDays": 235,
+  "maxStreak": 122,
+  "currentStreak": 122,
   "platforms": [
     "leetcode",
     "geeksforgeeks",
@@ -248,6 +248,7 @@
     "2026-10-02": 6,
     "2026-10-03": 3,
     "2026-10-04": 6,
-    "2026-10-05": 6
+    "2026-10-05": 6,
+    "2026-10-06": 5
   }
 }
