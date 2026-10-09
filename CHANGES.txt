@@ -1,4 +1,4 @@
-SOUMYADEEP.SPACE — SYNCED WITH GITHUB + AUDIT FIXES, REV 9 (built 2026-10-09)
+SOUMYADEEP.SPACE — SYNCED WITH GITHUB + AUDIT FIXES, REV 12 (built 2026-10-09)
 ================================================
 This build is 5 commits ahead of GitHub HEAD (daf2973), the last one being
 274da7c "audit fixes". Push to GitHub and Vercel will deploy it.
@@ -162,3 +162,52 @@ it. Only the analytics layer changed — no site file was touched:
   ordering, hostile-sid sanitisation.
 Vercel env vars needed: DATABASE_URL (Neon connection string) and
 ADMIN_PASSWORD. Old SUPABASE_* vars (if ever set) can be deleted.
+
+
+REV 10 — LIVE-SITE HEALTH CHECK + 404 FIX (2026-10-09)
+------------------------------------------------------
+Full check of the deployed site (everything pushed and live):
+tracker POSTs to Neon OK, /admin gate + 401 OK, redirects OK, all pages
+200, assets OK, security headers OK, theme OS-default OK, tally 566 OK,
+signpost + universe button OK, ball 3s OK, dock parking OK, logos fetch
+exactly 5 correct-theme variants OK, deep 404 styled OK.
+One bug found and fixed in 404.html only:
+- tracker script used a relative path (js/tracker.js) which resolved to
+  /a/b/js/tracker.js on nested 404 paths -> MIME error. Now absolute
+  /js/tracker.js?v=1, safe at any depth.
+- 404.html was still referencing styles.css?v=110 (version bumps since
+  v111 only covered the six content pages) -> returning visitors could
+  see stale cached CSS on the 404 page. Bumped to v=115.
+
+
+REV 11 — QUIETER ADMIN GATE + NO MORE CODELIO MERGE CONFLICTS (2026-10-09)
+--------------------------------------------------------------------------
+1. /admin gate: removed the hint text under the password field (where
+   the password is set, how the lockout works). The gate is now just
+   label, field, button, error line.
+2. Daily Codolio-bot merge conflicts, fixed three ways:
+   a. .gitattributes marks data/practice.json merge=ours — with the
+      recommended "git pull --rebase" any clash on that file
+      auto-resolves to the bot's freshest data instead of conflicting.
+   b. From this zip on, data/practice.json is NO LONGER included in
+      the zip — unzipping can never overwrite or re-commit the bot's
+      copy. (Your repo keeps the file; only the zip omits it.)
+   c. Recommended one-time setup on your machine:
+        git config pull.rebase true
+      and per-zip flow: git pull --rebase, unzip, commit, push.
+
+
+REV 12 — CODELIO: NEW 3AM/6AM SCHEDULE + RETRIES + FRESH STATICS (2026-10-09)
+-----------------------------------------------------------------------------
+1. Workflow now runs 03:00 and 06:00 IST (was 06:00 and 09:00). GitHub
+   cron is UTC, so that is 21:30 and 00:30 UTC. The 6am run is the
+   safety net if the 3am one fails.
+2. fetch_codolio.py now retries 3 times (20s apart) — a single Codolio
+   hiccup can no longer cost the day's update. (Why 9am runs often
+   showed nothing: the workflow only commits when numbers changed, and
+   Codolio refreshes once a day — by 9am there was nothing new.)
+3. Statics refreshed from live Codolio data: 570 solved / 237 active
+   days / streak 124 (was 566/236/123). main.js bumped to v66 on all
+   six pages that load it. Live tally still hydrates from practice.json,
+   which the bot keeps fresh daily.
+4. data/practice.json is NOT in this commit — the GitHub bot owns it.

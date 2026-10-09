@@ -1,0 +1,5 @@
+# The Codolio GitHub Action commits data/practice.json daily. With this
+# attribute, a "git pull --rebase" (recommended) auto-resolves any
+# clash on that file to the incoming — i.e. the bot's freshest — data,
+# so applying a zip of site files never ends in a merge conflict.
+data/practice.json merge=ours

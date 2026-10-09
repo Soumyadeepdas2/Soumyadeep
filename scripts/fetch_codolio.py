@@ -52,7 +52,7 @@ def max_streak(days: list[date]) -> int:
     return best
 
 
-def fetch() -> dict:
+def fetch_once() -> dict:
     req = urllib.request.Request(
         URL,
         headers={
@@ -66,6 +66,23 @@ def fetch() -> dict:
     if not payload.get("status", {}).get("success"):
         raise SystemExit(f"Codolio error: {payload.get('status')}")
     return payload["data"]
+
+
+def fetch() -> dict:
+    # Retry 3 times with a short backoff so a single Codolio hiccup
+    # never costs the day's update.
+    import time
+
+    for attempt in (1, 2, 3):
+        try:
+            return fetch_once()
+        except SystemExit:
+            raise
+        except Exception as exc:
+            if attempt == 3:
+                raise SystemExit(f"Codolio unreachable after 3 attempts: {exc}")
+            print(f"Fetch failed (attempt {attempt}/3): {exc} — retrying in 20s", file=sys.stderr)
+            time.sleep(20)
 
 
 def build(data: dict) -> dict:
