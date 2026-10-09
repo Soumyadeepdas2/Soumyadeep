@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytics — Soumyadeep Das</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#060f26">
+  <script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="stylesheet" href="css/styles.css?v=115">
+  <style>
+    /* Admin dashboard — sits on the site's own plaster + tokens. */
+    .admin{ max-width:880px; margin:0 auto; padding:64px var(--gut) 90px; }
+    .admin__kicker{
+      font-family:var(--mono); font-size:10.5px; letter-spacing:.14em;
+      text-transform:uppercase; color:var(--accent); margin:0 0 14px;
+    }
+    .admin__title{
+      font-family:var(--serif); font-weight:300; font-size:clamp(40px,7vw,64px);
+      line-height:1; margin:0 0 10px; color:var(--fg);
+    }
+    .admin__title em{ font-style:italic; }
+    .admin__note{
+      font-family:var(--mono); font-size:10.5px; letter-spacing:.05em;
+      text-transform:uppercase; color:var(--fg-faint); margin:0 0 46px;
+    }
+
+    /* gate */
+    .gate{
+      border:1px solid var(--rule); background:color-mix(in srgb, var(--bg) 86%, transparent);
+      padding:34px 30px; max-width:420px;
+    }
+    .gate__label{
+      display:block; font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--fg-faint); margin-bottom:10px;
+    }
+    .gate__row{ display:flex; gap:10px; }
+    .gate__input{
+      flex:1; min-width:0; background:transparent; border:1px solid var(--rule);
+      color:var(--fg); font-family:var(--mono); font-size:14px;
+      padding:10px 12px; border-radius:2px; outline:none;
+    }
+    .gate__input:focus{ border-color:var(--accent); }
+    .gate__btn{
+      background:var(--accent); color:var(--bg); border:none; cursor:pointer;
+      font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+      padding:10px 16px; border-radius:2px;
+      transition:opacity .25s var(--ease);
+    }
+    .gate__btn:hover{ opacity:.86; }
+    .gate__err{
+      font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; color:var(--accent);
+      margin:12px 0 0; min-height:1em;
+    }
+    .gate__hint{
+      font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--fg-faint);
+      margin:16px 0 0; line-height:1.7;
+    }
+
+    /* dashboard */
+    .stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:26px; }
+    .stat{ border:1px solid var(--rule); padding:16px 18px 14px; }
+    .stat__k{
+      font-family:var(--mono); font-size:9.5px; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--fg-faint); margin:0 0 8px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .stat__v{
+      font-family:var(--mono); font-size:34px; font-weight:700; color:var(--fg); line-height:1;
+    }
+    .stat__v small{ font-size:11px; font-weight:400; color:var(--fg-faint); letter-spacing:.06em; }
+    .dot-live{
+      width:8px; height:8px; border-radius:50%; background:var(--accent);
+      animation:avail 2.8s var(--ease) infinite;
+    }
+
+    .panel{ border:1px solid var(--rule); padding:20px 22px 16px; margin-bottom:22px; }
+    .panel__head{
+      display:flex; align-items:baseline; justify-content:space-between; gap:14px;
+      margin-bottom:14px; flex-wrap:wrap;
+    }
+    .panel__title{
+      font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--fg-faint); margin:0;
+    }
+    .range{ display:flex; gap:6px; }
+    .range button{
+      background:transparent; border:1px solid var(--rule); color:var(--fg-faint);
+      font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
+      padding:4px 10px; cursor:pointer; border-radius:2px;
+    }
+    .range button[aria-pressed="true"]{ border-color:var(--accent); color:var(--accent); }
+
+    .chart{ width:100%; height:auto; display:block; }
+    .chart .grid{ stroke:var(--rule); stroke-width:1; }
+    .chart .tick{ fill:var(--fg-faint); font-family:var(--mono); font-size:9px; letter-spacing:.06em; }
+    .chart .bar{ fill:var(--fg-dim); }
+    .chart .bar.today{ fill:var(--accent); }
+    .chart .bar:hover{ fill:var(--fg); }
+    .chart .empty{ fill:var(--fg-faint); font-family:var(--mono); font-size:11px; letter-spacing:.08em; }
+
+    .pages{ width:100%; border-collapse:collapse; }
+    .pages td{
+      font-family:var(--mono); font-size:11px; letter-spacing:.03em;
+      color:var(--fg-dim); padding:7px 4px; border-bottom:1px solid var(--rule);
+    }
+    .pages tr:last-child td{ border-bottom:none; }
+    .pages td:first-child{ color:var(--fg); }
+    .pages td:nth-child(2), .pages td:nth-child(3){ text-align:right; color:var(--fg-faint); }
+    .pages th{
+      font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--fg-faint); text-align:left; padding:0 4px 8px; font-weight:400;
+    }
+    .pages th:nth-child(2), .pages th:nth-child(3){ text-align:right; }
+
+    .dash__foot{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      margin-top:28px; flex-wrap:wrap;
+    }
+    .dash__updated{
+      font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
+      text-transform:uppercase; color:var(--fg-faint);
+    }
+    .dash__actions{ display:flex; gap:10px; }
+    .linkbtn{
+      background:transparent; border:1px solid var(--rule); color:var(--fg-faint);
+      font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase;
+      padding:7px 13px; cursor:pointer; border-radius:2px; text-decoration:none;
+      transition:color .25s var(--ease), border-color .25s var(--ease);
+    }
+    .linkbtn:hover{ color:var(--fg); border-color:var(--fg-faint); }
+
+    @media (max-width:640px){
+      .stats{ grid-template-columns:1fr; }
+      .stat__v{ font-size:28px; }
+      .admin{ padding-top:44px; }
+    }
+    @media print{ .gate__btn, .linkbtn, .range{ display:none; } }
+  </style>
+</head>
+
+<body>
+  <main class="admin">
+    <p class="admin__kicker">Admin · soumyadeep.space</p>
+    <h1 class="admin__title">Analytics<em>.</em></h1>
+    
+
+    <!-- ── gate ─────────────────────────────────────────────── -->
+    <section class="gate" id="gate">
+      <label class="gate__label" for="pass">Password</label>
+      <div class="gate__row">
+        <input class="gate__input" id="pass" type="password" autocomplete="current-password" spellcheck="false">
+        <button class="gate__btn" id="unlock" type="button">Unlock</button>
+      </div>
+      <p class="gate__err" id="gateErr" role="alert"></p>
+      <p class="gate__hint">Set in Vercel → Project → Settings → Environment Variables → ADMIN_PASSWORD.<br>Wrong five times locks the door for ten minutes.</p>
+    </section>
+
+    <!-- ── dashboard ────────────────────────────────────────── -->
+    <section id="dash" hidden>
+      <div class="stats">
+        <div class="stat">
+          <p class="stat__k"><span class="dot-live" aria-hidden="true"></span>Live now</p>
+          <p class="stat__v" id="liveNow">—</p>
+        </div>
+        <div class="stat">
+          <p class="stat__k">Total viewers</p>
+          <p class="stat__v" id="totalViewers">—</p>
+        </div>
+        <div class="stat">
+          <p class="stat__k">Total pageviews</p>
+          <p class="stat__v" id="totalPageviews">—</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel__head">
+          <p class="panel__title" id="chartTitle">Viewers each day — last 30 days</p>
+          <div class="range" role="group" aria-label="Chart range">
+            <button type="button" data-days="14">14d</button>
+            <button type="button" data-days="30" aria-pressed="true">30d</button>
+            <button type="button" data-days="90">90d</button>
+          </div>
+        </div>
+        <svg class="chart" id="chart" viewBox="0 0 760 240" role="img" aria-label="Bar chart of viewers per day"></svg>
+      </div>
+
+      <div class="panel">
+        <div class="panel__head"><p class="panel__title">Most viewed pages</p></div>
+        <table class="pages" id="topPages">
+          <thead><tr><th>Path</th><th>Viewers</th><th>Views</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="dash__foot">
+        <span class="dash__updated" id="updated">not refreshed yet</span>
+        <div class="dash__actions">
+          <button class="linkbtn" id="refresh" type="button">Refresh</button>
+          <button class="linkbtn" id="logout" type="button">Log out</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/admin.js?v=1" defer></script>
+</body>
+</html>

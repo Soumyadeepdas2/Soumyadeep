@@ -42,6 +42,11 @@
       "source": "/meow.html",
       "destination": "/meow",
       "permanent": true
+    },
+    {
+      "source": "/admin.html",
+      "destination": "/admin",
+      "permanent": true
     }
   ],
   "headers": [

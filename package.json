@@ -1,0 +1,9 @@
+{
+  "name": "soumyadeep-space",
+  "private": true,
+  "description": "Static portfolio + /api/analytics serverless function (Neon Postgres).",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  },
+  "type": "module"
+}

@@ -27,6 +27,7 @@ CLEAN = {
     "/openrail": "/openrail.html",
     "/meow": "/meow.html",
     "/feedback": "/feedback.html",
+    "/admin": "/admin.html",
 }
 
 
