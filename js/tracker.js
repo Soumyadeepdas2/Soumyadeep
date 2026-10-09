@@ -3,7 +3,7 @@
    one POST on arrival, a lightweight heartbeat every 25s so "live now"
    stays warm, sendBeacon where available. Fails silently — tracking must
    never break the page, and it no-ops until the API exists (i.e. after
-   the Vercel deploy with the Supabase env vars set). */
+   the Vercel deploy with the Neon DATABASE_URL env var set). */
 (function () {
   try {
     var path = location.pathname || "/";

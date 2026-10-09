@@ -39,7 +39,7 @@
       } else if (r.status === 429) {
         err.textContent = "Too many attempts — locked for a few minutes.";
       } else if (r.status === 503 || r.status === 502) {
-        err.textContent = "API is up, but Supabase is not configured yet.";
+        err.textContent = "API is up, but Neon is not configured yet (DATABASE_URL env var in Vercel).";
       } else {
         err.textContent = "Wrong password.";
         input.select();
@@ -74,12 +74,21 @@
     $("#liveNow").textContent = fmt(d.liveNow);
     $("#totalViewers").textContent = fmt(d.totalViewers);
     $("#totalPageviews").textContent = fmt(d.totalPageviews);
-    $("#chartTitle").textContent = "Viewers each day — last " + days + " days";
+    $("#chartTitle").textContent = "Browsers each day — last " + days + " days";
     drawChart(d.daily || []);
     drawPages(d.topPages || []);
+    drawRows("#browsers tbody", (d.browsers || []).map(function (r) {
+      return [r.browser, fmt(r.visitors), fmt(r.views)];
+    }), "No browsers recorded yet.");
+    drawRows("#referrers tbody", (d.referrers || []).map(function (r) {
+      return [r.source, fmt(r.visitors), fmt(r.views)];
+    }), "No sources recorded yet.");
+    drawRows("#recent tbody", (d.recent || []).map(function (r) {
+      return [r.at, r.path, r.browser, r.source];
+    }), "No visits recorded yet.");
     var t = new Date();
     $("#updated").textContent =
-      "updated " + t.toLocaleTimeString("en-IN", { hour12: false }) + " IST-clock · auto 30s";
+      "updated " + t.toLocaleTimeString("en-IN", { hour12: false, timeZone: "Asia/Kolkata" }) + " IST · auto 30s";
   }
 
   /* ── SVG bar chart, no libraries ─────────────────────────── */
@@ -123,7 +132,7 @@
       parts.push(
         '<rect class="bar' + (isToday ? " today" : "") + '" x="' + x + '" y="' + y +
         '" width="' + barW + '" height="' + Math.max(h, d.viewers > 0 ? 2 : 0) + '" rx="1">' +
-        "<title>" + label + " — " + d.viewers + " viewers · " + d.pageviews + " views</title></rect>"
+        "<title>" + label + " — " + d.viewers + " browsers · " + d.pageviews + " views</title></rect>"
       );
       if (k % every === 0 || k === n - 1) {
         var tx = pl + k * step + step / 2;
@@ -145,6 +154,18 @@
           })
           .join("")
       : '<tr><td colspan="3">No pages recorded yet.</td></tr>';
+  }
+
+  /* shared table renderer for the browsers / referrers / recent panels */
+  function drawRows(sel, rows, emptyMsg) {
+    var tb = $(sel);
+    tb.innerHTML = rows.length
+      ? rows
+          .map(function (r) {
+            return "<tr>" + r.map(function (c) { return "<td>" + escapeHtml(String(c)) + "</td>"; }).join("") + "</tr>";
+          })
+          .join("")
+      : '<tr><td colspan="4">' + emptyMsg + "</td></tr>";
   }
 
   function escapeHtml(s) {
