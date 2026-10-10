@@ -1,4 +1,34 @@
+# dependencies
 node_modules/
 __pycache__/
+
+# local-only notes (never published)
 CHANGES.txt
-ANALYTICS-SETUP.md 
+ANALYTICS-SETUP.md
+
+# secrets / credentials - never publish these
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+*.jks
+*.kdbx
+id_rsa*
+id_dsa*
+id_ed25519*
+id_ecdsa*
+.npmrc
+.netrc
+.git-credentials
+.ssh/
+.htpasswd
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.tmp
+*.swp

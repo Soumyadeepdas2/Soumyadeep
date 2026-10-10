@@ -133,3 +133,14 @@ create table if not exists public.rate_limits (
   hits         int not null default 0,
   window_start timestamptz not null default now()
 );
+
+-- ─────────────────────────────────────────────────────────────
+-- Practice stats cache (Rev 23). /api/practice stores Codolio's
+-- latest snapshot here and refreshes it on demand. This table also
+-- creates itself on first request if it is missing — running this
+-- file is optional, kept only for fresh setups and documentation.
+create table if not exists public.practice_stats (
+  id         integer primary key check (id = 1),   -- single row
+  data       jsonb not null,                       -- the stats snapshot
+  fetched_at timestamptz not null default now()    -- refresh bookkeeping
+);

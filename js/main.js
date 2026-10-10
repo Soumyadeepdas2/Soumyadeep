@@ -125,6 +125,25 @@
     if (!dockEl) return;
     // mirrors .dock's bottom clamp() in styles.css
     const rest = Math.min(28, Math.max(16, innerHeight * 0.026));
+    /* phones: the dock lives in the bottom corner and never rides up —
+       floating buttons stranded mid-screen read as broken there. It
+       only steps aside (fades) while the visits graph passes through
+       the corner, then returns. What it rests over at the very end is
+       the bleed wordmark — a 7%-opacity decorative ghost. */
+    if (innerWidth < 820) {
+      const dockH = dockEl.offsetHeight;
+      const zoneTop = innerHeight - rest - dockH - 14;
+      /* judge by the BARS — the visible data — not the section box,
+         whose bottom padding IS the dock's corner clearance */
+      const bars = document.querySelector('.visits__bars');
+      const g = (bars && bars.children.length)
+        ? bars.getBoundingClientRect() : null;
+      const passing = !!g && g.top < (innerHeight - rest) + 40 && g.bottom > zoneTop;
+      dockEl.classList.toggle('tucked', passing);
+      dockEl.style.setProperty('--park', '0px');
+      return;
+    }
+    dockEl.classList.remove('tucked');
     // anchor: the Universe button's row (fall back to the wordmark)
     const anchor = uniEl || bleedEl;
     if (!anchor) return;
@@ -330,13 +349,14 @@
   /* ── Problem tally ──────────────────────────────────────
      Keep the factual value stable; changing it to 1 during an animation
      caused crawlers to index the wrong number. The live figure is
-     Codolio’s total, hydrated from data/practice.json. */
+     Codolio’s total, hydrated from /api/practice. */
   const tally = $('#tally');
   if (tally) tally.textContent = tally.dataset.to || '570';
 
   /* ── Practice heatmap ───────────────────────────────────
-     data/practice.json is written once a day by GitHub Actions
-     (scripts/fetch_codolio.py). The page never talks to Codolio. */
+     Stats come from /api/practice — a copy of Codolio’s data held
+     in the Neon database and refreshed server-side. The page never
+     talks to Codolio, and git never touches the data. */
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const DOWS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -722,7 +742,7 @@
     { q: 'Where is he?', a: "Vadodara, Gujarat, India — that's IST, UTC+5:30. Happy to work remotely." }
   ];
 
-  fetch('/data/practice.json', { cache: 'no-cache' })
+  fetch('/api/practice', { cache: 'no-cache' })
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(applyPractice)
     .catch(() => {});

@@ -86,16 +86,6 @@ portfolio/
 │   ├── screenshots/
 │   └── resume/
 │
-├── data/
-│   └── practice.json
-│
-├── scripts/
-│   └── fetch_codolio.py
-│
-├── .github/
-│   └── workflows/
-│       └── update-practice.yml
-│
 ├── vercel.json
 ├── robots.txt
 └── sitemap.xml
@@ -107,33 +97,28 @@ portfolio/
 
 The portfolio includes an automatically updated coding-practice heatmap.
 
-Codolio data is fetched server-side through a GitHub Actions workflow and stored as:
+The stats live in the **Neon Postgres database** (table `practice_stats`), not in
+this repository. Nothing in git ever writes practice data, so pushes can never
+conflict over it and zips can never make it stale.
 
 ```text
-data/practice.json
+Codolio API  →  /api/practice (Vercel function)  →  Neon table  →  browser heatmap
 ```
 
-The browser only reads the generated JSON file; it does not directly request data from Codolio.
+- The browser calls `GET /api/practice` — same JSON shape the old
+  `data/practice.json` had (`solved`, `activeDays`, `currentStreak`,
+  `maxStreak`, `updated`, `calendar`, `platforms`).
+- The function refreshes its cached snapshot from Codolio whenever it is older
+  than 3 hours — no scheduler, no GitHub Actions, no bot commits.
+- A refresh can only replace the snapshot with an equal-or-newer `updated`
+  day, so stats can never roll back.
+- If Codolio is unreachable, the last stored snapshot is served; if the
+  database is unreachable too, an embedded emergency copy is served.
+- The table creates itself on first request — no SQL needs to be run.
 
-### Workflow
-
-```text
-Codolio
-   ↓
-fetch_codolio.py
-   ↓
-data/practice.json
-   ↓
-GitHub Actions
-   ↓
-Git commit
-   ↓
-Vercel deployment
-   ↓
-Portfolio heatmap
-```
-
-The workflow runs twice daily to keep the practice statistics updated.
+Public read-only data, exactly what the static file exposed before. If the
+fetch fails, the page keeps its built-in defaults — the heatmap never breaks
+a page.
 
 ---
 
@@ -175,6 +160,27 @@ https://www.soumyadeep.space
 The project is completely static on the frontend, with external services used where required by individual features.
 
 ---
+
+## Publishing changes
+
+The repo has no bots and no generated files, so a plain push is all it takes:
+
+```powershell
+git add -A
+git commit -m "What you changed"
+git push
+```
+
+If the push is ever rejected, someone else pushed first — just integrate and retry:
+
+```powershell
+git pull --rebase
+git push
+```
+
+Vercel deploys automatically after the push (usually a minute or two).
+Practice stats are NOT part of the repo (see *Practice Heatmap* above), so
+they can never cause a conflict.
 
 ## Contact
 

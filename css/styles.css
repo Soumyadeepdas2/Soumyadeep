@@ -1609,7 +1609,11 @@ html.pane-on, html.pane-on body{ overflow:hidden; }
   position:fixed; right:clamp(16px,2.4vw,30px);
   bottom:calc(clamp(16px,2.6vh,28px) + var(--park, 0px));
   z-index:120; display:flex; flex-direction:column; align-items:flex-end; gap:10px;
+  transition:opacity .35s var(--ease), transform .35s var(--ease);
 }
+/* phones only (main.js): the dock steps aside while the visits graph
+   passes through its corner, then returns — never covering the data */
+.dock.tucked{ opacity:0; pointer-events:none; transform:translateY(10px); }
 .rise{
   width:42px; height:42px; padding:0;
   display:grid; place-items:center;
@@ -1837,3 +1841,9 @@ html.fx-on .fullstop.is-text{ color:var(--fg-dim); }
 }
 .visits__bars i.v-today{ background:var(--accent); }
 .visits__bars i.v-today:hover{ filter:brightness(1.25); }
+
+/* phones: the dock lives in the bottom corner (main.js), so the graph
+   leaves it room — this padding is the corner-dock clearance */
+@media (max-width:819px){
+  .visits{ padding-bottom:84px; }
+}
