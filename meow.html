@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=1">
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=115">
+<link rel="stylesheet" href="css/styles.css?v=116">
 <script>
   (function () {
     try {
@@ -206,6 +206,15 @@
 </footer>
 
 <!-- Bleed wordmark: decorative close, clipped by the page edge. -->
+<!-- ─────────────  VISITS GRAPH  ─────────────
+     The honest counter: public daily visit counts from the site's
+     own tracker, via /api/visits — aggregate numbers only, nothing
+     personal. Hover a bar: it lights up and shows the count. -->
+<section class="visits" id="visits" hidden aria-label="Site visits per day">
+  <div class="visits__cap"><span>Visits per day · counted anonymously</span><span>Last 30 days</span></div>
+  <div class="visits__bars" id="visitsBars"></div>
+</section>
+
 <div class="bleed" aria-hidden="true"><span>Soumyadeep</span></div>
 
 <div class="dock">
@@ -216,7 +225,7 @@
   </button>
 </div>
 
-<script src="js/main.js?v=66"></script>
+<script src="js/main.js?v=68"></script>
   <script src="js/tracker.js?v=2" defer></script>
 </body>
 </html>

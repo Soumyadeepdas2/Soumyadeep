@@ -111,19 +111,26 @@
 
   /* ── Dock parking ─────────────────────────────────────────
      While you scroll, the dock floats at its corner. As the page
-     end (the bleed wordmark) rises into view, the dock rides up
-     with it and comes to rest in the footer's parking band —
-     between the colophon line (timer) and the wordmark — so the
-     buttons cover neither. Scrolling back up lowers it again. */
+     end rises into view, the dock rides up with it and comes to
+     rest EXACTLY on the Universe button's row — Universe on the
+     left, the dock on the right, one aligned closing row — so the
+     buttons never cover the timer above, the visits graph below,
+     or the bleed wordmark. Anchored to the universe button itself
+     (not the wordmark), so anything added below stays clear.
+     Scrolling back up lowers it again. */
   const dockEl  = document.querySelector('.dock');
   const bleedEl = document.querySelector('.bleed');
+  const uniEl   = document.querySelector('.colophon__universe');
   function parkDock() {
-    if (!dockEl || !bleedEl) return;
+    if (!dockEl) return;
     // mirrors .dock's bottom clamp() in styles.css
     const rest = Math.min(28, Math.max(16, innerHeight * 0.026));
-    const wordmarkTop = bleedEl.getBoundingClientRect().top;
-    // wanted bottom offset: dock's lower edge 16px above the wordmark top
-    const wanted = (innerHeight - wordmarkTop) + 16;
+    // anchor: the Universe button's row (fall back to the wordmark)
+    const anchor = uniEl || bleedEl;
+    if (!anchor) return;
+    // wanted bottom offset: the dock's lower edge rests on the
+    // Universe button's lower edge — one aligned row
+    const wanted = innerHeight - anchor.getBoundingClientRect().bottom;
     dockEl.style.setProperty('--park', Math.max(0, wanted - rest) + 'px');
   }
 
@@ -719,6 +726,39 @@
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(applyPractice)
     .catch(() => {});
+
+  /* ── Footer: visits-per-day graph (public) ───────────────
+     /api/visits returns aggregate daily counts only — no paths,
+     browsers or referrers. Days without visits are zero-filled so
+     the strip is always 30 bars. Hovering a bar highlights it and
+     shows the count in a native tooltip, like the admin chart. */
+  const visitsEl = $('#visits');
+  if (visitsEl) {
+    fetch('/api/visits', { cache: 'no-cache' })
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(d => paintVisits(d.days || []))
+      .catch(() => {}); /* the graph must never break the page */
+  }
+  function paintVisits(rows) {
+    const bars = $('#visitsBars');
+    if (!bars || !rows.length) return;
+    const byDay = new Map();
+    for (const r of rows) byDay.set(r.day, r.visits);
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+    const days = [];
+    for (let i = 29; i >= 0; i--) {
+      days.push(new Date(Date.now() - i * 864e5).toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }));
+    }
+    const max = Math.max(1, ...days.map(d => byDay.get(d) || 0));
+    bars.innerHTML = days.map(d => {
+      const v = byDay.get(d) || 0;
+      const label = (+d.slice(8)) + ' ' + MONTHS[(+d.slice(5, 7)) - 1];
+      return '<i' + (d === today ? ' class="v-today"' : '') +
+        ' style="height:' + Math.max(2, Math.round((v / max) * 64)) + 'px"' +
+        ' title="' + label + ' — ' + v + (v === 1 ? ' visit' : ' visits') + '"></i>';
+    }).join('');
+    visitsEl.hidden = false;
+  }
 
   function bubble(html, who) {
     const el = document.createElement('div');

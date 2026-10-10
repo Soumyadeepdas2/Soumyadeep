@@ -1809,3 +1809,31 @@ html.fx-on .fullstop.is-text{ color:var(--fg-dim); }
    every screen size (mobile included). When it is fixed, an
    out-of-flow grid child no longer occupies the cell, so the
    connect grid collapses to its three in-flow items. */
+
+/* ── Footer visits graph ────────────────────────────────────
+   Public daily visit counts, served by /api/visits — aggregate
+   numbers only, so nothing personal is ever exposed. Hovering a
+   bar highlights it and reveals the count in a native tooltip,
+   the same behaviour as the admin chart; today's bar carries the
+   accent colour. Hidden until data arrives (main.js). */
+.visits{ max-width:var(--maxw); margin:0 auto; padding:14px var(--gut) 30px; }
+.visits[hidden]{ display:none; }
+.visits__cap{
+  font-family:var(--mono); font-size:9px; letter-spacing:.14em;
+  color:var(--fg-faint); text-transform:uppercase;
+  display:flex; justify-content:space-between; gap:16px; margin-bottom:10px;
+}
+.visits__bars{
+  display:flex; align-items:flex-end; gap:3px; height:64px;
+  border-top:1px solid var(--rule);
+}
+.visits__bars i{
+  flex:1; min-width:2px; min-height:2px;
+  background:var(--rule); border-radius:1px 1px 0 0;
+  transition:background .18s var(--ease), transform .18s var(--ease);
+}
+.visits__bars i:hover{
+  background:var(--accent); transform:translateY(-1px);
+}
+.visits__bars i.v-today{ background:var(--accent); }
+.visits__bars i.v-today:hover{ filter:brightness(1.25); }
