@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=1">
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=117">
+<link rel="stylesheet" href="css/styles.css?v=120">
 <script>
   (function () {
     try {
@@ -199,11 +199,12 @@
   <span class="colophon__credit">© <span id="year"></span> Soumyadeep Das</span>
   <span class="colophon__clock"><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
 
-  <!-- Soumyadeep's Universe — below the credit line, on the left of the
-       parking band (the floating dock rests on the right side of it). -->
+  <!-- Soumyadeep's Universe — below the credit line, on the left of
+       the band (the dock rests on the right side of it). -->
   <!-- A quiet signpost for the door below: the personal site. -->
   <p class="colophon__hint">Optional. If you&#8217;re curious about <br class="hb-p">the person behind <br class="hb-t">the work, <br class="hb-p">step into Soumyadeep&#8217;s Universe.</p>
   <a class="colophon__universe" href="https://soumyadeepuniverse.vercel.app/" target="_blank" rel="noopener">Soumyadeep&#8217;s Universe<span aria-hidden="true"> &#8599;</span></a>
+
 </footer>
 
 <!-- Bleed wordmark: decorative close, clipped by the page edge. -->
@@ -216,8 +217,10 @@
   <div class="visits__bars" id="visitsBars"></div>
 </section>
 
-<div class="bleed" aria-hidden="true"><span>Soumyadeep</span></div>
-
+<!-- The dock floats in the bottom-right corner on every screen and
+     never parks: the visits graph and the wordmark simply pass beneath
+     the buttons, which stay in the corner to the very end (styles.css;
+     main.js wakes the buttons once the projects section starts). -->
 <div class="dock">
   <button class="rise" id="rise" type="button" aria-label="Return to opening">
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -226,7 +229,9 @@
   </button>
 </div>
 
-<script src="js/main.js?v=70"></script>
+<div class="bleed" aria-hidden="true"><span>Soumyadeep</span></div>
+
+<script src="js/main.js?v=71"></script>
   <script src="js/tracker.js?v=2" defer></script>
 </body>
 </html>

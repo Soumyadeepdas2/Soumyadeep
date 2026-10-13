@@ -31,7 +31,7 @@
 <!-- The two hero faces are local and preloaded: no third-party font chain delays the LCP. -->
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=117">
+<link rel="stylesheet" href="css/styles.css?v=120">
 
 <script>
   (function () {
@@ -112,7 +112,6 @@
         I <span class="doing__type" id="doing" aria-hidden="true">build things for the web.</span><span class="doing__caret" id="doingCaret" aria-hidden="true"></span>
         <span class="sr">build web products, solve algorithms, and ship projects that work.</span>
       </p>
-
 
       <div class="lede__intro">
         <p class="lede__bio">
@@ -238,8 +237,6 @@
         </div>
       </div>
     </article>
-
-
 
     <article class="project">
       <header class="project__head">
@@ -485,7 +482,6 @@
 
   <button type="button" class="certs-more" id="openCerts" aria-haspopup="dialog" aria-controls="certsPane">More certificates<span aria-hidden="true"> +</span></button>
 
-
   <div class="ledger">
     <div class="ledger__row">
       <span class="ledger__k">Practice</span>
@@ -549,33 +545,7 @@
       <a class="connect__cv" href="assets/Soumyadeep_Das_Resume.pdf?v=2" download>Résumé</a>
     </div>
 
-    <!-- CAT · a scripted helper, not an AI. The dock floats over the page,
-         bottom-right. It wakes when the projects section starts, travels
-         with the scroll, and tucks away above it again (main.js). -->
-    <div class="dock">
-  <button class="rise" id="rise" type="button" aria-label="Return to opening">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-  <div class="cat" id="cat">
-    <button class="cat__tab" id="catTab" aria-label="doubts?" aria-expanded="false" aria-controls="catBox">
-      <span class="cat__hi" id="catHi">doubts?</span>
-    </button>
-
-    <div class="cat__box" id="catBox" role="dialog" aria-modal="true" aria-label="doubts?" hidden>
-      <header class="cat__bar">
-        <span class="cat__title">doubts</span>
-        <button class="cat__x" id="catClose" aria-label="Close">✕</button>
-      </header>
-
-      <div class="cat__log" id="catLog" role="log" aria-live="polite"></div>
-
-      <div class="cat__asks" id="catAsks"></div>
-    </div>
-  </div>
 </div>
-  </div>
 
   <!-- The full stop that leaves the sentence, bounces along the social row and
        settles as the "let's connect" line. Decorative: the real line above is
@@ -639,11 +609,12 @@
   <span class="colophon__credit">Soumyadeep Das © <span id="year">2026</span></span>
   <span class="colophon__clock"><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
 
-  <!-- Soumyadeep's Universe — below the credit line, on the left of the
-       parking band (the floating dock rests on the right side of it). -->
+  <!-- Soumyadeep's Universe — below the credit line, on the left of
+       the band (the dock rests on the right side of it). -->
   <!-- A quiet signpost for the door below: the personal site. -->
   <p class="colophon__hint">Optional. If you&#8217;re curious about <br class="hb-p">the person behind <br class="hb-t">the work, <br class="hb-p">step into Soumyadeep&#8217;s Universe.</p>
   <a class="colophon__universe" href="https://soumyadeepuniverse.vercel.app/" target="_blank" rel="noopener">Soumyadeep&#8217;s Universe<span aria-hidden="true"> &#8599;</span></a>
+
 </footer>
 
 <!-- ─────────────  BLEED WORDMARK  ─────────────
@@ -659,10 +630,35 @@
   <div class="visits__bars" id="visitsBars"></div>
 </section>
 
+<!-- The dock floats in the bottom-right corner on every screen and
+     never parks: the visits graph and the wordmark simply pass beneath
+     the buttons, which stay in the corner to the very end (styles.css;
+     main.js wakes the buttons once the projects section starts). -->
+<div class="dock">
+  <button class="rise" id="rise" type="button" aria-label="Return to opening">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="cat" id="cat">
+    <button class="cat__tab" id="catTab" aria-label="doubts?" aria-expanded="false" aria-controls="catBox">
+      <span class="cat__hi" id="catHi">doubts?</span>
+    </button>
+
+    <div class="cat__box" id="catBox" role="dialog" aria-modal="true" aria-label="doubts?" hidden>
+      <header class="cat__bar">
+        <span class="cat__title">doubts</span>
+        <button class="cat__x" id="catClose" aria-label="Close">✕</button>
+      </header>
+
+      <div class="cat__log" id="catLog" role="log" aria-live="polite"></div>
+
+      <div class="cat__asks" id="catAsks"></div>
+    </div>
+  </div>
+</div>
+
 <div class="bleed" aria-hidden="true"><span>Soumyadeep</span></div>
-
-
-
 
 <div class="pane" id="feedbackPane" hidden>
   <div class="pane__dim" data-pane-close></div>
@@ -716,7 +712,7 @@
   </div>
 </div>
 
-<script src="js/main.js?v=70"></script>
+<script src="js/main.js?v=71"></script>
 <script src="js/portrait.js?v=19"></script>
   <script src="js/tracker.js?v=2" defer></script>
 </body>

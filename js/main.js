@@ -103,55 +103,10 @@
         : scrollY > innerHeight * 0.7;
       document.getElementById('cat')?.classList.toggle('ready', underway);
       document.getElementById('rise')?.classList.toggle('is-on', underway);
-      parkDock();
       ticking = false;
     });
   };
   addEventListener('scroll', onScroll, { passive: true });
-
-  /* ── Dock parking ─────────────────────────────────────────
-     While you scroll, the dock floats at its corner. As the page
-     end rises into view, the dock rides up with it and comes to
-     rest EXACTLY on the Universe button's row — Universe on the
-     left, the dock on the right, one aligned closing row — so the
-     buttons never cover the timer above, the visits graph below,
-     or the bleed wordmark. Anchored to the universe button itself
-     (not the wordmark), so anything added below stays clear.
-     Scrolling back up lowers it again. */
-  const dockEl  = document.querySelector('.dock');
-  const bleedEl = document.querySelector('.bleed');
-  const uniEl   = document.querySelector('.colophon__universe');
-  function parkDock() {
-    if (!dockEl) return;
-    // mirrors .dock's bottom clamp() in styles.css
-    const rest = Math.min(28, Math.max(16, innerHeight * 0.026));
-    /* phones: the dock lives in the bottom corner and never rides up —
-       floating buttons stranded mid-screen read as broken there. It
-       only steps aside (fades) while the visits graph passes through
-       the corner, then returns. What it rests over at the very end is
-       the bleed wordmark — a 7%-opacity decorative ghost. */
-    if (innerWidth < 820) {
-      const dockH = dockEl.offsetHeight;
-      const zoneTop = innerHeight - rest - dockH - 14;
-      /* judge by the BARS — the visible data — not the section box,
-         whose bottom padding IS the dock's corner clearance */
-      const bars = document.querySelector('.visits__bars');
-      const g = (bars && bars.children.length)
-        ? bars.getBoundingClientRect() : null;
-      const passing = !!g && g.top < (innerHeight - rest) + 40 && g.bottom > zoneTop;
-      dockEl.classList.toggle('tucked', passing);
-      dockEl.style.setProperty('--park', '0px');
-      return;
-    }
-    dockEl.classList.remove('tucked');
-    // anchor: the Universe button's row (fall back to the wordmark)
-    const anchor = uniEl || bleedEl;
-    if (!anchor) return;
-    // wanted bottom offset: the dock's lower edge rests on the
-    // Universe button's lower edge — one aligned row
-    const wanted = innerHeight - anchor.getBoundingClientRect().bottom;
-    dockEl.style.setProperty('--park', Math.max(0, wanted - rest) + 'px');
-  }
 
   /* ── Scrollspy ───────────────────────────────────────────
      Position-based rather than IntersectionObserver: a section is
@@ -238,7 +193,7 @@
 
   measureSpy();
   syncFills();
-  addEventListener('resize', () => requestAnimationFrame(() => { measureSpy(); syncFills(); parkDock(); }), { passive: true });
+  addEventListener('resize', () => requestAnimationFrame(() => { measureSpy(); syncFills(); }), { passive: true });
   document.fonts?.ready?.then(() => { measureSpy(); syncFills(); });
 
   /* ── Hero: what I do, typed and cycled ─────────────────── */
