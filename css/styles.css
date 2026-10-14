@@ -1329,6 +1329,9 @@ ul,ol{ list-style:none; }
 .bleed span{
   position:absolute; left:50%; bottom:-.28em;
   transform:translateX(-50%);
+  /* main.js scrubs scaleY here (the studio-namma rise): the origin is
+     the page's bottom edge, so the word grows UP out of it */
+  transform-origin:50% 100%;
   white-space:nowrap; user-select:none;
   font-family:var(--serif); font-weight:300;
   font-size:clamp(76px, 18vw, 248px); line-height:.8;
@@ -1598,6 +1601,7 @@ html.pane-on, html.pane-on body{ overflow:hidden; }
   html,body{ background:#fff; color:#000; }
   .band{ padding:20px 0; border-color:#ccc; page-break-inside:avoid; }
   .colophon{ padding-bottom:22px; }   /* no dock band on paper */
+  .bleed span{ transform:translateX(-50%)!important; }  /* print the full word, never a mid-scroll sliver */
   .colophon__hint{ display:none; }            /* paper needs no signpost */
 }
 

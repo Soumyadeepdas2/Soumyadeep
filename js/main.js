@@ -81,6 +81,26 @@
     }
   });
 
+  /* ── Bleed wordmark: the name rises out of the page edge ──
+     studio-namma's footer trick (studionamma.com) without their 60 KB
+     library: the closing wordmark is welded to the scroll. Flat as a
+     sliver at the page edge until the end arrives, then it unsquashes
+     to full height as the last of the page scrolls in — anchored to
+     the bottom edge, scrubbed both ways (scroll back up and it
+     flattens again). Runs for everyone - the word only moves when
+     the visitor moves the scroll, so it is not autonomous motion;
+     the printed page still gets the full static word (print CSS). */
+  const bleedEl   = document.querySelector('.bleed');
+  const bleedWord = bleedEl && bleedEl.querySelector('span');
+  function scrubBleed() {
+    if (!bleedWord) return;
+    const r = bleedEl.getBoundingClientRect();
+    // 0 the moment the wordmark's box enters the viewport, 1 at full scroll
+    const p = Math.min(1, Math.max(0, (innerHeight - r.top) / r.height));
+    const s = 0.04 + 0.96 * p;          // sliver → full height
+    bleedWord.style.transform = 'translateX(-50%) scaleY(' + s.toFixed(4) + ')';
+  }
+
   /* ── Masthead backdrop on scroll ───────────────────────── */
   const mast = document.querySelector('.masthead');
   let ticking = false;
@@ -103,10 +123,12 @@
         : scrollY > innerHeight * 0.7;
       document.getElementById('cat')?.classList.toggle('ready', underway);
       document.getElementById('rise')?.classList.toggle('is-on', underway);
+      scrubBleed();
       ticking = false;
     });
   };
   addEventListener('scroll', onScroll, { passive: true });
+  scrubBleed();                        // start flat when the end is off-screen
 
   /* ── Scrollspy ───────────────────────────────────────────
      Position-based rather than IntersectionObserver: a section is
@@ -193,7 +215,7 @@
 
   measureSpy();
   syncFills();
-  addEventListener('resize', () => requestAnimationFrame(() => { measureSpy(); syncFills(); }), { passive: true });
+  addEventListener('resize', () => requestAnimationFrame(() => { measureSpy(); syncFills(); scrubBleed(); }), { passive: true });
   document.fonts?.ready?.then(() => { measureSpy(); syncFills(); });
 
   /* ── Hero: what I do, typed and cycled ─────────────────── */
