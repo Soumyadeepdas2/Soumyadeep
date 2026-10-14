@@ -702,39 +702,6 @@
     .then(applyPractice)
     .catch(() => {});
 
-  /* ── Footer: visits-per-day graph (public) ───────────────
-     /api/visits returns aggregate daily counts only — no paths,
-     browsers or referrers. Days without visits are zero-filled so
-     the strip is always 30 bars. Hovering a bar highlights it and
-     shows the count in a native tooltip, like the admin chart. */
-  const visitsEl = $('#visits');
-  if (visitsEl) {
-    fetch('/api/visits', { cache: 'no-cache' })
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(d => paintVisits(d.days || []))
-      .catch(() => {}); /* the graph must never break the page */
-  }
-  function paintVisits(rows) {
-    const bars = $('#visitsBars');
-    if (!bars || !rows.length) return;
-    const byDay = new Map();
-    for (const r of rows) byDay.set(r.day, r.visits);
-    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
-    const days = [];
-    for (let i = 29; i >= 0; i--) {
-      days.push(new Date(Date.now() - i * 864e5).toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }));
-    }
-    const max = Math.max(1, ...days.map(d => byDay.get(d) || 0));
-    bars.innerHTML = days.map(d => {
-      const v = byDay.get(d) || 0;
-      const label = (+d.slice(8)) + ' ' + MONTHS[(+d.slice(5, 7)) - 1];
-      return '<i' + (d === today ? ' class="v-today"' : '') +
-        ' style="height:' + Math.max(2, Math.round((v / max) * 64)) + 'px"' +
-        ' title="' + label + ' — ' + v + (v === 1 ? ' visit' : ' visits') + '"></i>';
-    }).join('');
-    visitsEl.hidden = false;
-  }
-
   function bubble(html, who) {
     const el = document.createElement('div');
     el.className = 'msg msg--' + who;

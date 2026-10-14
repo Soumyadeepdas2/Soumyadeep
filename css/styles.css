@@ -723,8 +723,11 @@ ul,ol{ list-style:none; }
   grid-column:2; grid-row:1;
   justify-self:end; width:min(420px, 100%);
 }
+.connect__avail{
+  grid-column:1; grid-row:2; margin:0; align-self:center;
+}
 .connect__links{
-  grid-column:1; grid-row:2; justify-self:start;
+  grid-column:1; grid-row:3; justify-self:start;
   display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 22px;
 }
 .connect__mail,
@@ -815,8 +818,9 @@ ul,ol{ list-style:none; }
     gap:22px;
   }
   .connect__social{ grid-column:1; grid-row:1; }
-  .connect__links{ grid-column:1; grid-row:2; }
-  .connect__mark{ grid-column:1; grid-row:3; justify-self:start; width:min(380px, 100%); }
+  .connect__avail{ font-size:9px; }
+  .connect__links{ grid-column:1; grid-row:3; }
+  .connect__mark{ grid-column:1; grid-row:4; justify-self:start; width:min(380px, 100%); }
 }
 
 /* ── Note form ──────────────────────────────────────────── */
@@ -1243,7 +1247,7 @@ ul,ol{ list-style:none; }
 .colophon{
   max-width:var(--maxw); margin:0 auto;
   /* the tall bottom pad gives the Universe door and its signpost
-     their own quiet space above the visits graph and the wordmark */
+     their own quiet space above the wordmark */
   padding:22px var(--gut) 140px;
   border-top:1px solid var(--rule);
   display:grid; grid-template-columns:minmax(0,1fr) auto;
@@ -1271,11 +1275,14 @@ ul,ol{ list-style:none; }
 .colophon__universe:hover,
 .colophon__universe:focus-visible{ background:var(--accent); color:var(--bg); }
 
-/* Availability — centred closing line at the top of the colophon.
-   Same badge as the retired hero line: mono, accent, pulsing dot. */
-.colophon__avail{
+/* the counting note — the quiet first line of the colophon, so it
+   reads as the website speaking about itself. Views are still
+   tracked (tracker.js). */
+.colophon__count{
   grid-column:1/-1; justify-self:center;
-  margin:0 0 14px;
+  margin:0 0 12px;
+  font-size:9.5px; letter-spacing:.08em;
+  color:var(--fg-faint);
 }
 
 /* Signpost above the Universe button — the colophon's own quiet mono,
@@ -1305,8 +1312,7 @@ ul,ol{ list-style:none; }
     white-space:nowrap;
   }
   .colophon > *{ min-width:0; }
-  .colophon__avail{ font-size:8px; letter-spacing:.04em; margin-bottom:10px; }
-  .colophon__hint{ font-size:8px; bottom:64px; white-space:normal; }   /* raised clear of the dock's top edge */
+  .colophon__hint{ font-size:8px; bottom:64px; white-space:normal; }   /* raised clear of the corner dock */
   .colophon__hint .hb-p{ display:inline; }   /* phone: three short lines, clear of the stacked dock */
   .colophon__hint .hb-t{ display:none; }    /* phone keeps its own shorter breaks */
   .bleed{ height:118px; }
@@ -1598,7 +1604,7 @@ html.pane-on, html.pane-on body{ overflow:hidden; }
 /* ── Cat helper ───────────────────────────────────────────
    The dock floats in the bottom-right corner of the viewport on
    every screen, and nothing parks or sticks at the page end: the
-   visits graph, the colophon, and the wordmark simply pass beneath
+   colophon and the wordmark simply pass beneath
    the buttons, which stay in the corner to the very end (over the
    faint wordmark ghost). Both buttons wake when the projects
    section starts and tuck away again once you scroll back up past
@@ -1801,36 +1807,3 @@ html.fx-on .fullstop.is-text{ color:var(--fg-dim); }
    out-of-flow grid child no longer occupies the cell, so the
    connect grid collapses to its three in-flow items. */
 
-/* ── Footer visits graph ────────────────────────────────────
-   Public daily visit counts, served by /api/visits — aggregate
-   numbers only, so nothing personal is ever exposed. Hovering a
-   bar highlights it and reveals the count in a native tooltip,
-   the same behaviour as the admin chart; today's bar carries the
-   accent colour. Hidden until data arrives (main.js). */
-.visits{ max-width:var(--maxw); margin:0 auto; padding:14px var(--gut) 30px; }
-.visits[hidden]{ display:none; }
-.visits__cap{
-  font-family:var(--mono); font-size:9px; letter-spacing:.14em;
-  color:var(--fg-faint); text-transform:uppercase;
-  display:flex; justify-content:space-between; gap:16px; margin-bottom:10px;
-}
-.visits__bars{
-  display:flex; align-items:flex-end; gap:3px; height:64px;
-  border-top:1px solid var(--rule);
-}
-.visits__bars i{
-  flex:1; min-width:2px; min-height:2px;
-  background:var(--rule); border-radius:1px 1px 0 0;
-  transition:background .18s var(--ease), transform .18s var(--ease);
-}
-.visits__bars i:hover{
-  background:var(--accent); transform:translateY(-1px);
-}
-.visits__bars i.v-today{ background:var(--accent); }
-.visits__bars i.v-today:hover{ filter:brightness(1.25); }
-
-/* phones: the dock lives in the bottom corner (main.js), so the graph
-   leaves it room — this padding is the corner-dock clearance */
-@media (max-width:819px){
-  .visits{ padding-bottom:84px; }
-}

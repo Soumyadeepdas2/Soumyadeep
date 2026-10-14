@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=1">
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/cormorant-garamond-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=120">
+<link rel="stylesheet" href="css/styles.css?v=123">
 <script>
   (function () {
     try {
@@ -202,9 +202,7 @@
 </main>
 
 <footer class="colophon">
-  <!-- Availability — centred closing line at the top of the colophon.
-       (The hero badge was retired when this moved into the footer.) -->
-  <p class="lede__avail colophon__avail"><span class="lede__avail-dot" aria-hidden="true"></span>Open to Summer 2027 internships and collaborations</p>
+  <p class="colophon__count">page views are counted on this site</p>
   <span class="colophon__credit">© <span id="year"></span> Soumyadeep Das</span>
   <span class="colophon__clock"><span class="colophon__city">Vadodara, </span>India · <span id="clock"></span> IST</span>
 
@@ -217,17 +215,8 @@
 </footer>
 
 <!-- Bleed wordmark: decorative close, clipped by the page edge. -->
-<!-- ─────────────  VISITS GRAPH  ─────────────
-     The honest counter: public daily visit counts from the site's
-     own tracker, via /api/visits — aggregate numbers only, nothing
-     personal. Hover a bar: it lights up and shows the count. -->
-<section class="visits" id="visits" hidden aria-label="Site visits per day">
-  <div class="visits__cap"><span>Visits per day · counted anonymously</span><span>Last 30 days</span></div>
-  <div class="visits__bars" id="visitsBars"></div>
-</section>
-
 <!-- The dock floats in the bottom-right corner on every screen and
-     never parks: the visits graph and the wordmark simply pass beneath
+     never parks: the footer and the wordmark simply pass beneath
      the buttons, which stay in the corner to the very end (styles.css;
      main.js wakes the buttons once the projects section starts). -->
 <div class="dock">
@@ -240,7 +229,7 @@
 
 <div class="bleed" aria-hidden="true"><span>Soumyadeep</span></div>
 
-<script src="js/main.js?v=71"></script>
+<script src="js/main.js?v=72"></script>
   <script src="js/tracker.js?v=2" defer></script>
 </body>
 </html>
