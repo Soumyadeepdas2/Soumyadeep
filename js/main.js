@@ -85,11 +85,17 @@
      studio-namma's footer trick (studionamma.com) without their 60 KB
      library: the closing wordmark is welded to the scroll. Flat as a
      sliver at the page edge until the end arrives, then it unsquashes
-     to full height as the last of the page scrolls in — anchored to
-     the bottom edge, scrubbed both ways (scroll back up and it
-     flattens again). Runs for everyone - the word only moves when
-     the visitor moves the scroll, so it is not autonomous motion;
-     the printed page still gets the full static word (print CSS). */
+     to full height as the last of the page scrolls in — scrubbed
+     both ways (scroll back up and it flattens again). Runs for
+     everyone - the word only moves when the visitor moves the
+     scroll, so it is not autonomous motion; the printed page still
+     gets the full static word (print CSS).
+     The NAMMA trick, no libraries: while the reveal runs, the
+     word's baseline is pinned near the bottom edge of the SCREEN -
+     not the page - so the whole growth plays out on screen instead
+     of below the fold. At full scroll the pinned spot equals the
+     word's natural resting spot, so there is no jump at either
+     end of the reveal. */
   const bleedEl   = document.querySelector('.bleed');
   const bleedWord = bleedEl && bleedEl.querySelector('span');
   function scrubBleed() {
@@ -98,7 +104,10 @@
     // 0 the moment the wordmark's box enters the viewport, 1 at full scroll
     const p = Math.min(1, Math.max(0, (innerHeight - r.top) / r.height));
     const s = 0.04 + 0.96 * p;          // sliver → full height
-    bleedWord.style.transform = 'translateX(-50%) scaleY(' + s.toFixed(4) + ')';
+    // pin: lift the word by how far the page's end still is below
+    // the screen (capped at one bleed height, 0 once you arrive)
+    const lift = Math.min(Math.max(r.bottom - innerHeight, 0), r.height);
+    bleedWord.style.transform = 'translateX(-50%) translateY(' + (-lift).toFixed(1) + 'px) scaleY(' + s.toFixed(4) + ')';
   }
 
   /* ── Masthead backdrop on scroll ───────────────────────── */
